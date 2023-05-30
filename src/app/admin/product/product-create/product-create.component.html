@@ -1,0 +1,42 @@
+<div class="container text-center body">
+  <h1>Create Product</h1>
+  <div class="card">
+    <form #productForm="ngForm">
+      <div class="input-group mb-3">
+        <span class="input-group-text " id="basic-addon1">name</span>
+        <input ngModel name="name" type="text" class="form-control input" placeholder="name" required>
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text " id="basic-addon1">slug</span>
+        <input ngModel name="slug" type="text" class="form-control input" placeholder="slug" required>
+      </div>
+      <div class="mb-3">
+        <select ngModel name="status" class="form-select" aria-label="Default select example" required>
+          <option selected>เลือกสถาณะ</option>
+          <option value="publish">สารธาณะ</option>
+          <option value="private">ส่วนตัว</option>
+        </select>
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text " id="basic-addon1">price</span>
+        <input ngModel name="price" type="text" class="form-control input" placeholder="price"  type="number" required>
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text " id="basic-addon1">regular_price</span>
+        <input ngModel name="regular_price" type="text" class="form-control input" placeholder="regular_price" type="number" required>
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">sale_price</span>
+        <input ngModel name="sale_price" type="text" class="form-control input" placeholder="sale_price" type="number" required>
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Link</span>
+        <input ngModel name="images" type="text" class="form-control input" placeholder="Link" type="number" required>
+      </div>
+      <div class="button">
+        <button class="btn-create" (click)="onCreateProduct(productForm.value)">Create Product</button>
+        <button class="btn-cancel">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

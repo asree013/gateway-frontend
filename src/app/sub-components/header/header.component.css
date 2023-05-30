@@ -1,0 +1,23 @@
+nav{
+  background: linear-gradient(125deg, rgb(10, 52, 187), #041641);
+  height: 70px;
+}
+.font{
+  font-size: 24px;
+  color: aliceblue;
+  margin: 15px 15px;
+}
+.navbar-brand{
+  display: flex;
+}
+.menu{
+  width: 35px;
+  background: whitesmoke;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.4s;
+}
+.menu:hover{
+  transform: scale(1.1);
+  background: rgb(210, 205, 205);
+}

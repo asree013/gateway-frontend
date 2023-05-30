@@ -1,0 +1,24 @@
+.offcanvas-start{
+  transition: 0.4s;
+}
+.modal{
+  background: black;
+}
+.icon{
+  justify-content: space-between;
+  cursor: pointer;
+  transition: 0.4s;
+}
+.body{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.icon:hover{
+  transform: scale(1.2);
+}
+@media only screen and (max-width: 600px) {
+  .offcanvas-start{
+    width: 60%;
+  }
+}

@@ -1,0 +1,69 @@
+<div class="body p-3">
+  <div class="card card-body">
+    <h1>Admin Editer</h1>
+    <div class="card card-header">
+      <div class="input-bar">
+        <input
+          type="text"
+          placeholder="Searching Data"
+          #search
+          (change)="clickSearch(search.value)"
+        />
+        <img class="clear p-2" src="assets/icon/search.png" alt="" (click)="clickSearch(search.value)" />
+        <img class="clear p-2" src="assets/icon/clear.png" alt=""  />
+      </div>
+      <button class="btn-create" (click)="onCreateProduct()">
+        Create Product
+      </button>
+    </div>
+    <table class="table table-striped fl-table mt-4" >
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">image</th>
+          <th scope="col">name</th>
+          <th scope="col">slug</th>
+          <th scope="col">status</th>
+          <th scope="col">price</th>
+          <th scope="col">regular_price</th>
+          <th scope="col">sale_price</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let item of product; let i = index">
+        <tr (click)="showItemProduct(item)" >
+          <th scope="row">{{ i + 1 }}</th>
+          <td>
+            <img
+              width="120px"
+              [src]="item.images[0] ? item.images[0].src : noImage"
+              alt=""
+            />
+          </td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.slug }}</td>
+          <td>{{ item.status }}</td>
+          <td>{{ item.price }}</td>
+          <td>{{ item.regular_price }}</td>
+          <td>{{ item.sale_price }}</td>
+          <td>
+            <img
+              class="iconEditer"
+              width="40px"
+              src="assets/icon/edit.png"
+              alt=""
+            /><img
+              (click)="onDelete(item)"
+              class="iconEditer"
+              width="47px"
+              src="assets/icon/delete.png"
+              alt=""
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+

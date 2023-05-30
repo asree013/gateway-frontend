@@ -1,0 +1,79 @@
+<div class="body p-3">
+  <div class="card body">
+    <h1>Orders All</h1>
+    <div class="card card-header">
+      <div>
+        <input class="text-search" type="text" placeholder="Searching Data" />
+        <img src="assets/icon/clear.png" alt="">
+      </div>
+      <button class="btn-create" (click)="onCreateProduct()">
+        Create Order
+      </button>
+    </div>
+    <div class="card p-3">
+      <div class="card m-2" *ngFor="let item of orders; let i = index">
+        <div class="card-body" (click)="detailOrder(item.id)">
+          <div class="card-number">
+            <div class="numbers">
+              <p>{{ i + 1 }}</p>
+              <h3 class="ml-4">
+                ประเภทการสั่งซื้อ {{ item.payment_method_title }}
+              </h3>
+              <h1 class="status-hold" *ngIf="item.status === 'on-hold'">
+                {{ item.status | status }}
+              </h1>
+              <h1
+                class="status-processing"
+                *ngIf="item.status === 'processing'"
+              >
+                {{ item.status | status }}
+              </h1>
+            </div>
+            <div class="numbers">
+              <p></p>
+              <p>
+                สั่งซื้อโดย {{ item.billing.first_name }}
+                {{ item.billing.last_name }}
+              </p>
+            </div>
+            <div class="numbers"></div>
+            <div class="numbers">
+              <p>เวลาสร้าง {{ item.date_created }}</p>
+              <p>อัพเดทล่าสุด {{ item.date_modified }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <table class="table table-striped fl-table mt-4">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">firstname</th>
+          <th scope="col">lastname</th>
+          <th scope="col">adress1</th>
+          <th scope="col">adress2</th>
+          <th scope="col">city</th>
+          <th scope="col">state</th>
+          <th scope="col">postcode</th>
+          <th scope="col">country</th>
+          <th scope="col">action</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let item of orders; let i = index; ">
+        <tr>
+          <th scope="row">{{i + 1}}</th>
+          <td>{{item.shipping.first_name}}</td>
+          <td>{{item.shipping.last_name}}</td>
+          <td>{{item.shipping.address_1}}</td>
+          <td>{{item.shipping.address_2}}</td>
+          <td>{{item.shipping.city}}</td>
+          <td>{{item.shipping.state}}</td>
+          <td>{{item.shipping.postcode}}</td>
+          <td>{{item.shipping.country}}</td>
+          <td><img class="iconEditer" width="40px" src="assets/icon/edit.png" alt=""><img (click)="onDelete(item)" class="iconEditer" width="47px" src="assets/icon/delete.png" alt=""></td>
+        </tr>
+      </tbody>
+    </table> -->
+  </div>
+</div>
