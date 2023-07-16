@@ -1,42 +1,114 @@
-<div class="container text-center body">
-  <h1>Create Product</h1>
-  <div class="card">
+<div class="container text-center body flexItem">
+  <div class="formCreate card">
+    <h1>Create Product</h1>
     <form #productForm="ngForm">
-      <div class="input-group mb-3">
-        <span class="input-group-text " id="basic-addon1">name</span>
-        <input ngModel name="name" type="text" class="form-control input" placeholder="name" required>
+      <div class="input-group mb-3" (change)="uploadImage($event)">
+        <span class="input-group-text" id="basic-addon1">images</span>
+        <input
+          ngModel
+          name="images"
+          type="file"
+          placeholder="Link"
+          required
+        />
+      </div>
+      <div *ngIf="this.imagePrevetn !== ''" class="card p-2 img_tag">
+        <img width="80px" src="{{this.imagePrevetn}}" alt="">
+      </div>
+      <div class="input-group mb-3 mt-2">
+        <span class="input-group-text" id="basic-addon1">name</span>
+        <input
+          ngModel
+          name="name"
+          type="text"
+          class="form-control input"
+          placeholder="name"
+          required
+        />
       </div>
       <div class="input-group mb-3">
-        <span class="input-group-text " id="basic-addon1">slug</span>
-        <input ngModel name="slug" type="text" class="form-control input" placeholder="slug" required>
-      </div>
-      <div class="mb-3">
-        <select ngModel name="status" class="form-select" aria-label="Default select example" required>
-          <option selected>เลือกสถาณะ</option>
-          <option value="publish">สารธาณะ</option>
-          <option value="private">ส่วนตัว</option>
-        </select>
-      </div>
-      <div class="input-group mb-3">
-        <span class="input-group-text " id="basic-addon1">price</span>
-        <input ngModel name="price" type="text" class="form-control input" placeholder="price"  type="number" required>
+        <span class="input-group-text" id="basic-addon1">slu</span>
+        <input
+          ngModel
+          name="sku"
+          type="text"
+          class="form-control input"
+          placeholder="sku"
+          required
+        />
       </div>
       <div class="input-group mb-3">
-        <span class="input-group-text " id="basic-addon1">regular_price</span>
-        <input ngModel name="regular_price" type="text" class="form-control input" placeholder="regular_price" type="number" required>
+        <span class="input-group-text" id="basic-addon1">Quantity</span>
+        <input
+          ngModel
+          name="stock_quantity"
+          class="form-control input"
+          placeholder="Quantity"
+          type="number"
+          required
+        />
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">regular_price</span>
+        <input
+          ngModel
+          name="regular_price"
+          type="text"
+          class="form-control input"
+          placeholder="regular_price"
+          type="number"
+          required
+        />
       </div>
       <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon1">sale_price</span>
-        <input ngModel name="sale_price" type="text" class="form-control input" placeholder="sale_price" type="number" required>
+        <input
+          ngModel
+          name="sale_price"
+          type="text"
+          class="form-control input"
+          placeholder="sale_price"
+          type="number"
+          required
+        />
       </div>
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">Link</span>
-        <input ngModel name="images" type="text" class="form-control input" placeholder="Link" type="number" required>
-      </div>
-      <div class="button">
-        <button class="btn-create" (click)="onCreateProduct(productForm.value)">Create Product</button>
-        <button class="btn-cancel">Cancel</button>
+      <div class="buttons">
+        <button class="btn-create" (click)="addCartFornt(productForm.value)">
+          Add Front Stock
+        </button>
+        <button class="btn-cancel">Add Back Stock</button>
       </div>
     </form>
+  </div>
+  <div class="listItem card p-3">
+    <h2>Cart Stock</h2>
+    <div class="frontStock">
+      <div class="cardHeader card">
+        <div class="card cardListItem" *ngFor="let item of cartFont">
+          <p><img width="20px" src="{{item.images[0].src}}" alt=""></p>
+          <p class="md-3">{{item.name | slice:0:20 }}</p>
+          <p class="md-1">x{{item.stock_quantity}}</p>
+          <p class="md-2 ml-3">{{item.regular_price}}</p>
+        </div>
+      </div>
+      <div class="cardBody card">
+        <h2>FrontStock</h2>
+        <button class="btn btnCreate" (click)="onCreateProduct()" >Create</button>
+      </div>
+    </div>
+    <div class="backStock">
+      <div class="cardHeader card">
+        <div class="card cardListItem" >
+          <img width="40px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png" alt="">
+          <p>name</p>
+          <p>stock</p>
+          <p>price</p>
+        </div>
+      </div>
+      <div class="cardBody card">
+        <h2>BackStock</h2>
+        <button class="btn btnCreate" >Create</button>
+      </div>
+    </div>
   </div>
 </div>

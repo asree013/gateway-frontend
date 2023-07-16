@@ -10,16 +10,18 @@
             </div>
             <h1>Login</h1>
             <div class="card-body">
-              <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1">ID</span>
-                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-              </div>
-              <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1">Pass</span>
-                <input type="text" class="form-control" placeholder="Password" aria-label="password" aria-describedby="basic-addon1">
-              </div>
-              <button class="btn btn-primary" [routerLink]="['/menu']">Login</button>
-              <button class="btn btn-danger">register</button>
+              <form action="" #loginForm="ngForm" (submit)="onSubmitLogin(loginForm.value)">
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1">ID</span>
+                  <input type="text" class="form-control" ngModel name="username" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1">Pass</span>
+                  <input type="text" class="form-control" ngModel name="password" placeholder="Password" aria-label="password" aria-describedby="basic-addon1">
+                </div>
+                <button class="btn btn-primary" type="submit">Login</button>
+                <button class="btn btn-danger">register</button>
+              </form>
             </div>
           </div>
         </form>

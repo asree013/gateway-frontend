@@ -2,36 +2,28 @@
   <div class="card card-body">
     <h1>Admin Editer</h1>
     <div class="card card-header">
-      <div class="input-bar">
-        <input
-          type="text"
-          placeholder="Searching Data"
-          #search
-          (change)="clickSearch(search.value)"
-        />
-        <img class="clear p-2" src="assets/icon/search.png" alt="" (click)="clickSearch(search.value)" />
-        <img class="clear p-2" src="assets/icon/clear.png" alt=""  />
+      <div class="input-bar" (click)="openPopup()">
+        <p>search</p>
       </div>
       <button class="btn-create" (click)="onCreateProduct()">
         Create Product
       </button>
     </div>
-    <table class="table table-striped fl-table mt-4" >
+    <table class="table table-striped fl-table mt-4">
       <thead>
         <tr>
           <th scope="col">#</th>
           <th scope="col">image</th>
           <th scope="col">name</th>
-          <th scope="col">slug</th>
-          <th scope="col">status</th>
+          <th scope="col">sku</th>
           <th scope="col">price</th>
-          <th scope="col">regular_price</th>
+          <th scope="col">quantity</th>
           <th scope="col">sale_price</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
       <tbody *ngFor="let item of product; let i = index">
-        <tr (click)="showItemProduct(item)" >
+        <tr>
           <th scope="row">{{ i + 1 }}</th>
           <td>
             <img
@@ -41,18 +33,18 @@
             />
           </td>
           <td>{{ item.name }}</td>
-          <td>{{ item.slug }}</td>
-          <td>{{ item.status }}</td>
-          <td>{{ item.price }}</td>
-          <td>{{ item.regular_price }}</td>
+          <td>{{ item.sku }}</td>
+          <td>{{ item.price | number: '1.2-2' }}</td>
+          <td>{{ item.stock_quantity }}</td>
           <td>{{ item.sale_price }}</td>
           <td>
             <img
               class="iconEditer"
               width="40px"
               src="assets/icon/edit.png"
-              alt=""
-            /><img
+              alt="" (click)="showItemProduct(item)"
+            />
+            <img
               (click)="onDelete(item)"
               class="iconEditer"
               width="47px"
@@ -65,5 +57,37 @@
     </table>
   </div>
 </div>
+
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':displayStyle}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Searching Data</h2>
+      </div>
+      <div class="modal-body">
+        <input class="inputInModal" type="text" id="name" placeholder="Search Name" (change)="searchData($event)">
+        <input class="inputInModal" type="text" id="price" placeholder="Search Price" (change)="searchData($event)">
+        <input class="inputInModal" type="text" id="slug" placeholder="Search Slug" (change)="searchData($event)">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-filter btns"
+                (click)="searchAction()">
+          filter
+        </button>
+        <button type="button" class="btn btn-danger btns"
+                (click)="closePopup()">
+          cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 
 

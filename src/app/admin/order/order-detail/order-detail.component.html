@@ -1,1 +1,44 @@
-<p>order-detail works!</p>
+<div class="bodys p-4">
+  <div class="card">
+    <div class="body_header card">
+      <div class="name_header">
+        <h1>OrderID {{orderDetail.id}}</h1>
+      </div>
+      <div class="icon_header">
+          <img src="" alt="">asdf
+          <h1>{{orderDetail.status | status}}</h1>
+      </div>
+    </div>
+    <div class="body_card card">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Name Products</th>
+            <th>quantity</th>
+            <th>price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of orderDetail.line_items; let i = index">
+            <td>{{i + 1}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.quantity}}</td>
+            <td>{{item.price}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="total_price">
+        <p>Total {{orderDetail.total}}</p>
+      </div>
+    </div>
+    <div class="body_footer card">
+      <div class="create">
+        create
+      </div>
+      <div class="update">
+        update
+      </div>
+    </div>
+  </div>
+</div>

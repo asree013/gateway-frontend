@@ -3,8 +3,8 @@ import { ProductService } from 'src/app/services/product.service';
 import { Router } from '@angular/router';
 import { Products } from 'src/app/models/interface/woocommerce.model';
 import { AlertService } from 'src/app/services/alert.service';
-import { debounceTime } from 'rxjs';
 import Swal from 'sweetalert2';
+import { Search } from 'src/app/models/class/searh.model';
 
 @Component({
   selector: 'app-product-admin',
@@ -12,10 +12,14 @@ import Swal from 'sweetalert2';
   styleUrls: ['./product-admin.component.css'],
 })
 export class ProductAdminComponent implements OnInit {
-  @Output() inSearch = new EventEmitter<string>();
-  product: any[] = [];
+  @Output() openModal = new EventEmitter<string>();
+  datasearch = new Search<Partial<any> >()
+  product: Products[] = [];
+  searchProduct: any = [];
   noImage: string =
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF0JkN3XIguQOKFCv_nwx0D_3jLUUja45nYaJaQbY&s';
+  displayStyle = 'none';
+  returnZeroSearch: string = ''
   constructor(
     private route: Router,
     private swal: AlertService,
@@ -26,13 +30,12 @@ export class ProductAdminComponent implements OnInit {
     this.getProduct();
   }
   clickSearch(event: string) {
-      this.product = this.product.filter((result) => {
+    this.product = this.product.filter((result) => {
       const productName = result.name.toLowerCase();
       const searchName = event.toLowerCase();
       return productName.indexOf(searchName) !== -1;
     });
   }
-
   onCreateProduct() {
     this.route.navigate(['/product/create']);
   }
@@ -73,8 +76,24 @@ export class ProductAdminComponent implements OnInit {
     });
   }
   showItemProduct(item: Products) {
-    let id = item.id
+    let id = item.id;
 
-    this.route.navigate([`product/admin/detail/${id}`])
+    this.route.navigate([`product/admin/detail/${id}`]);
+  }
+  openPopup() {
+    this.displayStyle = 'block';
+  }
+  closePopup() {
+    this.displayStyle = 'none';
+  }
+  searchData(event: Event) {
+    const element = (event.target as HTMLInputElement)
+    this.datasearch.data[element.id] = element.value
+  }
+  searchAction(){
+    this.service.search(this.datasearch).subscribe((result)=>{
+      this.product = result
+      this.displayStyle = 'none';
+    })
   }
 }

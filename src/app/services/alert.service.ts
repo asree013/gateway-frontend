@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
+import { Orders } from '../models/interface/woocommerce.model';
 
 @Injectable({
   providedIn: 'root',
@@ -30,4 +31,6 @@ export class AlertService {
     });
     return swAlert;
   }
+
+  
 }

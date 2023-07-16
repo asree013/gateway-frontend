@@ -15,6 +15,12 @@ export class OrderService {
   getOrderAll(): Observable<Orders[]> {
     return this.http.get<Orders[]>(`${environment.baseUrl}/orders`)
   }
+  getOneOrder(id: number): Observable<Orders> {
+    return this.http.get<Orders>(`${environment.baseUrl}/orders/${id}`)
+  }
+  addOrder(item: Orders): Observable<Orders> {
+    return this.http.post<Orders>(`${environment.baseUrl}/orders`, item)
+  }
   deleteOrder(id: number): Observable<any> {
     return this.http.delete<any>(`${environment.baseUrl}/order/${id}`)
   }

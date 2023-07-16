@@ -99,6 +99,7 @@ export type Line_Items = {
     meta_data: Meta_Data;
     sku: string;
     price: number;
+    images: Partial<Images>[];
 };
 export type Tax_Lines = {
     id: number;
@@ -176,6 +177,7 @@ export type Tags = {
     slug: string;
 };
 export type Images = {
+    file(file: any): unknown;
     id: number;
     date_created: Date;
     date_created_gmt: Date;

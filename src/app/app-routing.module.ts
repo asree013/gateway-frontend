@@ -12,25 +12,27 @@ import { OrderCreateComponent } from './admin/order/order-create/order-create.co
 import { OrderEditComponent } from './admin/order/order-edit/order-edit.component';
 import { OrderDetailComponent } from './admin/order/order-detail/order-detail.component';
 import { ProductDetailComponent } from './admin/product/product-detail/product-detail.component';
+import { ActiveRouteService } from './services/active-route.service';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'products', component: ProductHomeComponent },
-  { path: 'product/admin', component: ProductAdminComponent },
-  { path: 'product/create', component: ProductCreateComponent },
-  { path: 'product/edit/:id', component: ProductEditComponent },
-  { path: 'product/admin/detail/:id', component: ProductDetailComponent },
-  { path: 'menu', component: MenuComponent },
-  { path: 'order/admin', component: OrderAdminComponent },
-  { path: 'order/create', component: OrderCreateComponent },
-  { path: 'order/edit', component: OrderEditComponent },
-  { path: 'order/detail/:id', component: OrderDetailComponent }
+  { path: 'register', component: RegisterComponent , canActivate: [ActiveRouteService] },
+  { path: 'shops', component: ProductHomeComponent , canActivate: [ActiveRouteService]},
+  { path: 'product/admin', component: ProductAdminComponent, canActivate: [ActiveRouteService] },
+  { path: 'product/create', component: ProductCreateComponent, canActivate: [ActiveRouteService] },
+  { path: 'product/edit/:id', component: ProductEditComponent, canActivate: [ActiveRouteService] },
+  { path: 'product/admin/detail/:id', component: ProductDetailComponent, canActivate: [ActiveRouteService] },
+  { path: 'menu', component: MenuComponent, canActivate: [ActiveRouteService] },
+  { path: 'order/admin', component: OrderAdminComponent , canActivate: [ActiveRouteService] },
+  { path: 'order/create', component: OrderCreateComponent, canActivate: [ActiveRouteService] },
+  { path: 'order/edit', component: OrderEditComponent, canActivate: [ActiveRouteService] },
+  { path: 'order/detail/:id', component: OrderDetailComponent, canActivate: [ActiveRouteService] }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
+  providers: [ActiveRouteService]
 })
 export class AppRoutingModule {}

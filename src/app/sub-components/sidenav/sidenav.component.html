@@ -17,9 +17,55 @@
   </div>
   <div class="offcanvas-body">
     <div class="body">
-      <div class="icon">
+      <div
+        class="icon"
+        [routerLink]="['/shops']"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasScrolling"
+        aria-controls="offcanvasScrolling"
+      >
+        <p class="">Shoping</p>
+        <img class="iconImg" src="assets/icon/log-out.png" alt="" />
+      </div>
+      <div
+        class="icon"
+        [routerLink]="['/product/admin']"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasScrolling"
+        aria-controls="offcanvasScrolling"
+      >
+        <p class="">Stock</p>
+        <img class="iconImg" src="assets/icon/log-out.png" alt="" />
+      </div>
+      <div
+        class="icon"
+        [routerLink]="['/order/admin']"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasScrolling"
+        aria-controls="offcanvasScrolling"
+      >
+        <p class="">Orders</p>
+        <img class="iconImg" src="assets/icon/log-out.png" alt="" />
+      </div>
+      <div
+        class="icon"
+        data-bs-toggle="collapse"
+        href="#multiCollapseExample1"
+        role="button"
+        aria-expanded="false"
+        aria-controls="multiCollapseExample1"
+      >
+        <p class="">Toggle first element</p>
+        <div class="collapse multi-collapse" id="multiCollapseExample1">
+          <div style="width: 100%" class="card">
+            <p>order-All</p>
+            <p>Order-New</p>
+          </div>
+        </div>
+      </div>
+      <div class="icon" (click)="removeLocalStorge()">
         <p class="">logout</p>
-        <img src="assets/icon/log-out.png" alt="" />
+        <img class="iconImg" src="assets/icon/log-out.png" alt="" />
       </div>
     </div>
   </div>

@@ -5,12 +5,30 @@
       <div class="card_body">
         <img
           [src]="
-            detailProduct.images[0] ? detailProduct.images[0].src : noImage
+            detailProduct.images ? detailProduct.images[0].src : noImage
           "
           class="card-img-top"
           alt="..."
         />
-        <!-- <img src="{{item.images.src}}" alt=""> -->
+        <!-- <form [formGroup]="form" (ngSubmit)="submitForm()">
+          <div class="form-group mb-3">
+            <input type="file" (change)="uploadFile($event)" />
+          </div>
+          <div class="form-group mb-3">
+            <input
+              class="form-control"
+              placeholder="Image name"
+              formControlName="name"
+            />
+          </div>
+          <div class="d-grid">
+            <button class="btn btn-primary btn-lg">Submit</button>
+          </div>
+        </form> -->
+        <form action="" #imageFrom="ngForm" (change)="uploadImage($event)">
+          <input type="file" ngModel name="file" multiple accept="image/*" />
+        </form>
+
         <div class="card-body">
           <h5 class="card-title">Card title</h5>
           <p class="card-text">

@@ -28,7 +28,7 @@ export class OrderAdminComponent implements OnInit {
         if (result.length == 0) {
           this.swal.alert('warning', 'is no Product in Database', 2500);
         }
-        const data = JSON.stringify(result)
+        console.log(result)
         this.orders = result;
       },
       (err) => {
@@ -39,9 +39,6 @@ export class OrderAdminComponent implements OnInit {
         );
       }
     );
-  }
-  onCreateProduct() {
-    this.route.navigate(['/order/create']);
   }
   onDelete(item: Orders) {
     let id = item.id;
@@ -64,5 +61,8 @@ export class OrderAdminComponent implements OnInit {
   }
   detailOrder(id: number) {
     this.route.navigate([`/order/detail/${id}`])
+  }
+  onCreateProduct() {
+    this.route.navigate(['/products'])
   }
 }

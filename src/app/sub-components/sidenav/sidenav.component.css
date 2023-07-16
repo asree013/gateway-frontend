@@ -1,21 +1,27 @@
 .offcanvas-start{
   transition: 0.4s;
 }
-.modal{
-  background: black;
-}
+/* .modals{
+  background: rgba(0, 0, 0,0.6);
+} */
+
 .icon{
-  justify-content: space-between;
-  cursor: pointer;
-  transition: 0.4s;
-}
-.body{
   display: flex;
+  align-items: center;
   flex-direction: row;
   justify-content: space-between;
+  cursor: pointer;
+  width: 100%;
+  transition: 0.4s;
+  padding: 22px;
+  border-radius: 8px;
+  margin: 10px 0;
 }
 .icon:hover{
-  transform: scale(1.2);
+  background: rgb(228, 223, 223);
+}
+.iconImg{
+  width: 40px;
 }
 @media only screen and (max-width: 600px) {
   .offcanvas-start{

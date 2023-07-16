@@ -1,1 +1,90 @@
-<p>product-home works!</p>
+<div class="bodys p-3">
+  <div class="headers">
+    <div class="card card-header">
+      <div class="input-bar" (click)="this.displayStlye = 'block'">
+        <p>search</p>
+      </div>
+    </div>
+  </div>
+  <div class="p-body mt-4">
+    <div class="carts">
+      <div class="card cart_body">
+        <div class="cartHeader">
+          <h1>cart</h1>
+          <button class="clearButtom" (click)="clearItem()">
+            clear
+          </button>
+        </div>
+        <div class="list_products">
+          <div class="item_list m-2" *ngFor="let item of listCart">
+            <img class="img_list" src="{{ item.images[0].src }}" alt="" />
+            <p style="width: 40%">{{ item.name }}</p>
+            <div class="item_list">
+              <h3>x{{ item.quantity }}</h3>
+              <h2>{{ item.price * item.quantity | number : '1.2-2'}}</h2>
+            </div>
+          </div>
+        </div>
+        <div class="allPrice">
+          <h3>All Price</h3>
+          <h1 style="color: red" >฿{{ sumProduct() | number : '1.2-2'}}</h1>
+        </div>
+        <div class="buyProducts">
+          <button class="btn_buy" (click)="buyProducts()">Buy</button>
+        </div>
+      </div>
+    </div>
+    <div class="products card p-3">
+      <div class="item_product" *ngFor="let item of product">
+        <div class="card card_products">
+          <img src="{{ item.images[0].src }}" class="card-img-top" alt="..." />
+          <div class="card-body">
+            <div class="namePrice">
+              <h3 class="card-title">{{ item.name }}</h3>
+              <h2 style="color: green">{{ item.price | currency : "฿" }}</h2>
+            </div>
+            <div class="des_add">
+              <p class="card-text">{{ item.description | slice : 0 : 50 }}</p>
+              <img
+                class="icon_add"
+                src="assets/icon/add.png"
+                alt=""
+                (click)="addProduct(item)"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':displayStlye}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Searching Data</h2>
+      </div>
+      <div class="modal-body">
+        <!-- <input class="inputInModal" type="text" id="name" placeholder="Search Name" (change)="searchData($event)">
+        <input class="inputInModal" type="text" id="price" placeholder="Search Price" (change)="searchData($event)">
+        <input class="inputInModal" type="text" id="slug" placeholder="Search Slug" (change)="searchData($event)"> -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-filter btns"
+                >
+          filter
+        </button>
+        <button type="button" class="btn btn-danger btns"
+                (click)="this.displayStlye = 'none'">
+          cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
