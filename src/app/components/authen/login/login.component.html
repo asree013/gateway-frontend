@@ -1,30 +1,39 @@
-<div class="container text-center">
+<div class="container text-center mt-6">
   <div class="row">
     <div class="col"></div>
     <div class="col">
       <div class="body">
-        <form>
-          <div class="card">
+          <div class="card" >
             <div class="img">
               <img src="assets/logo/logo_pinsouq.png" class="imgLogo" alt="...">
             </div>
             <h1>Login</h1>
-            <div class="card-body">
-              <form action="" #loginForm="ngForm" (submit)="onSubmitLogin(loginForm.value)">
+            <div class="card-body" >
+              <form action="" #loginForm="ngForm" (submit)="onSubmitLogin(loginForm.value)" >
                 <div class="input-group mb-3">
                   <span class="input-group-text" id="basic-addon1">ID</span>
-                  <input type="text" class="form-control" ngModel name="username" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                  <input type="text" class="form-control" id="username" ngModel name="username" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" [disabled]="this.disableButton">
                 </div>
                 <div class="input-group mb-3">
                   <span class="input-group-text" id="basic-addon1">Pass</span>
-                  <input type="text" class="form-control" ngModel name="password" placeholder="Password" aria-label="password" aria-describedby="basic-addon1">
+                  <input type="password" class="form-control" id="password" ngModel name="password" placeholder="Password" aria-label="password" aria-describedby="basic-addon1" [disabled]="this.disableButton">
                 </div>
-                <button class="btn btn-primary" type="submit">Login</button>
-                <button class="btn btn-danger">register</button>
+                <div class="form-check">
+                  <input ngModel name="remember" class="form-check-input" type="checkbox" id="remember" value="true">
+                  <label class="form-check-label" for="flexCheckDefault">
+                    Remember me
+                  </label>
+                </div>
+                <div style="width: 4rem; height: 4rem;" class="spinner-border text-primary" role="status" *ngIf='this.disableButton'>
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="flex_button">
+                  <button class="btn btn-primary m-3" type="submit" [disabled]="this.disableButton" >Login</button>
+                  <button class="btn btn-danger m-3" type="button" [disabled]="this.disableButton">register</button>
+                </div>
               </form>
             </div>
           </div>
-        </form>
       </div>
     </div>
     <div class="col"></div>

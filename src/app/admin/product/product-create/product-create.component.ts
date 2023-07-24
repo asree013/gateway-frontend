@@ -14,28 +14,36 @@ export class ProductCreateComponent implements OnInit {
     private swal: AlertService,
     private router: Router
   ) {}
-
+  cannotClick: boolean
   cartFont: any[] = [];
   imagePrevetn:string = ''
+  upload: boolean
+  createItem:boolean
   ngOnInit(){}
 
   uploadImage(event: Event) {
     const target = event.target as HTMLInputElement
     const files = target.files as FileList
-    const baerer = localStorage.getItem('jwt')
-    console.log(baerer);
-    console.log(files);
+    const local = localStorage.getItem('session')
+    const session = JSON.parse(local)
+    const baerer = session.jwt
 
+    this.upload = true
+    this.cannotClick = true
     if(files){
       const formData = new FormData()
       formData.append('file', files[0])
       this.service.addImageInWrodpress(formData, String(baerer)).subscribe(
         (response: any) => {
+          this.cannotClick = false
+          this.upload = false
           let image = response.guid.raw
           console.log(image);
           this.imagePrevetn = String(image)
         },
         err=> {
+          this.cannotClick = false
+          this.upload = false
           console.log(err);
         }
       )
@@ -59,17 +67,29 @@ export class ProductCreateComponent implements OnInit {
           },
         ],
       })
+      this.swal.alert('success', 'Add Products in Cart')
     } else {
       findNameProduct.stock_quantity += 1;
+      this.swal.alert('success', 'Add Products in Cart')
     }
   }
   async onCreateProduct() {
+    if(this.cartFont.length <= 0){
+      this.swal.alert('warning', 'Cart is null')
+    }
+    else{
+      this.createItem = true
+      this.cannotClick = true
     this.service.addProducts(this.cartFont).subscribe(
       (result) => {
+        this.createItem = false
+        this.cannotClick = true
         this.swal.alert('success', `เพิ่มในฐานข้อมูลเรียบร้อย!!!`);
         this.router.navigate(['product/admin']);
       },
       (err) => {
+        this.createItem = true
+        this.cannotClick = true
         this.swal.alert(
           'warning',
           JSON.stringify(
@@ -79,5 +99,6 @@ export class ProductCreateComponent implements OnInit {
         );
       }
     );
+    }
   }
 }

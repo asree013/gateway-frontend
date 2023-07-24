@@ -6,59 +6,84 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-
+  disableButton: boolean = false;
   constructor(
     private readonly service: AuthenService,
     private readonly swal: AlertService,
-    private readonly router: Router,
-    )
-    { }
+    private readonly router: Router
+  ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
+    if(this.service.isLogin() === true){
+      this.router.navigate(['/menu'])
+    }
+  }
+  async onSubmitLogin(form: { username: string; password: string, remember: boolean }) {
+    let form_control = document.querySelector('.form-control')
+    let userName = document.getElementById('username')
+    let passWord = document.getElementById('password')
+
+    form_control.classList.remove('is-invalid')
+    passWord.classList.remove('is-invalid')
+
+    if (!form.username) {
+      userName.classList.add('is-invalid')
+      this.swal.alert('warning', 'username is null');
+    } else if (form.username.length < 4) {
+      userName.classList.add('is-invalid')
+      this.swal.alert('warning', 'username is Less than 4');
+    } else if (!form.password) {
+      passWord.classList.add('is-invalid')
+      this.swal.alert('warning', 'password is null');
+    } else if (form.password.length < 5) {
+      passWord.classList.add('is-invalid')
+      this.swal.alert('warning', 'username is Less than 5');
+    } else {
+      this.postLogin(form);
+    }
   }
 
-  async onSubmitLogin(from: { username: string, password: string}){
-    if(!from.username){
-      this.swal.alert( 'warning', 'username is null' )
-    }
-    else if(from.username.length < 4) {
-      this.swal.alert('warning', 'username is Less than 4')
-    }
-    else if(!from.password) {
-      this.swal.alert('warning', 'password is null')
-    }
-    else if(from.password.length < 5) {
-      this.swal.alert('warning', 'username is Less than 5')
-    }
-    else{
-      this.postLogin(from)
-    }
-
-  }
-
-  postLogin(value: { username: string, password: string}){
+  postLogin(value: { username: string; password: string, remember: boolean }) {
+    this.disableButton = true;
     this.service.login(value).subscribe(
       (result: any) => {
-        console.log(result);
-        if(result.token){
-          localStorage.setItem('jwt', result.token)
+        if (result.token) {
+          const day = new Date().toISOString();
+          const date: Date = new Date(day)
+          const session = {
+            jwt: result.token,
+            exp: new Date().getTime(),
+            expdate: this.addHours(date, 1),
+            isLogin: 'ok',
+            remember: value.remember
+          }
+          this.disableButton = false;
+          localStorage.setItem('session', JSON.stringify(session))
+          // localStorage.setItem('isLogin', true)
           this.router.navigate(['/menu'])
-        }
-        else{
-          this.swal.alert('error', 'Have Sonting Wrong')
+        } else {
+          this.disableButton = false;
+          this.swal.alert('error', 'Have Sonting Wrong');
         }
       },
-      err => {
+      (err) => {
         console.log(err);
-
-        if(err.status === 403){
-          this.swal.alert('error', 'Username or Password Wrong!!!', 3000)
+        this.disableButton = false;
+        this.swal.alert('error', 'have somting in server !!!', 5000)
+        if (err.status === 403) {
+          this.swal.alert('error', 'Username or Password Wrong!!!', 3000);
         }
       }
-    )
+    );
   }
+
+  addHours (date: Date, hours: number): Date {
+    const result = new Date(date);
+    result.setHours(result.getHours() + hours);
+    return result;
+  };
 
 }

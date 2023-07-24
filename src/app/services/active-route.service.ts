@@ -9,8 +9,9 @@ export class ActiveRouteService implements CanActivate {
 
   constructor(private readonly router: Router, ) { }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const jwt = localStorage.getItem('jwt')
-    if(jwt){
+    const session = localStorage.getItem('session')
+    const isLogin = JSON.parse(session)
+    if(isLogin.isLogin === 'ok' && isLogin.isLogin !== null){
       return true
     }
     else{

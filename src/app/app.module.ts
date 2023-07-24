@@ -16,6 +16,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MenuComponent } from './admin/menu/menu.component';
 import { ProductsModule } from './modules/products/products.module';
 import { OrdersModule } from './modules/orders/orders.module';
+import { AccoutHomeComponent } from './admin/accouts/accout-home/accout-home.component';
+import { AccoutCreateComponent } from './admin/accouts/accout-create/accout-create.component';
+import { AccoutEditComponent } from './admin/accouts/accout-edit/accout-edit.component';
+import { AccoutHistoryComponent } from './admin/accouts/accout-history/accout-history.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +29,10 @@ import { OrdersModule } from './modules/orders/orders.module';
     HeaderComponent,
     SidenavComponent,
     MenuComponent,
+    AccoutHomeComponent,
+    AccoutCreateComponent,
+    AccoutEditComponent,
+    AccoutHistoryComponent,
   ],
   imports: [
     BrowserModule,

@@ -16,7 +16,7 @@ export class SidenavComponent implements OnInit {
   }
 
   removeLocalStorge(){
-    localStorage.removeItem('jwt')
+    localStorage.removeItem('session')
     this.router.navigate(['/login'])
   }
 

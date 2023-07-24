@@ -6,14 +6,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
+  login:boolean = false
   constructor(
     public router: Router,
   ) { }
 
   ngOnInit(): void {
+
   }
-  // openmenu(){
-  //   alert(id)
-  // }
+
 }

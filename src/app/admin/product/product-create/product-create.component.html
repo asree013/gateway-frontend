@@ -9,8 +9,12 @@
           name="images"
           type="file"
           placeholder="Link"
-          required
+          required [disabled]="this.cannotClick"
         />
+      </div>
+      <div class="d-flex align-items-center" *ngIf="this.upload">
+        <strong>upload image...</strong>
+        <div class="spinner-border spinner-border-sm ms-auto text-primary" role="status" aria-hidden="true"></div>
       </div>
       <div *ngIf="this.imagePrevetn !== ''" class="card p-2 img_tag">
         <img width="80px" src="{{this.imagePrevetn}}" alt="">
@@ -23,7 +27,7 @@
           type="text"
           class="form-control input"
           placeholder="name"
-          required
+          required [disabled]="this.cannotClick"
         />
       </div>
       <div class="input-group mb-3">
@@ -34,7 +38,7 @@
           type="text"
           class="form-control input"
           placeholder="sku"
-          required
+          required [disabled]="this.cannotClick"
         />
       </div>
       <div class="input-group mb-3">
@@ -45,7 +49,7 @@
           class="form-control input"
           placeholder="Quantity"
           type="number"
-          required
+          required [disabled]="this.cannotClick"
         />
       </div>
       <div class="input-group mb-3">
@@ -57,7 +61,7 @@
           class="form-control input"
           placeholder="regular_price"
           type="number"
-          required
+          required [disabled]="this.cannotClick"
         />
       </div>
       <div class="input-group mb-3">
@@ -69,14 +73,14 @@
           class="form-control input"
           placeholder="sale_price"
           type="number"
-          required
+          required [disabled]="this.cannotClick"
         />
       </div>
       <div class="buttons">
-        <button class="btn-create" (click)="addCartFornt(productForm.value)">
+        <button class="btn btn-success" type="button" [disabled]="this.cannotClick" (click)="addCartFornt(productForm.value)">
           Add Front Stock
         </button>
-        <button class="btn-cancel">Add Back Stock</button>
+        <button class="btn btn-danger" type="button" [disabled]="this.cannotClick" >Add Back Stock</button>
       </div>
     </form>
   </div>
@@ -93,7 +97,8 @@
       </div>
       <div class="cardBody card">
         <h2>FrontStock</h2>
-        <button class="btn btnCreate" (click)="onCreateProduct()" >Create</button>
+        <button class="btn btnCreate" *ngIf="!this.createItem" (click)="onCreateProduct()" >Create </button>
+        <button class="btn btnCreate" *ngIf="this.createItem" disabled >Create <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></button>
       </div>
     </div>
     <div class="backStock">
