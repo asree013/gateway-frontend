@@ -29,13 +29,13 @@ export class ProductAdminComponent implements OnInit {
   ngOnInit(): void {
     this.getProduct();
   }
-  clickSearch(event: string) {
-    this.product = this.product.filter((result) => {
-      const productName = result.name.toLowerCase();
-      const searchName = event.toLowerCase();
-      return productName.indexOf(searchName) !== -1;
-    });
-  }
+  // clickSearch(event: string) {
+  //   this.product = this.product.filter((result) => {
+  //     const productName = result.name.toLowerCase();
+  //     const searchName = event.toLowerCase();
+  //     return productName.indexOf(searchName) !== -1;
+  //   });
+  // }
   onCreateProduct() {
     this.route.navigate(['/product/create']);
   }

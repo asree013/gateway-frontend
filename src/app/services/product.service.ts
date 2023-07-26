@@ -26,8 +26,7 @@ export class ProductService {
   addProducts(value: Products[]): Observable<Products[]> {
     return this.http.post<Products[]>(`${environment.baseUrl}/products/batch`, value)
   }
-  search(item: any) {
-    console.log(item);
+  search(item: any): Observable<Products[]> {
     const headers = { 'Authorization': 'Bearer my-token', 'My-Custom-Header': 'foobar' };
     return this.http.post<Products[]>(`${environment.baseUrl}/products/search`, item, {headers: headers})
   }

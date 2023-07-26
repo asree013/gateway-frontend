@@ -13,6 +13,10 @@ import { OrderEditComponent } from './admin/order/order-edit/order-edit.componen
 import { OrderDetailComponent } from './admin/order/order-detail/order-detail.component';
 import { ProductDetailComponent } from './admin/product/product-detail/product-detail.component';
 import { ActiveRouteService } from './services/active-route.service';
+import { AccoutHomeComponent } from './admin/accouts/accout-home/accout-home.component';
+import { AccoutCreateComponent } from './admin/accouts/accout-create/accout-create.component';
+import { AccoutEditComponent } from './admin/accouts/accout-edit/accout-edit.component';
+import { AccoutHistoryComponent } from './admin/accouts/accout-history/accout-history.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -27,7 +31,11 @@ const routes: Routes = [
   { path: 'order/admin', component: OrderAdminComponent , canActivate: [ActiveRouteService] },
   { path: 'order/create', component: OrderCreateComponent, canActivate: [ActiveRouteService] },
   { path: 'order/edit', component: OrderEditComponent, canActivate: [ActiveRouteService] },
-  { path: 'order/detail/:id', component: OrderDetailComponent, canActivate: [ActiveRouteService] }
+  { path: 'order/detail/:id', component: OrderDetailComponent, canActivate: [ActiveRouteService] },
+  { path: 'accout/home', component: AccoutHomeComponent, canActivate: [ActiveRouteService] },
+  { path: 'accout/create', component: AccoutCreateComponent, canActivate: [ActiveRouteService] },
+  { path: 'accout/edit/:id', component: AccoutEditComponent, canActivate: [ActiveRouteService] },
+  { path: 'accout/history', component: AccoutHistoryComponent, canActivate: [ActiveRouteService] },
 ];
 
 @NgModule({

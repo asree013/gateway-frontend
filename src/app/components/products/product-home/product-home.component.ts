@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Search } from 'src/app/models/class/searh.model';
 import {
   Line_Items,
   Orders,
@@ -17,8 +18,11 @@ import Swal from 'sweetalert2';
 })
 export class ProductHomeComponent implements OnInit {
   product: Products[] = [];
+  cartsScan = {} as Products;
   listCart: Array<Partial<Line_Items>> = [];
   displayStlye: string = 'none';
+  dataSearch = new Search<Partial<any>>();
+  barcode = '9551009843811'
   constructor(
     private readonly service: ProductService,
     private readonly orderService: OrderService,
@@ -60,11 +64,15 @@ export class ProductHomeComponent implements OnInit {
     this.listCart = [];
   }
   async createOrders(order: Orders) {
+    let modal = document.getElementById('modal')
+    modal.classList.add('showModal')
     this.orderService.addOrder(order).subscribe(
       (result) => {
-          this.router.navigate([`/order/detail/${result.id}`]);
+        modal.classList.remove('showModal')
+        this.router.navigate([`/order/detail/${result.id}`]);
       },
       (err) => {
+        modal.classList.remove('showModal')
         this.swal.alert('error', `Order Error message:${err}`);
       }
     );
@@ -127,5 +135,29 @@ export class ProductHomeComponent implements OnInit {
       return cerrent + prev.price * prev.quantity;
     }, 0);
     return Number(data);
+  }
+  searchData(event: Event) {
+    const value = event.target as HTMLInputElement;
+    this.dataSearch.data[value.id] = value.value;
+    this.service.search(this.dataSearch).subscribe((result) => {
+      result.map(r => {
+        this.cartsScan = r
+      })
+      const findIdProduct = this.listCart.find(r =>r.product_id === this.cartsScan.id);
+      if (!findIdProduct) {
+        this.listCart.push({
+          product_id: this.cartsScan.id,
+          name: this.cartsScan.name,
+          price: Number(this.cartsScan.price),
+          images: this.cartsScan.images,
+          quantity: 1
+        });
+        value.value = ''
+      }
+      else{
+        findIdProduct.quantity += 1;
+        value.value = ''
+      }
+    });
   }
 }

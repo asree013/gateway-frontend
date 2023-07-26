@@ -1,1 +1,54 @@
-<p>accout-create works!</p>
+<div class="containers">
+  <h3>เพิ่มข้อมูล</h3>
+  <form action="" #accout="ngForm" (submit)="submitAccout(accout.value)">
+      <div>
+        <p>ประเภท</p>
+        <select id="select" class="from_control" ngModel name="type_accout" [disabled]="isUploadImages">
+          <option value="">-------------- เลือก ------------</option>
+          <option value="รับเงิน">รับเงิน</option>
+          <option value="จ่ายเงิน">จ่ายเงิน</option>
+        </select>
+      </div>
+      <br>
+      <div>
+        <p>หัวข้อ</p>
+        <input type="text" id="title" class="from_control " placeholder="เพิ่มหัวข้อ" ngModel name="title" [disabled]="isUploadImages" id="titel">
+      </div>
+      <br>
+      <div>
+        <p>รายละเอียด</p>
+        <input type="text" id="detail" class="from_control" placeholder="เพิ่มรายละเอียด" ngModel name="detail" [disabled]="isUploadImages" id="detail">
+      </div>
+      <br>
+      <div>
+        <p>ยอดเงิน</p>
+        <input type="number" id="total" class="from_control" placeholder="เพิ่มยอดเงิน" ngModel name="total" [disabled]="isUploadImages" id="total">
+      </div>
+      <br>
+      <div>
+        <p>สาขา</p>
+        <select class="from_control" id="branch" ngModel name="branch_id" [disabled]="isUploadImages" >
+          <option value="" selected>-------------- เลือก ------------</option>
+          <option *ngFor="let item of branchItem" value="{{item.id}}">{{item.title}}</option>
+        </select>
+      </div>
+      <br>
+      <div>
+        <p>รูปภาพสลิป</p>
+        <div class="upload_images">
+          <p>อัพโหลดรูปภาพ</p>
+          <input type="file" multiple id="images" (change)="uploadImages($event)" *ngIf="!isUploadImages">
+          <div class="ml-3 text-center" *ngIf="isUploadImages">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div style="display: flex; justify-content: space-between;">
+        <button type="submit" [disabled]="isUploadImages">เพิ่มบัญชี</button>
+        <button type="button" [routerLink]="['/accout/home']" [disabled]="isUploadImages">ยกเลิก</button>
+      </div>
+  </form>
+</div>

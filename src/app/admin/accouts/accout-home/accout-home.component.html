@@ -1,1 +1,41 @@
-<p>accout-home works!</p>
+<div class="containers">
+  <h3>รายงานเดืนมกราคม 2566</h3>
+  <div class="box info">
+      <p>คงเหลือ</p>
+      <h1>15,000</h1>
+  </div>
+  <div class="payment" [routerLink]="['/accout/create']">
+      <div class="box success" style="margin-right: 10px;">
+          <p>รายรับ</p>
+          <p>15,000</p>
+      </div>
+      <div class="box danger" style="margin-left: 10px;">
+          <p>รายจ่าย</p>
+          <p>15,000</p>
+      </div>
+  </div>
+  <div style="display: flex; margin-top: 30px;">
+      <p class="tag active">ทั้งหมด</p>
+      <p class="tag">รายรับ</p>
+      <p class="tag">รายจ่าย</p>
+  </div>
+  <div class="statement" *ngFor="let item of accoutItem">
+      <div *ngIf="item.type_accout === 'รับเงิน'"><i><img width="30px" src="assets/icon/money.png" alt=""></i></div>
+      <div *ngIf="item.type_accout === 'จ่ายเงิน'"><i><img width="30px" src="assets/icon/pay.png" alt=""></i></div>
+      <div style="margin-left: 15px;">
+          <p style="font-size: 15px;">{{item.type_accout}}</p>
+          <p style="font-size: 14px;">{{item.title}}</p>
+          <p style="font-size: 11px;">{{item.detail}}</p>
+          <p *ngIf="item.type_accout === 'จ่ายเงิน'" style="font-size: 14px;" class="text_danger">- {{item.total | number}}</p>
+          <p *ngIf="item.type_accout === 'รับเงิน'" style="font-size: 14px;" class="text_sucess">+ {{item.total | number}}</p>
+          <div style="display: flex; justify-content: space-between; width: 100%;">
+            <p style="font-size: 12px;">By {{item.user_nicename}}</p>
+            <p style="font-size: 12px; margin-left: 50px;">สาขา {{item.br_title}}</p>
+          </div>
+          <div style="display: flex; justify-content: space-between; width: 100%;">
+            <p style="font-size: 10px;">{{item.create_at | date:'short'}}</p>
+            <p style="font-size: 10px; margin-left: 50px;">{{item.update_at | date:'short'}}</p>
+          </div>
+      </div>
+  </div>
+</div>

@@ -1,6 +1,7 @@
 <div class="bodys p-3">
   <div class="headers">
     <div class="card card-header">
+      <input class="inputInModal" type="text" id="sku" placeholder="Search Slug" (change)="searchData($event)">
       <div class="input-bar" (click)="this.displayStlye = 'block'">
         <p>search</p>
       </div>
@@ -76,10 +77,7 @@
         <input class="inputInModal" type="text" id="slug" placeholder="Search Slug" (change)="searchData($event)"> -->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn-filter btns"
-                >
-          filter
-        </button>
+        <button type="button" class="btn-filter btns">filter</button>
         <button type="button" class="btn btn-danger btns"
                 (click)="this.displayStlye = 'none'">
           cancel
@@ -88,3 +86,23 @@
     </div>
   </div>
 </div>
+
+<section class="modalBack" id="modal">
+  <div class="card p-3 loading" >
+    <div class="spinner-border text-danger" style="width: 100px; height: 100px;" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="fornt">
+      <p>loading</p>
+      <div class="spinner-grow text-dark ml-2" style="width: 10px; height: 10px;" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <div class="spinner-grow text-dark ml-2" style="width: 10px; height: 10px;" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <div class="spinner-grow text-dark ml-2" style="width: 10px; height: 10px;" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </div>
+</section>
