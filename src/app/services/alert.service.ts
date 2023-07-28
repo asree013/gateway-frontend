@@ -8,11 +8,11 @@ import { Orders } from '../models/interface/woocommerce.model';
 export class AlertService {
   constructor() {}
   alert(icon: any, title: any, timer?: number) {
-    if(!timer){
-       timer = 1500
+    if (!timer) {
+      timer = 1500;
     }
-    if(timer == null) {
-       timer = 1500
+    if (timer == null) {
+      timer = 1500;
     }
     const swAlert = Swal.mixin({
       toast: true,
@@ -32,5 +32,20 @@ export class AlertService {
     return swAlert;
   }
 
-  
+  comfirm(item: any) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+        await item;
+      }
+    });
+  }
 }

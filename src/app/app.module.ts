@@ -20,6 +20,7 @@ import { AccoutHomeComponent } from './admin/accouts/accout-home/accout-home.com
 import { AccoutCreateComponent } from './admin/accouts/accout-create/accout-create.component';
 import { AccoutEditComponent } from './admin/accouts/accout-edit/accout-edit.component';
 import { AccoutHistoryComponent } from './admin/accouts/accout-history/accout-history.component';
+import { AccoutAdminComponent } from './admin/accouts/accout-admin/accout-admin.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { AccoutHistoryComponent } from './admin/accouts/accout-history/accout-hi
     AccoutCreateComponent,
     AccoutEditComponent,
     AccoutHistoryComponent,
+    AccoutAdminComponent,
   ],
   imports: [
     BrowserModule,

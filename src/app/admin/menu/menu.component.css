@@ -27,6 +27,35 @@ img{
   justify-content: center;
   align-items: center;
 }
+.modalBranch{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  pointer-events: none;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+  opacity: 1;
+  pointer-events: all;
+}
+.closeModal{
+  opacity: 0;
+  pointer-events: none;
+}
+/* .modal{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  padding: 20px;
+  opacity: 1;
+} */
 @media only screen and (max-width: 600px){
   .card-body{
     display: flex;

@@ -17,6 +17,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./product-home.component.css'],
 })
 export class ProductHomeComponent implements OnInit {
+  focus: boolean
   product: Products[] = [];
   cartsScan = {} as Products;
   listCart: Array<Partial<Line_Items>> = [];
@@ -32,6 +33,11 @@ export class ProductHomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.feedProducts();
+    setTimeout(async () => {
+    const temp =   await this.router.navigate(['/shops'])
+    console.log(temp);
+
+    }, 1000)
   }
   feedProducts() {
     this.service.getProductAll().subscribe(
@@ -138,7 +144,7 @@ export class ProductHomeComponent implements OnInit {
   }
   searchData(event: Event) {
     const value = event.target as HTMLInputElement;
-    this.dataSearch.data[value.id] = value.value;
+     this.dataSearch.data[value.id] = value.value;
     this.service.search(this.dataSearch).subscribe((result) => {
       result.map(r => {
         this.cartsScan = r
@@ -159,5 +165,11 @@ export class ProductHomeComponent implements OnInit {
         value.value = ''
       }
     });
+  }
+  focusInputSearch() {
+    document.addEventListener('focus',function () {
+      console.log('test');
+
+    })
   }
 }

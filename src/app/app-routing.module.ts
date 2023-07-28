@@ -17,6 +17,7 @@ import { AccoutHomeComponent } from './admin/accouts/accout-home/accout-home.com
 import { AccoutCreateComponent } from './admin/accouts/accout-create/accout-create.component';
 import { AccoutEditComponent } from './admin/accouts/accout-edit/accout-edit.component';
 import { AccoutHistoryComponent } from './admin/accouts/accout-history/accout-history.component';
+import { AccoutAdminComponent } from './admin/accouts/accout-admin/accout-admin.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -33,6 +34,7 @@ const routes: Routes = [
   { path: 'order/edit', component: OrderEditComponent, canActivate: [ActiveRouteService] },
   { path: 'order/detail/:id', component: OrderDetailComponent, canActivate: [ActiveRouteService] },
   { path: 'accout/home', component: AccoutHomeComponent, canActivate: [ActiveRouteService] },
+  { path: 'accout/admin', component: AccoutAdminComponent, canActivate: [ActiveRouteService] },
   { path: 'accout/create', component: AccoutCreateComponent, canActivate: [ActiveRouteService] },
   { path: 'accout/edit/:id', component: AccoutEditComponent, canActivate: [ActiveRouteService] },
   { path: 'accout/history', component: AccoutHistoryComponent, canActivate: [ActiveRouteService] },

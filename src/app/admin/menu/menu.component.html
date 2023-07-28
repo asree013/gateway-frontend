@@ -23,3 +23,13 @@
     </div>
   </div>
 </div>
+<div class="modalBranch p-3">
+  <form class="card" action="" #branch="ngForm" >
+    <label class="" for="branch">เลือกสาขา</label>
+    <select class="form-select" ngModel name="branch" style="width: 100%; height: 5%;" aria-label="Default select example">
+      <option value="" disabled="disabled">เลือก</option>
+      <option *ngFor="let item of allBranch" id="branch"  value="{{item.id}}">{{item.title}}</option>
+    </select>
+    <button type="submit" class="btn btn-danger mt-2" style="width: 100%;" (click)="chengeSelectBranch(branch.value)">ยื่นยัน</button>
+  </form>
+</div>

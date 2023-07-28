@@ -4,6 +4,8 @@ import {
   Accout,
   AccoutAll,
   AccoutCreate,
+  AccoutOnDate,
+  AccoutOnDateAndBranch,
   ImagesCreate,
 } from '../models/class/accout.model';
 import { environment } from 'src/environments/environment';
@@ -32,5 +34,17 @@ export class AccoutsService {
     console.log(data);
 
     return this.http.post(`${environment.baseUrl}/accouts/images`, data);
+  }
+  getImageByAccoutId(id: number) {
+    return this.http.get(`${environment.baseUrl}/accouts/images/accout/${id}`)
+  }
+  deleteAccout(id: number) {
+    return this.http.delete(`${environment.baseUrl}/accouts/${id}`)
+  }
+  getAccoutsOnDateAndBranch(item: AccoutOnDateAndBranch) {
+    return this.http.post(`${environment.baseUrl}/accouts/dateandbranch`, item)
+  }
+  getAccoutsOnDate() {
+    return this.http.get(`${environment.baseUrl}/accouts/ondate`)
   }
 }

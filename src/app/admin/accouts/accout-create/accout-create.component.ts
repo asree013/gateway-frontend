@@ -119,18 +119,18 @@ export class AccoutCreateComponent implements OnInit {
             }
             console.log(this.objitem);
 
-            // this.accout.addImagesAccout(result.id, element).subscribe(
-            //   result => {
-            //     console.log(result)
-            //   },
-            //   err=> {
-            //     console.log(err);
-            //   }
-            // )
+            this.accout.addImagesAccout(result.id, element).subscribe(
+              result => {
+                console.log(result)
+              },
+              err=> {
+                console.log(err);
+              }
+            )
           }
 
           this.isUploadImages = false;
-          // this.router.navigate(['/accout/home'])
+          this.router.navigate(['/accout/home'])
         },
         (err) => {
           console.log(err);

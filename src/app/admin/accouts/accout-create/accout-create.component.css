@@ -24,8 +24,34 @@
 .is_invalid{
   border: 1px solid red;
 }
+.btn{
+  border: none;
+  padding: 8px;
+  width: 40%;
+  background: #c9c6c6;
+  transition: 0.4s;
+}
+.btn:hover{
+  transform: scale(1.1);
+}
+.btn_add {
+  background: linear-gradient(125deg, rgb(10, 52, 187), #041641);
+  color: #f2f2f2;
+}
+.btn_div{
+  display: flex;
+  justify-content:
+  space-between;
+}
 @media only screen and (max-width: 600px) {
   .containers{
     padding: 20px 10%;
+  }
+  .btn_div{
+    flex-direction: column;
+  }
+  .btn{
+    width: 100%;
+    margin: 10px 0;
   }
 }
