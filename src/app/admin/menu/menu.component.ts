@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Branch, BranchCreateForUser } from 'src/app/models/class/branch.model';
+import { BranchForUser, BranchCreateForUser } from 'src/app/models/class/branch.model';
 import { AlertService } from 'src/app/services/alert.service';
 import { BranchService } from 'src/app/services/branch.service';
 import { UsersService } from 'src/app/services/users.service';
@@ -18,11 +18,12 @@ export class MenuComponent implements OnInit {
     private readonly service: BranchService,
     private readonly swal: AlertService,
     private readonly userService: UsersService
-  ) {}
+  ) {
+    this.isHaveIdBranch()
+  }
 
   ngOnInit(): void {
     this.selectBranch();
-    this.isHaveIdBranch()
   }
   chengeSelectBranch(value: { branch: number }) {
     $('.form-select').removeClass('is-invalid');
@@ -62,8 +63,11 @@ export class MenuComponent implements OnInit {
   isHaveIdBranch() {
     let idBranch = localStorage.getItem('branch_id')
     console.log('idBranch: ', idBranch);
-    if(idBranch){
-      $('.modalBranch').addClass('closeModal')
+    if(!idBranch){
+      $('.modalBranch').addClass('openModal')
+    }
+    else{
+      $('.modalBranch').removeClass('openModal')
     }
 
   }

@@ -6,6 +6,7 @@ import {
   AccoutCreate,
   AccoutOnDate,
   AccoutOnDateAndBranch,
+  AccoutSearchAdmin,
   ImagesCreate,
 } from '../models/class/accout.model';
 import { environment } from 'src/environments/environment';
@@ -41,10 +42,15 @@ export class AccoutsService {
   deleteAccout(id: number) {
     return this.http.delete(`${environment.baseUrl}/accouts/${id}`)
   }
-  getAccoutsOnDateAndBranch(item: AccoutOnDateAndBranch) {
-    return this.http.post(`${environment.baseUrl}/accouts/dateandbranch`, item)
+  getAccoutsOnDateAndBranch(id: number):Observable<AccoutAll[]> {
+    return this.http.get<AccoutAll[]>(`${environment.baseUrl}/accouts/ondate/${id}`)
   }
   getAccoutsOnDate() {
     return this.http.get(`${environment.baseUrl}/accouts/ondate`)
+  }
+  searchAccoutAdmin(item: AccoutSearchAdmin): Observable<AccoutAll[]> {
+    console.log(item.date);
+
+    return this.http.post<AccoutAll[]>(`${environment.baseUrl}/accouts/admin`, item)
   }
 }

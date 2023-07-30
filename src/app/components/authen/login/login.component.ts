@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertService } from 'src/app/services/alert.service';
 import { AuthenService } from 'src/app/services/authen.service';
 import { Router } from '@angular/router';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private readonly service: AuthenService,
     private readonly swal: AlertService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly userService: UsersService,
   ) {}
 
   ngOnInit() {
@@ -64,6 +66,16 @@ export class LoginComponent implements OnInit {
               status: result.user_status
             }
             localStorage.setItem('local', JSON.stringify(obj))
+            this.userService.findBrandUser(result.ID).subscribe(
+              result=> {
+                console.log(result);
+                localStorage.setItem('branch_id', JSON.stringify(result.branch_id));
+              }
+              ,err => {
+                console.log(err);
+
+              }
+            )
           },
           err => {
             console.log(err)

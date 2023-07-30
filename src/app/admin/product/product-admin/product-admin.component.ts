@@ -20,6 +20,7 @@ export class ProductAdminComponent implements OnInit {
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF0JkN3XIguQOKFCv_nwx0D_3jLUUja45nYaJaQbY&s';
   displayStyle = 'none';
   returnZeroSearch: string = ''
+  isLoadding: boolean
   constructor(
     private route: Router,
     private swal: AlertService,
@@ -40,14 +41,18 @@ export class ProductAdminComponent implements OnInit {
     this.route.navigate(['/product/create']);
   }
   getProduct() {
+    this.isLoadding = true
     return this.service.getProductAll().subscribe(
       (result) => {
         if (result.length == 0) {
+          this.isLoadding = false
           this.swal.alert('warning', 'is no Product in Database', 2500);
         }
+        this.isLoadding = false
         this.product = result;
       },
       (err) => {
+        this.isLoadding = false
         this.swal.alert(
           'warning',
           JSON.stringify(`Server Carshed!!!  Error Message: ${err.message}`),
@@ -55,6 +60,11 @@ export class ProductAdminComponent implements OnInit {
         );
       }
     );
+  }
+  createStockById(id: number) {
+    console.log(id);
+    this.route.navigate([`stock/create/${id}`])
+
   }
   onDelete(item: Products) {
     let id = item.id;
@@ -69,7 +79,9 @@ export class ProductAdminComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+        this.isLoadding = true
         this.service.deleteProduct(id).subscribe((result) => {
+          this.isLoadding = false
           this.product = this.product.filter((f) => f.id !== id);
         });
       }

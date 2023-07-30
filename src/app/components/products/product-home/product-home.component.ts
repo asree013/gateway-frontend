@@ -166,10 +166,4 @@ export class ProductHomeComponent implements OnInit {
       }
     });
   }
-  focusInputSearch() {
-    document.addEventListener('focus',function () {
-      console.log('test');
-
-    })
-  }
 }

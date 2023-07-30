@@ -40,12 +40,12 @@ img{
   justify-content: center;
   align-items: center;
   transition: all 0.2s ease-in-out;
-  opacity: 1;
-  pointer-events: all;
-}
-.closeModal{
   opacity: 0;
   pointer-events: none;
+}
+.openModal{
+  opacity: 1;
+  pointer-events: all;
 }
 /* .modal{
   position: fixed;

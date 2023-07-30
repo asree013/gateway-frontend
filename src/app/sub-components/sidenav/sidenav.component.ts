@@ -9,15 +9,15 @@ import { Router } from '@angular/router';
 export class SidenavComponent implements OnInit {
 
   constructor(
-    private readonly router: Router,
+    public readonly route: Router,
   ) { }
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
   removeLocalStorge(){
     localStorage.removeItem('session')
-    this.router.navigate(['/login'])
+    localStorage.removeItem('local')
+    localStorage.removeItem('branch_id')
+    this.route.navigate(['/login'])
   }
 
 }

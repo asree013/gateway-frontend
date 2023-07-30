@@ -48,7 +48,7 @@
       <br>
       <div class="btn_div">
         <button class="btn btn_add" type="submit" [disabled]="isUploadImages">เพิ่มบัญชี</button>
-        <button class="btn" type="button" [routerLink]="['/accout/home']" [disabled]="isUploadImages">ยกเลิก</button>
+        <button class="btn" type="button" (click)="this.route.navigate(['accout/home'])" [disabled]="isUploadImages">ยกเลิก</button>
       </div>
   </form>
 </div>

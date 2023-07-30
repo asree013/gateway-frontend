@@ -74,11 +74,36 @@
   align-items: center;
   flex-direction: column;
 }
+.openToggle{
+  display: block;
+}
 .toggle_image {
   width: 30%;
   object-fit: contain;
   border-radius: 10px;
   margin: 10px;
+}
+.accoutInsert{
+  width: 100%;
+  border: 1px solid #3d7e15;
+  color: #3d7e15;
+  padding: 10px;
+  margin-top: 10px;
+  transition: 0.4s;
+}
+.accoutInsert:hover{
+  transform: scale(1.1);
+  background: #3d7e15;;
+  color: white;
+}
+.isNotDataInDate{
+  padding: 10px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: rgb(247, 0, 0);
 }
 @media only screen and (max-width: 600px) {
   .containers {

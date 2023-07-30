@@ -1,15 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  Accout,
-  AccoutAll,
-  AccoutCreate,
-  ImagesCreate,
-} from 'src/app/models/class/accout.model';
+import { AccoutCreate, ImagesCreate } from 'src/app/models/class/accout.model';
 import { AccoutsService } from 'src/app/services/accouts.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { AuthenService } from 'src/app/services/authen.service';
 import { BranchService } from 'src/app/services/branch.service';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-accout-create',
   templateUrl: './accout-create.component.html',
@@ -20,51 +16,50 @@ export class AccoutCreateComponent implements OnInit {
     private readonly authen: AuthenService,
     private readonly swal: AlertService,
     private readonly accout: AccoutsService,
-    private readonly router: Router,
+    private readonly location: Location,
     private readonly branch: BranchService,
+    public readonly route: Router
   ) {}
   isUploadImages: boolean;
   imagesName: ImagesCreate[] = [];
-  branchItem: any[] = []
-  objitem = {}
+  branchItem: any[] = [];
+  objitem = {};
 
   async ngOnInit(): Promise<void> {
     console.log(this.imagesName);
-    const result: any = await this.branch.getBranch().toPromise()
-    this.branchItem = result
-
+    const result: any = await this.branch.getBranch().toPromise();
+    this.branchItem = result;
   }
 
   submitAccout(item: AccoutCreate) {
-    let select = document.getElementById('select')
-    let title = document.getElementById('titel')
-    let detail = document.getElementById('detail')
-    let total = document.getElementById('total')
-    let branch = document.getElementById('branch')
+    let select = document.getElementById('select');
+    let title = document.getElementById('titel');
+    let detail = document.getElementById('detail');
+    let total = document.getElementById('total');
+    let branch = document.getElementById('branch');
 
-    select.classList.remove('is_invalid')
-    title.classList.remove('is_invalid')
-    detail.classList.remove('is_invalid')
-    total.classList.remove('is_invalid')
-    branch.classList.remove('is_invalid')
+    select.classList.remove('is_invalid');
+    title.classList.remove('is_invalid');
+    detail.classList.remove('is_invalid');
+    total.classList.remove('is_invalid');
+    branch.classList.remove('is_invalid');
 
     if (item.type_accout !== 'รับเงิน' && item.type_accout !== 'จ่ายเงิน') {
       this.swal.alert('error', 'คุณยังไม่ได้เลืกประเภท');
-      select.classList.add('is_invalid')
+      select.classList.add('is_invalid');
     } else if (!item.title) {
       this.swal.alert('error', 'กรุณาเพิ่มข้อมูล Title');
-      title.classList.add('is_invalid')
+      title.classList.add('is_invalid');
     } else if (!item.detail) {
       this.swal.alert('error', 'กรุณาเพิ่มข้อมูล detail');
-      detail.classList.add('is_invalid')
+      detail.classList.add('is_invalid');
     } else if (!item.total) {
       this.swal.alert('error', 'กรุณาเพิ่มข้อมูล total');
-      total.classList.add('is_invalid')
+      total.classList.add('is_invalid');
     } else if (item.branch_id == 0) {
       this.swal.alert('error', 'กรุณาเพิ่มข้อมูล สาขา');
-      branch.classList.add('is_invalid')
-    }
-     else {
+      branch.classList.add('is_invalid');
+    } else {
       this.createAccout(item);
     }
   }
@@ -104,51 +99,51 @@ export class AccoutCreateComponent implements OnInit {
     };
     this.isUploadImages = true;
 
-    if(this.imagesName.length > 0){
+    if (this.imagesName.length > 0) {
       this.accout.addAccout(value).subscribe(
         (result: any) => {
           console.log('is upload images: ', result.id);
           for (let i = 0; i < this.imagesName.length; i++) {
             const element = this.imagesName[i];
             this.objitem = {
-              accout_id: result.id ,
-              image: element
-            }
-            if(this.imagesName.length > 1){
-              this
+              accout_id: result.id,
+              image: element,
+            };
+            if (this.imagesName.length > 1) {
+              this;
             }
             console.log(this.objitem);
 
             this.accout.addImagesAccout(result.id, element).subscribe(
-              result => {
-                console.log(result)
+              (result) => {
+                console.log(result);
               },
-              err=> {
+              (err) => {
                 console.log(err);
               }
-            )
+            );
           }
 
           this.isUploadImages = false;
-          this.router.navigate(['/accout/home'])
+          this.location.back();
         },
         (err) => {
           console.log(err);
           this.isUploadImages = false;
         }
       );
-    }else{
-      // this.accout.addAccout(value).subscribe(
-      //   (result: any) => {
-      //     console.log(result.id);
-      //     this.isUploadImages = false;
-      //     this.router.navigate(['/accout/home'])
-      //   },
-      //   (err) => {
-      //     console.log(err);
-      //     this.isUploadImages = false;
-      //   }
-      // );
+    } else {
+      this.accout.addAccout(value).subscribe(
+        (result: any) => {
+          console.log(result.id);
+          this.isUploadImages = false;
+          this.location.back();
+        },
+        (err) => {
+          console.log(err);
+          this.isUploadImages = false;
+        }
+      );
     }
   }
 }

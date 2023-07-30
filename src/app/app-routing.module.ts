@@ -13,11 +13,16 @@ import { OrderEditComponent } from './admin/order/order-edit/order-edit.componen
 import { OrderDetailComponent } from './admin/order/order-detail/order-detail.component';
 import { ProductDetailComponent } from './admin/product/product-detail/product-detail.component';
 import { ActiveRouteService } from './services/active-route.service';
-import { AccoutHomeComponent } from './admin/accouts/accout-home/accout-home.component';
+import { AccoutAdminComponent } from './admin/accouts/accout-admin/accout-admin.component';
 import { AccoutCreateComponent } from './admin/accouts/accout-create/accout-create.component';
 import { AccoutEditComponent } from './admin/accouts/accout-edit/accout-edit.component';
 import { AccoutHistoryComponent } from './admin/accouts/accout-history/accout-history.component';
-import { AccoutAdminComponent } from './admin/accouts/accout-admin/accout-admin.component';
+import { AccoutHomeComponent } from './admin/accouts/accout-home/accout-home.component';
+import { StockCreateComponent } from './components/stock/stock-create/stock-create.component';
+import { StockCreateByidComponent } from './components/stock/stock-create-byid/stock-create-byid.component';
+import { StockHomeComponent } from './components/stock/stock-home/stock-home.component';
+import { StockAdminComponent } from './components/stock/stock-admin/stock-admin.component';
+import { StockEditComponent } from './components/stock/stock-edit/stock-edit.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -38,6 +43,12 @@ const routes: Routes = [
   { path: 'accout/create', component: AccoutCreateComponent, canActivate: [ActiveRouteService] },
   { path: 'accout/edit/:id', component: AccoutEditComponent, canActivate: [ActiveRouteService] },
   { path: 'accout/history', component: AccoutHistoryComponent, canActivate: [ActiveRouteService] },
+  { path: 'stock/create', component: StockCreateComponent, canActivate: [ActiveRouteService] },
+  { path: 'stock/homne', component: StockHomeComponent, canActivate: [ActiveRouteService] },
+  { path: 'stock/admin', component: StockAdminComponent, canActivate: [ActiveRouteService] },
+  { path: 'stock/create/:id', component: StockCreateByidComponent, canActivate: [ActiveRouteService] },
+  { path: 'stock/edit/:id', component: StockEditComponent, canActivate: [ActiveRouteService] },
+
 ];
 
 @NgModule({

@@ -34,6 +34,16 @@
         data-bs-target="#offcanvasScrolling"
         aria-controls="offcanvasScrolling"
       >
+        <p class="">Product</p>
+        <img class="iconImg" src="assets/icon/log-out.png" alt="" />
+      </div>
+      <div
+        class="icon"
+        [routerLink]="['/stock/admin']"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasScrolling"
+        aria-controls="offcanvasScrolling"
+      >
         <p class="">Stock</p>
         <img class="iconImg" src="assets/icon/log-out.png" alt="" />
       </div>
@@ -58,20 +68,20 @@
         <img class="iconImg" src="assets/icon/log-out.png" alt="" />
       </div>
       <div
-        class="icon"
-        data-bs-toggle="collapse"
-        href="#multiCollapseExample1"
-        role="button"
-        aria-expanded="false"
-        aria-controls="multiCollapseExample1"
+        class="toggle"
+        id="accoutId"
+        #accoutId
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasScrolling"
+        aria-controls="offcanvasScrolling"
       >
-        <p class="">Toggle first element</p>
-        <div class="collapse multi-collapse" id="multiCollapseExample1">
-          <div style="width: 100%" class="card">
-            <p>order-All</p>
-            <p>Order-New</p>
-          </div>
+        <div>
+          <p class="">Accout</p>
         </div>
+          <ul class="list-group list-group-flush">
+            <a [routerLink]="['/accout/admin']" class="list-group-item">acout admin</a>
+            <a [routerLink]="['/accout/home']" class="list-group-item">acout home</a>
+          </ul>
       </div>
       <div class="icon" (click)="removeLocalStorge()">
         <p class="">logout</p>

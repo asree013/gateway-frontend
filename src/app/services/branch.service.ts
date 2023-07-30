@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { BranchCreate, BranchCreateForUser } from '../models/class/branch.model';
+import { Branch, BranchCreate, BranchCreateForUser } from '../models/class/branch.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,8 @@ export class BranchService {
 
   constructor(private readonly http: HttpClient) { }
 
-  getBranch() {
-    return this.http.get(`${environment.baseUrl}/branch`);
+  getBranch(): Observable<Branch>{
+    return this.http.get<Branch>(`${environment.baseUrl}/branch`);
   }
 
   createBranch(item: BranchCreate) {

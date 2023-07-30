@@ -4,7 +4,12 @@
 /* .modals{
   background: rgba(0, 0, 0,0.6);
 } */
-
+.toggle{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
 .icon{
   display: flex;
   align-items: center;

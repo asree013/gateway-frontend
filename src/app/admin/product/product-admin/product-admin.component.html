@@ -45,6 +45,13 @@
               alt="" (click)="showItemProduct(item)"
             />
             <img
+              (click)="createStockById(item.id)"
+              class="iconEditer"
+              width="47px"
+              src="assets/icon/stock.png"
+              alt=""
+            />
+            <img
               (click)="onDelete(item)"
               class="iconEditer"
               width="47px"
@@ -85,6 +92,18 @@
         </button>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="modal_bag" *ngIf="isLoadding">
+  <div class="spinner-grow text-primary m-3" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <div class="spinner-grow text-primary m-3" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <div class="spinner-grow text-primary m-3" role="status">
+    <span class="visually-hidden">Loading...</span>
   </div>
 </div>
 
