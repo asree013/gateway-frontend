@@ -36,7 +36,7 @@ export class AccoutAdminComponent implements OnInit {
   }
   fetchAccout() {
     this.isLoading = true;
-    this.service.getAccoutAll().subscribe(
+    this.service.getAccouts().subscribe(
       (result: any) => {
         this.isLoading = false;
         if (result.status === 202) {
@@ -48,7 +48,7 @@ export class AccoutAdminComponent implements OnInit {
       (err) => {
         this.isLoading = false;
         console.log(err);
-        this.swal.alert('error', JSON.stringify(err.message), 40000);
+        this.swal.alert('error', JSON.stringify(err.message), 1400);
       }
     );
   }
@@ -79,37 +79,17 @@ export class AccoutAdminComponent implements OnInit {
   async selectAccout(type: string) {
     this.isLoading = true
     if (type === '') {
-      const find = await this.service.getAccoutAll().toPromise()
-      if(find){
-        this.accoutItem = find
-        this.isLoading = false
-
-      }
       $(`.tag`).removeClass('active');
       $('#all').addClass('active');
     } else if (type === 'income') {
       $('.tag').removeClass('active');
       $('#income').addClass('active');
-      const find = await this.service.getAccoutAll().toPromise()
-      this.accoutItem = find
-      if(find){
-        let inCome = this.accoutItem.filter(r => r.type_accout === 'รับเงิน')
-        this.accoutItem = inCome
-        this.isLoading = false
-      }
+
 
     } else {
       $('.tag').removeClass('active');
       $('#payment').addClass('active');
-      const find = await this.service.getAccoutAll().toPromise()
-      this.accoutItem = find
-      if(find){
-        let payMent = this.accoutItem.filter(r => r.type_accout === 'จ่ายเงิน')
-        if(payMent){
-          this.accoutItem = payMent
-          this.isLoading = false
-        }
-      }
+
     }
   }
   feedBranch() {
@@ -127,7 +107,7 @@ export class AccoutAdminComponent implements OnInit {
       alert('is null');
     }
     this.isLoading = true;
-    this.service.searchAccoutAdmin(item).subscribe(
+    const sub = this.service.searchAccoutAdmin(item).subscribe(
       (result: any) => {
         if (result.status === 202) {
           this.isLoading = false;
@@ -142,8 +122,12 @@ export class AccoutAdminComponent implements OnInit {
       (err) => {
         this.isLoading = false;
         console.log('search err', err);
+      },
+      () => {
+        sub.unsubscribe()
       }
     );
+
   }
   sumAll() {
     let sum = this.accoutItem.reduce((current, row) => {

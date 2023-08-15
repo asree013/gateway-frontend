@@ -3,6 +3,7 @@ import { AlertService } from 'src/app/services/alert.service';
 import { AuthenService } from 'src/app/services/authen.service';
 import { Router } from '@angular/router';
 import { UsersService } from 'src/app/services/users.service';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +12,7 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class LoginComponent implements OnInit {
   disableButton: boolean = false;
+  setBranch: string
   constructor(
     private readonly service: AuthenService,
     private readonly swal: AlertService,
@@ -54,33 +56,11 @@ export class LoginComponent implements OnInit {
 
   postLogin(value: { username: string; password: string; remember: boolean }) {
     this.disableButton = true;
-    this.service.login(value).subscribe(
+    this.service.login(value)
+    .subscribe(
       (result: any) => {
         console.log(result);
         console.log(result.user_email);
-        this.service.getStatusUser(result.user_email).subscribe(
-          (result: any) => {
-
-            const obj = {
-              user_id: result.ID,
-              status: result.user_status
-            }
-            localStorage.setItem('local', JSON.stringify(obj))
-            this.userService.findBrandUser(result.ID).subscribe(
-              result=> {
-                console.log(result);
-                localStorage.setItem('branch_id', JSON.stringify(result.branch_id));
-              }
-              ,err => {
-                console.log(err);
-
-              }
-            )
-          },
-          err => {
-            console.log(err)
-          }
-        )
         if (result.token) {
           const day = new Date().toISOString();
           const date: Date = new Date(day);
@@ -91,10 +71,19 @@ export class LoginComponent implements OnInit {
             isLogin: 'ok',
             remember: value.remember,
           };
-          this.disableButton = false;
-          localStorage.setItem('session', JSON.stringify(session));
-          // localStorage.setItem('isLogin', true)
-          this.router.navigate(['/menu']);
+          this.service.getStatusUser(result.user_email).subscribe(
+            (result: any) => {
+              localStorage.setItem('user_id', result.ID)
+              localStorage.setItem('user_status', result.user_status)
+              this.disableButton = false;
+              localStorage.setItem('session', JSON.stringify(session));
+              // localStorage.setItem('isLogin', true)
+              this.router.navigate(['/menu']);
+            },
+            err => {
+              console.log(err)
+            }
+          )
         } else {
           this.disableButton = false;
           this.swal.alert('error', 'Have Sonting Wrong');

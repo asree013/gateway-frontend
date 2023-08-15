@@ -1,1 +1,108 @@
-<p>stock-admin works!</p>
+<div class="body p-3">
+  <div class="card card-body">
+    <h1>Admin Stock</h1>
+    <div class="card card-header">
+      <div class="input-bar" (click)="openPopup()">
+        <p>search</p>
+      </div>
+      <button class="btn-create" (click)="onCreateProduct()">
+        Create Product
+      </button>
+    </div>
+    <table class="table table-striped fl-table mt-4">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">picture</th>
+          <th scope="col">sku</th>
+          <th scope="col">stock_internal</th>
+          <th scope="col">stock_external</th>
+          <th scope="col">price</th>
+          <th scope="col">p1</th>
+          <th scope="col">p2</th>
+          <th scope="col">p3</th>
+          <th scope="col">p4</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let item of stocks; let i = index">
+        <tr>
+          <th scope="row">{{ i + 1 }}</th>
+          <td><img width="120px" src="{{item.picture}}" alt="" /></td>
+          <td>{{ item.sku }}</td>
+          <td>{{ item.stock_internal }}</td>
+          <td>{{ item.stock_external }}</td>
+          <td>{{ item.price | number : "1.2-2" }}</td>
+          <td>{{ item.p1 | number : "1.2-2" }}</td>
+          <td>{{ item.p2 | number : "1.2-2" }}</td>
+          <td>{{ item.p3 | number : "1.2-2" }}</td>
+          <td>{{ item.p4 | number : "1.2-2" }}</td>
+          <td>
+            <!-- <img
+              class="iconEditer"
+              width="40px"
+              src="assets/icon/edit.png"
+              alt="" (click)="showItemProduct(item)"
+            />
+            <img
+              (click)="createStockById(item.id)"
+              class="iconEditer"
+              width="47px"
+              src="assets/icon/stock.png"
+              alt=""
+            /> -->
+            <img
+              (click)="onDelete(item)"
+              class="iconEditer"
+              width="47px"
+              src="assets/icon/delete.png"
+              alt=""
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- <div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':displayStyle}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Searching Data</h2>
+      </div>
+      <div class="modal-body">
+        <input class="inputInModal" type="text" id="name" placeholder="Search Name" (change)="searchData($event)">
+        <input class="inputInModal" type="text" id="price" placeholder="Search Price" (change)="searchData($event)">
+        <input class="inputInModal" type="text" id="slug" placeholder="Search Slug" (change)="searchData($event)">
+        <input class="inputInModal" type="text" id="sku" placeholder="Search Slug" (change)="searchData($event)">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-filter btns"
+                (click)="searchAction()">
+          filter
+        </button>
+        <button type="button" class="btn btn-danger btns"
+                (click)="closePopup()">
+          cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="modal_bag" *ngIf="isLoadding">
+  <div class="spinner-grow text-primary m-3" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <div class="spinner-grow text-primary m-3" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <div class="spinner-grow text-primary m-3" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>

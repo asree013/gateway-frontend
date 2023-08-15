@@ -1,0 +1,57 @@
+<div class="bodys">
+  <form class="cards" #WareHouse="ngForm">
+    <div class="sing_in">Create Warehouse</div>
+    <img class="logo" src="assets/icon/warehouse.png" alt="">
+    <div class="warehouse_form">
+      <img id="input_logo" src="assets/icon/title.png" alt="">
+      <input ngModel name="title" class="inputs" type="text" id="title">
+      <span data-placeholder="Warehouse Name"></span>
+    </div>
+    <div class="warehouse_form">
+      <img width="20px" id="input_logo" src="assets/icon/address.png" alt="">
+      <input ngModel name="address"  class="inputs" type="text" id="address">
+      <span data-placeholder="Warehouse address"></span>
+    </div>
+    <div class="warehouse_form" (change)="selectAddress(WareHouse.value)">
+      <img width="20px" id="input_logo" src="assets/icon/address.png" alt="">
+      <select id="sector"  class="inputs" ngModel name="sector_id">
+        <option value="" disabled="disabled" selected>เลือกภูมิภาค</option>
+        <option *ngFor="let item of isSector" value="{{item.id}}">{{item.name}}</option>
+      </select>
+    </div>
+    <div class="warehouse_form" (change)="selectProvince(WareHouse.value)">
+      <img width="20px" id="input_logo" src="assets/icon/province.png" alt="">
+      <select id="provinne"  class="inputs" ngModel name="province_id">
+        <option value="" disabled="disabled" selected>เลือกจังหวัด</option>
+        <option *ngFor="let item of isProvince" value="{{item.id}}">{{item.name_th}}</option>
+      </select>
+    </div>
+    <div class="warehouse_form" (change)="selectDistrict(WareHouse.value)">
+      <img width="20px" id="input_logo" src="assets/icon/province.png" alt="">
+      <select id="district"  class="inputs" ngModel name="district_id">
+        <option value="" disabled="disabled" selected>เลือกอำเภอ</option>
+        <option *ngFor="let item of isDistrict" value="{{item.id}}">{{item.name_th}}</option>
+      </select>
+    </div>
+    <div class="warehouse_form" (change)="selectCity(WareHouse.value)">
+      <img width="20px" id="input_logo" src="assets/icon/city.png" alt="">
+      <select id="district"  class="inputs" ngModel name="city_id">
+        <option value="" disabled="disabled" selected>เลือกตำบล</option>
+        <option *ngFor="let item of isSubDistrict" value="{{item.id}}">{{item.name_th}}</option>
+      </select>
+    </div>
+    <div class="warehouse_form">
+      <img width="20px" id="input_logo" src="assets/icon/email.png" alt="">
+      <input ngModel name="email"  class="inputs" type="text" id="email">
+      <span data-placeholder="Warehouse email"></span>
+    </div>
+    <div class="warehouse_form">
+      <img width="20px" id="input_logo" src="assets/icon/phone.png" alt="">
+      <input ngModel name="phone"  class="inputs" type="text" id="phone">
+      <span data-placeholder="Warehouse phone"></span>
+    </div>
+    <button class="btn_create" type="button" (click)="CreateWareHouse(WareHouse.value)">Create Warehouse</button>
+  </form>
+</div>
+
+<app-loadding *ngIf="isLoading"></app-loadding>

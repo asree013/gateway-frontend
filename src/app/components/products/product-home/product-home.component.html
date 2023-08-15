@@ -18,7 +18,7 @@
         </div>
         <div class="list_products">
           <div class="item_list m-2" *ngFor="let item of listCart">
-            <img class="img_list" src="{{ item.images[0].src }}" alt="" />
+            <img class="img_list" src="{{ item.images[0] ? item.images[0].src : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2048px-No_image_available.svg.png'}}" alt="" />
             <p style="width: 40%">{{ item.name }}</p>
             <div class="item_list">
               <h3>x{{ item.quantity }}</h3>
@@ -38,7 +38,7 @@
     <div class="products card p-3">
       <div class="item_product" *ngFor="let item of product">
         <div class="card card_products">
-          <img src="{{ item.images[0].src }}" class="card-img-top" alt="..." />
+          <img class="card-img-top"src="{{ item.images[0] ? item.images[0].src : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2048px-No_image_available.svg.png'}}" alt="" />
           <div class="card-body">
             <div class="namePrice">
               <h3 class="card-title">{{ item.name }}</h3>

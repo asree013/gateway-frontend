@@ -21,8 +21,8 @@ export class AccoutsService {
   getAccouts(): Observable<Accout[]> {
     return this.http.get<Accout[]>(`${environment.baseUrl}/accouts`);
   }
-  getAccoutAll(): Observable<AccoutAll[]> {
-    return this.http.get<AccoutAll[]>(`${environment.baseUrl}/accouts/all`);
+  getAccoutByBranchIdAll(branch_id: number): Observable<AccoutAll[]> {
+    return this.http.get<AccoutAll[]>(`${environment.baseUrl}/accouts/all/${branch_id}`);
   }
   addAccout(item: AccoutCreate): Observable<AccoutCreate> {
     return this.http.post<AccoutCreate>(`${environment.baseUrl}/accouts`, item);
@@ -48,9 +48,7 @@ export class AccoutsService {
   getAccoutsOnDate() {
     return this.http.get(`${environment.baseUrl}/accouts/ondate`)
   }
-  searchAccoutAdmin(item: AccoutSearchAdmin): Observable<AccoutAll[]> {
-    console.log(item.date);
-
+  searchAccoutAdmin(item?: AccoutSearchAdmin): Observable<AccoutAll[]> {
     return this.http.post<AccoutAll[]>(`${environment.baseUrl}/accouts/admin`, item)
   }
 }

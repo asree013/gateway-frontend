@@ -8,8 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './components/authen/login/login.component';
-import { RegisterComponent } from './components/authen/register/register.component';
 import { HeaderComponent } from './sub-components/header/header.component';
 import { SidenavComponent } from './sub-components/sidenav/sidenav.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,15 +16,17 @@ import { ProductsModule } from './modules/products/products.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { StockModule } from './modules/stock/stock.module';
 import { AccoutModule } from './modules/accout/accout.module';
+import { LoaddingModule } from './modules/loadding/loadding.module';
+import { AuthenModule } from './modules/authen/authen.module';
+import { StoreCreteComponent } from './components/store/store-crete/store-crete.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    RegisterComponent,
     HeaderComponent,
     SidenavComponent,
     MenuComponent,
+    StoreCreteComponent,
   ],
   imports: [
     AccoutModule,
@@ -39,6 +39,8 @@ import { AccoutModule } from './modules/accout/accout.module';
     ProductsModule,
     OrdersModule,
     StockModule,
+    LoaddingModule,
+    AuthenModule
   ],
   providers: [],
   bootstrap: [AppComponent],

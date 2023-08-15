@@ -15,8 +15,11 @@ export class SidenavComponent implements OnInit {
   ngOnInit(): void {}
   removeLocalStorge(){
     localStorage.removeItem('session')
-    localStorage.removeItem('local')
+    localStorage.removeItem('user_id')
+    localStorage.removeItem('user_status')
     localStorage.removeItem('branch_id')
+    localStorage.removeItem('branch_title')
+
     this.route.navigate(['/login'])
   }
 

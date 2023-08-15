@@ -28,7 +28,7 @@
     <h3>{{isAccoutDateNull}}</h3>
   </div>
   <div class="statement" *ngFor="let item of accoutItem" (click)="showAccout(item.id)" id="statement{{item.id}} {{item.type_accout}}">
-      <div style="display: flex; justify-content: center; width: 100%;">
+      <div  style="display: flex; justify-content: center; width: 100%;">
         <div *ngIf="item.type_accout === 'รับเงิน'"><i><img width="30px" src="assets/icon/money.png" alt=""></i></div>
         <div *ngIf="item.type_accout === 'จ่ายเงิน'"><i><img width="30px" src="assets/icon/pay.png" alt=""></i></div>
         <div style="margin-left: 15px; width: 100%;">

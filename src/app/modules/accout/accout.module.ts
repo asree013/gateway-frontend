@@ -6,6 +6,7 @@ import { AccoutEditComponent } from 'src/app/admin/accouts/accout-edit/accout-ed
 import { AccoutHistoryComponent } from 'src/app/admin/accouts/accout-history/accout-history.component';
 import { AccoutHomeComponent } from 'src/app/admin/accouts/accout-home/accout-home.component';
 import { FormsModule } from '@angular/forms';
+import { LoaddingModule } from '../loadding/loadding.module';
 
 
 
@@ -19,6 +20,7 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     FormsModule,
+    LoaddingModule,
   ]
 })
 export class AccoutModule { }

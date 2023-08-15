@@ -22,4 +22,7 @@ export class StockService {
   getStockAll(): Observable<Stocks[]> {
     return this.http.get<Stocks[]>(`${environment.baseUrl}/stock`)
   }
+  deleteStock(id: number){
+    return this.http.delete(`${environment.baseUrl}/stock/${id}`)
+  }
 }

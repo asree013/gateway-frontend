@@ -1,0 +1,22 @@
+.bodys{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 15px;
+}
+.chartjs{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  width: 450;
+  height: 450;
+}
+@media only screen and (max-width: 600px) {
+  .bodys{
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .chartjs{
+    width: 150;
+    height: 150;
+  }
+}

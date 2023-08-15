@@ -35,7 +35,26 @@
             Some quick example text to build on the card title and make up the
             bulk of the card's content.
           </p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>สิคค้าบนชั่นวาง</th>
+                <th>สิคค้าที่สต๊อก</th>
+                <th>ราคา</th>
+                <th>สาขา</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of stockDetail; let i = index">
+                <td>{{i + 1}}</td>
+                <td>{{item.stock_internal}}</td>
+                <td>{{item.stock_external}}</td>
+                <td>{{item.price | number}}</td>
+                <td>{{item.br_name}}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
       <button (click)="this.location.back()">back</button>

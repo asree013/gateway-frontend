@@ -17,13 +17,15 @@ import Swal from 'sweetalert2';
   styleUrls: ['./product-home.component.css'],
 })
 export class ProductHomeComponent implements OnInit {
-  focus: boolean
+  focus: boolean;
   product: Products[] = [];
+  sku: string[] = []
   cartsScan = {} as Products;
+  skuScan: string
   listCart: Array<Partial<Line_Items>> = [];
   displayStlye: string = 'none';
   dataSearch = new Search<Partial<any>>();
-  barcode = '9551009843811'
+  barcode = '9551009843811';
   constructor(
     private readonly service: ProductService,
     private readonly orderService: OrderService,
@@ -34,18 +36,22 @@ export class ProductHomeComponent implements OnInit {
   ngOnInit(): void {
     this.feedProducts();
     setTimeout(async () => {
-    const temp =   await this.router.navigate(['/shops'])
-    console.log(temp);
-
-    }, 1000)
+      const temp = await this.router.navigate(['/shops']);
+      console.log(temp);
+    }, 1000);
   }
   feedProducts() {
     this.service.getProductAll().subscribe(
-      (result) => {
+      (result: any) => {
         if (!result) {
           this.swal.alert('warning', 'is no Product in Database', 2500);
         }
         this.product = result;
+        this.sku = result
+        console.log(result.sku);
+
+        console.log('sku: ', this.sku);
+
       },
       (err) => {
         this.swal.alert('error', `error Message:${err.message}`, 40000);
@@ -70,15 +76,15 @@ export class ProductHomeComponent implements OnInit {
     this.listCart = [];
   }
   async createOrders(order: Orders) {
-    let modal = document.getElementById('modal')
-    modal.classList.add('showModal')
+    let modal = document.getElementById('modal');
+    modal.classList.add('showModal');
     this.orderService.addOrder(order).subscribe(
       (result) => {
-        modal.classList.remove('showModal')
+        modal.classList.remove('showModal');
         this.router.navigate([`/order/detail/${result.id}`]);
       },
       (err) => {
-        modal.classList.remove('showModal')
+        modal.classList.remove('showModal');
         this.swal.alert('error', `Order Error message:${err}`);
       }
     );
@@ -101,6 +107,7 @@ export class ProductHomeComponent implements OnInit {
         phone: '(555) 555-5555',
       };
       order.shipping = {
+        email: '',
         first_name: 'John',
         last_name: 'Doe',
         address_1: '969 Market',
@@ -144,25 +151,31 @@ export class ProductHomeComponent implements OnInit {
   }
   searchData(event: Event) {
     const value = event.target as HTMLInputElement;
-     this.dataSearch.data[value.id] = value.value;
+    this.dataSearch.data[value.id] = value.value;
+    console.log(value);
+
     this.service.search(this.dataSearch).subscribe((result) => {
-      result.map(r => {
-        this.cartsScan = r
-      })
-      const findIdProduct = this.listCart.find(r =>r.product_id === this.cartsScan.id);
+      result.map((r) => {
+        this.cartsScan = r;
+        this.skuScan = r.sku
+      });
+      console.log(this.skuScan);
+
+      const findIdProduct = this.listCart.find(
+        (r) => r.product_id === this.cartsScan.id
+      );
       if (!findIdProduct) {
         this.listCart.push({
           product_id: this.cartsScan.id,
           name: this.cartsScan.name,
           price: Number(this.cartsScan.price),
           images: this.cartsScan.images,
-          quantity: 1
+          quantity: 1,
         });
-        value.value = ''
-      }
-      else{
+        value.value = '';
+      } else {
         findIdProduct.quantity += 1;
-        value.value = ''
+        value.value = '';
       }
     });
   }

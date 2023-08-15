@@ -93,14 +93,6 @@
           placeholder="ราคาขาย"
         />
       </div>
-      <div style="margin: 10px 0">
-        <select class="from_control" ngModel name="branch_id" id="">
-          <option value="" disabled="disabled" selected>เลือกสาขา</option>
-          <option *ngFor="let item of barnchAll" value="{{ item.id }}">
-            {{ item.title }}
-          </option>
-        </select>
-      </div>
     </div>
     <div class="footers card p-2">
       <button
@@ -113,3 +105,5 @@
     </div>
   </form>
 </body>
+
+<app-loadding *ngIf="isLodding"></app-loadding>

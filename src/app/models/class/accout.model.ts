@@ -54,7 +54,7 @@ export class AccoutOnDate {
 }
 
 export class AccoutSearchAdmin {
-  date: Date;
-  branch_id: string;
+  date: Date | string;
+  branch_id: string | string[];
 }
 

@@ -1,1 +1,107 @@
-<p>register works!</p>
+
+<div class="card p-3 bodys" style="display: flex; justify-content: center; align-items: center;">
+  <h1>Register</h1>
+  <form action="" #fromRegister="ngForm" (keyup)="validateForm(fromRegister.value)">
+    <div class="input-group mb-3">
+      <span class="input-group-text" for="username">Username</span>
+      <input ngModel name="username" [disabled]="isLoadding" id="username" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" for="password">Password</span>
+      <input ngModel name="password" [disabled]="isLoadding" id="password" type="text" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" for="email">Email</span>
+      <input ngModel name="email" [disabled]="isLoadding" id="email" type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" for="firstname">Firstname</span>
+      <input ngModel name="first_name" [disabled]="isLoadding" id="firstname" type="text" class="form-control" placeholder="Firstname" aria-label="Firstname" aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text"  for="lastname">Lastname</span>
+      <input ngModel name="last_name" [disabled]="isLoadding" id="lastname" type="text" class="form-control" placeholder="Lastname" aria-label="Lastname" aria-describedby="basic-addon1">
+    </div>
+    <br>
+    <h1>Billign</h1>
+    <div class="input-group mb-3">
+      <span class="input-group-text" for="company">Company</span>
+      <input ngModel name="company_bl" [disabled]="isLoadding" id="company" type="text" class="form-control" placeholder="company" aria-label="Email" aria-describedby="basic-addon1">
+    </div>
+    <div class="form-floating mt-2">
+      <textarea ngModel name="address_1_bl" class="form-control" placeholder="Leave a comment here" id="address_1" style="height: 100px"></textarea>
+      <label for="address_1">Address 1</label>
+    </div>
+    <div class="form-floating mt2">
+      <textarea ngModel name="address_2_bl" class="form-control" placeholder="Leave a comment here" id="address_2" style="height: 100px"></textarea>
+      <label for="address_2">Address 2</label>
+    </div>
+    <select #sector class="selectProvince form-select" (change)="selectBillign(sector.value)">
+      <option value="" disabled="disabled" selected>เลือกภูมิภา</option>
+      <option *ngFor="let item of isSector"  value="{{item.id}}">{{item.name}}</option>
+    </select>
+    <select class="closeSelect selectProvince form-select" id="province">
+      <option value="" disabled="disabled" selected>เลือกจังหวัด</option>
+      <option *ngFor="let item of isProvince"  value="{{item.id}}">{{item.name_th}} | {{item.name_en}}</option>
+    </select>
+    <select class="closeSelect selectProvince form-select" id="district" >
+      <option value="" disabled="disabled" selected>เลือกอำเภอ</option>
+      <option *ngFor="let item of isDistrict"  value="{{item.id}}">{{item.name_th}} | {{item.name_en}}</option>
+    </select>
+    <select class="closeSelect selectProvince form-select" id="subDistrict" >
+      <option value="" disabled="disabled" selected>เลือกตำบล</option>
+      <option *ngFor="let item of isSubDistrict"  value="{{item.id}}">{{item.name_th}} | {{item.name_en}}</option>
+    </select>
+    <div class="input-group mb-3">
+      <span class="input-group-text"  for="lastname">phone</span>
+      <input ngModel name="phone_bl" [disabled]="isLoadding" id="phone" type="text" class="form-control" placeholder="phone" aria-label="Lastname" aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" for="email_bl">Email</span>
+      <input ngModel name="email_bl" [disabled]="isLoadding" id="email_bl" type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
+    </div>
+    <br>
+    <h1>Shipping</h1>
+    <div class="input-group mb-3">
+      <span class="input-group-text" for="company">Company</span>
+      <input ngModel name="company_sp" [disabled]="isLoadding" id="company" type="text" class="form-control" placeholder="company" aria-label="Email" aria-describedby="basic-addon1">
+    </div>
+    <div class="form-floating mt-2">
+      <textarea ngModel name="address_1_sp" class="form-control" placeholder="Leave a comment here" id="address1_sp" style="height: 100px"></textarea>
+      <label for="address_1">Address 1</label>
+    </div>
+    <div class="form-floating mt2">
+      <textarea ngModel name="address_2_sp" class="form-control" placeholder="Leave a comment here" id="address_2_sp" style="height: 100px"></textarea>
+      <label for="address_2">Address 2</label>
+    </div>
+    <select #sector_sp class="selectProvince form-select" (change)="selectShipping(sector_sp.value)">
+      <option value="" disabled="disabled" selected>เลือกภูมิภา</option>
+      <option *ngFor="let item of isSector"  value="{{item.id}}">{{item.name}}</option>
+    </select>
+    <select class="closeSelect selectProvince form-select" id="province_sp">
+      <option value="" disabled="disabled" selected>เลือกจังหวัด</option>
+      <option *ngFor="let item of isProvince"  value="{{item.id}}">{{item.name_th}} | {{item.name_en}}</option>
+    </select>
+    <select class="closeSelect selectProvince form-select" id="district_sp" >
+      <option value="" disabled="disabled" selected>เลือกอำเภอ</option>
+      <option *ngFor="let item of isDistrict"  value="{{item.id}}">{{item.name_th}} | {{item.name_en}}</option>
+    </select>
+    <select class="closeSelect selectProvince form-select" id="subDistrict_sp" >
+      <option value="" disabled="disabled" selected>เลือกตำบล</option>
+      <option *ngFor="let item of isSubDistrict"  value="{{item.id}}">{{item.name_th}} | {{item.name_en}}</option>
+    </select>
+    <div class="input-group mb-3">
+      <span class="input-group-text"  for="phone_sp">phone</span>
+      <input ngModel name="phone_sp" [disabled]="isLoadding" id="phone_sh" type="text" class="form-control" placeholder="phone" aria-label="Lastname" aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" for="email_bl">Email</span>
+      <input ngModel name="email_sp" [disabled]="isLoadding" id="email_bl" type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
+    </div>
+
+    <button class="btn btn-primary" [disabled]="isLoadding" type="button" (click)="onSubmit(fromRegister.value)">create</button>
+  </form>
+</div>
+
+
+<app-loadding *ngIf="isLoadding"></app-loadding>

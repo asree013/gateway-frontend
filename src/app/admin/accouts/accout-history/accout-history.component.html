@@ -1,1 +1,22 @@
-<p>accout-history works!</p>
+<div class="bodys">
+  <div>
+    <h3>รายได้ทั้งหมด</h3>
+    <h1 style="color: green;">{{incomAll | number}}</h1>
+    <div class="chartjs">
+      <canvas id="incomChart"></canvas>
+    </div>
+  </div>
+
+  <div>
+    <h3>รายจ่ายทั้งหมด</h3>
+    <h1 style="color: red;">{{paymentAll | number}}</h1>
+    <div class="chartjs">
+      <canvas id="paymentChart"></canvas>
+    </div>
+  </div>
+
+  <div class="chartjs">
+    <canvas id="totalOpetate"></canvas>
+  </div>
+
+</div>

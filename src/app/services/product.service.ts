@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Images, Products } from '../models/interface/woocommerce.model';
 import { Observable } from 'rxjs';
 import { Search } from '../models/class/searh.model';
+import { Stocks } from '../models/class/stock.model';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,9 @@ export class ProductService {
       'Authorization': 'Bearer ' + bearer
     });
     return this.http.post(`${environment.wooUrl}/${environment.upLoadImage}`, file, { headers })
+  }
+  getDetailStock(id: number): Observable<Stocks[]> {
+    return this.http.get<Stocks[]>(`${environment.baseUrl}/stock/product/detail/${id}`)
   }
 
 }

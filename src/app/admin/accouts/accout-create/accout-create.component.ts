@@ -6,6 +6,8 @@ import { AlertService } from 'src/app/services/alert.service';
 import { AuthenService } from 'src/app/services/authen.service';
 import { BranchService } from 'src/app/services/branch.service';
 import { Location } from '@angular/common';
+import { UsersService } from 'src/app/services/users.service';
+import { BranchForUser } from 'src/app/models/class/branch.model';
 @Component({
   selector: 'app-accout-create',
   templateUrl: './accout-create.component.html',
@@ -18,17 +20,28 @@ export class AccoutCreateComponent implements OnInit {
     private readonly accout: AccoutsService,
     private readonly location: Location,
     private readonly branch: BranchService,
-    public readonly route: Router
+    public readonly route: Router,
+    private readonly userService :UsersService
   ) {}
   isUploadImages: boolean;
+  isLoadding: boolean
   imagesName: ImagesCreate[] = [];
-  branchItem: any[] = [];
+  branchItemAll: any[] = [];
+  branchItemForUser: any[] = [];
   objitem = {};
+  isAdmin: boolean
 
   async ngOnInit(): Promise<void> {
+    let getStatus = localStorage.getItem('user_status')
+    if(Number(getStatus) === 1){
+      this.isAdmin = true
+    }
+    else{
+      this.isAdmin = false
+    }
     console.log(this.imagesName);
-    const result: any = await this.branch.getBranch().toPromise();
-    this.branchItem = result;
+    this.getBranchAll()
+    this.getBranchUser()
   }
 
   submitAccout(item: AccoutCreate) {
@@ -63,7 +76,35 @@ export class AccoutCreateComponent implements OnInit {
       this.createAccout(item);
     }
   }
+  getBranchAll() {
+    const sub = this.branch.getBranch().subscribe(
+      result => {
+      this.branchItemAll = result;
+      },
+      err => {
+        console.log(err);
+      },
+      () => {
+        sub.unsubscribe()
+      }
+    )
+  }
+  getBranchUser() {
+    let id = localStorage.getItem('user_id')
+    const sub = this.userService.findBrandUser(Number(id)).subscribe(
+      result => {
+        console.log(result);
+        this.branchItemForUser = result
+      },
+      err => {
+        console.log(err);
 
+      },
+      () => {
+        sub.unsubscribe()
+      }
+    )
+  }
   uploadImages(event: Event) {
     this.isUploadImages = true;
     const formdata = new FormData();
@@ -86,21 +127,21 @@ export class AccoutCreateComponent implements OnInit {
   }
 
   createAccout(item: AccoutCreate) {
-    const local = localStorage.getItem('local');
-    const status = JSON.parse(local);
+    // this.isLoadding = true
+    const user_id = localStorage.getItem('user_id');
 
     const value = {
       type_accout: item.type_accout,
       title: item.title,
       detail: item.detail,
       total: item.total,
-      user_id: status.user_id,
+      user_id: Number(user_id),
       branch_id: item.branch_id,
     };
     this.isUploadImages = true;
 
     if (this.imagesName.length > 0) {
-      this.accout.addAccout(value).subscribe(
+      const sub = this.accout.addAccout(value).subscribe(
         (result: any) => {
           console.log('is upload images: ', result.id);
           for (let i = 0; i < this.imagesName.length; i++) {
@@ -109,39 +150,44 @@ export class AccoutCreateComponent implements OnInit {
               accout_id: result.id,
               image: element,
             };
-            if (this.imagesName.length > 1) {
-              this;
-            }
             console.log(this.objitem);
-
             this.accout.addImagesAccout(result.id, element).subscribe(
               (result) => {
                 console.log(result);
+                this.isLoadding = false
+                this.isUploadImages = false;
+                this.location.back();
               },
               (err) => {
                 console.log(err);
               }
             );
           }
-
-          this.isUploadImages = false;
-          this.location.back();
         },
         (err) => {
+          this.isLoadding = false
           console.log(err);
           this.isUploadImages = false;
+        },
+        () => {
+          sub.unsubscribe()
         }
       );
     } else {
-      this.accout.addAccout(value).subscribe(
+      const sub = this.accout.addAccout(value).subscribe(
         (result: any) => {
           console.log(result.id);
           this.isUploadImages = false;
+          this.isLoadding = false
           this.location.back();
         },
         (err) => {
           console.log(err);
           this.isUploadImages = false;
+          this.isLoadding = false
+        },
+        () => {
+          sub.unsubscribe()
         }
       );
     }

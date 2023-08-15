@@ -2,6 +2,7 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Stocks } from 'src/app/models/class/stock.model';
 import { Images, Products } from 'src/app/models/interface/woocommerce.model';
 import { ProductService } from 'src/app/services/product.service';
 
@@ -11,8 +12,8 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./product-detail.component.css'],
 })
 export class ProductDetailComponent implements OnInit {
-
-  productId = 0
+  stockDetail: Stocks[] = []
+  productId: number
   detailProduct = {} as Products
   noImage: string =
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF0JkN3XIguQOKFCv_nwx0D_3jLUUja45nYaJaQbY&s';
@@ -32,6 +33,17 @@ export class ProductDetailComponent implements OnInit {
         this.detailProduct = result;
       });
     });
+
+    this.service.getDetailStock(this.productId).subscribe(
+      result => {
+        console.log(result);
+        this.stockDetail = result
+      },
+      err => {
+        console.log(err);
+
+      }
+    )
   }
 
   uploadImage(event: Event) {

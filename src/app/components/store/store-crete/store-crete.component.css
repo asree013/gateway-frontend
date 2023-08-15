@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Anuphan:wght@500&family=Roboto+Condensed:wght@300;400;700&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+.bodys{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+.cards{
+  position: relative;
+  height: 860px;
+  width: 100%;
+  margin: 35%;
+  background-image: linear-gradient(125deg, rgb(10, 52, 187), #041641);
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.sing_in{
+  position: absolute;
+  top: -40px;
+  height: 80px;
+  width: 300px;
+  background-color: #333;
+  color: #fff;
+  font-size: 2rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: flex;
+  flex-direction: row;
+  justify-content: cneter;
+  align-items: center;
+  padding: 10px;
+  border-radius: 10px;
+}
+.logo{
+  width: 120px;
+  background: #fff;
+  border-radius: 70px;
+  padding: 8px;
+  margin: 10px 0;
+  transform: 0.5;
+  opacity: 1;
+}
+.warehouse_form{
+  position: relative;
+  height: 50px;
+  width: 100%;
+  background: #fff;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.warehouse_form span::before {
+  content: attr(data-placeholder);
+  position: absolute;
+  top: 30%;
+  left: 15%;
+  color: #d0d4d4;
+  transform: 0.5s;
+}
+
+#input_logo{
+  margin: 10px;
+  padding-right: 10px;
+  width: 40px;
+  border-right: 2px solid gray;
+}
+.inputs{
+  height: 35px;
+  width: 100%;
+  border: none;
+  font-size: 1.2rem;
+  outline: none;
+  background: transparent;
+  z-index: 1;
+  color:  #041641;
+}
+.btn_create{
+  margin: 20px 0;
+  padding: 15px 0;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  background-image: linear-gradient(125deg, rgb(158, 158, 161), #3d424e, rgb(158, 158, 161));
+  color: #fff;
+  font-size: 1.5rem;
+  transition: 0.5s;
+  cursor: pointer;
+}
+.btn_create:hover {
+  background-position: right;
+}
+
+@media only screen and (max-width: 600px) {
+  .cards{
+    margin: 40px 25px;
+  }
+}
+
+@media only screen and (max-width: 1180px) {
+  .cards{
+    margin: 0 25%;
+  }
+}

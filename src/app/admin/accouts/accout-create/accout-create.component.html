@@ -27,9 +27,13 @@
       <br>
       <div>
         <p>สาขา</p>
-        <select class="from_control" id="branch" ngModel name="branch_id" [disabled]="isUploadImages" >
+        <select *ngIf="!isAdmin" class="from_control" id="branch" ngModel name="branch_id" [disabled]="isUploadImages" >
           <option value="" selected>-------------- เลือก ------------</option>
-          <option *ngFor="let item of branchItem" value="{{item.id}}">{{item.title}}</option>
+          <option *ngFor="let item of branchItemForUser" value="{{item.branch_id}}">{{item.title}}</option>
+        </select>
+        <select *ngIf="isAdmin" class="from_control" id="branch" ngModel name="branch_id" [disabled]="isUploadImages" >
+          <option value="" selected>-------------- เลือก ------------</option>
+          <option *ngFor="let item of branchItemAll" value="{{item.id}}">{{item.title}}</option>
         </select>
       </div>
       <br>
@@ -52,3 +56,5 @@
       </div>
   </form>
 </div>
+
+<app-loadding *ngIf="isLoadding"></app-loadding>

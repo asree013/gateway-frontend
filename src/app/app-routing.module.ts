@@ -23,11 +23,12 @@ import { StockCreateByidComponent } from './components/stock/stock-create-byid/s
 import { StockHomeComponent } from './components/stock/stock-home/stock-home.component';
 import { StockAdminComponent } from './components/stock/stock-admin/stock-admin.component';
 import { StockEditComponent } from './components/stock/stock-edit/stock-edit.component';
+import { StoreCreteComponent } from './components/store/store-crete/store-crete.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent , canActivate: [ActiveRouteService] },
+  { path: 'register', component: RegisterComponent },
   { path: 'shops', component: ProductHomeComponent , canActivate: [ActiveRouteService]},
   { path: 'product/admin', component: ProductAdminComponent, canActivate: [ActiveRouteService] },
   { path: 'product/create', component: ProductCreateComponent, canActivate: [ActiveRouteService] },
@@ -48,6 +49,7 @@ const routes: Routes = [
   { path: 'stock/admin', component: StockAdminComponent, canActivate: [ActiveRouteService] },
   { path: 'stock/create/:id', component: StockCreateByidComponent, canActivate: [ActiveRouteService] },
   { path: 'stock/edit/:id', component: StockEditComponent, canActivate: [ActiveRouteService] },
+  { path: 'store/create', component: StoreCreteComponent, canActivate: [ActiveRouteService] },
 
 ];
 
