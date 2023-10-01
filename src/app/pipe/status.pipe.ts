@@ -16,7 +16,7 @@ export class StatusPipe implements PipeTransform {
       case 'cancelled':
         return 'ยกเลิก'
       case 'pending':
-        return 'ชำระแล้ว'
+        return 'รอดำเนินการ'
     }
   }
 

@@ -1,0 +1,20 @@
+  <div>
+    <div class="modalBG" (click)="el_back_stock.modalStock = false"></div>
+    <div class="card modalCard">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <p>modal</p>
+        <p style="font-size: 2rem;" (click)="el_back_stock.modalStock = false">x</p>
+      </div>
+      <div class="card items blue">
+        <p>จำนวนหนังร้าน</p>
+        <p style="font-size: 3rem;">{{el_back_stock.element.stock_internal}} ชิ้น</p>
+      </div>
+      <div class="card items">
+        <p>จำนวนที่ต้องการเบิก</p>
+        <br>
+        <input class="inputs" id="quantity" type="number" placeholder="ใส่จำนวน">
+      </div>
+      <button style="font-size: 1.5rem;" type="button" class="btn btn-danger mt-3" (click)="withdrawStock()">เบิกสินค้า</button>
+    </div>
+  </div>
+

@@ -5,3 +5,8 @@ export class UsersCreate{
   first_name: string;
   last_name: string;
 }
+
+export class Username{
+  first_name: string;
+  last_name: string;
+}

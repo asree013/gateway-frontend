@@ -1,0 +1,53 @@
+.modalBG{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.modalCard{
+  position: fixed;
+  top: 30%;
+  left: 30%;
+  right: 30%;
+  height: 30rem;
+  padding: 5px 10px;
+}
+.blue{
+  background: rgb(50, 121, 10);
+  color: rgb(255, 255, 255);
+}
+.items{
+  padding: 20px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  margin: 10px 5px;
+}
+.inputs {
+  font-size: 3rem;
+  width: 15rem;
+  text-align: center;
+  border: 1px solid rgb(175, 165, 165);
+  background: rgb(255, 255, 255);
+  border-radius: 10px;
+}
+.is_invalid{
+  border: 1px solid red;
+  border-radius: 15px;
+  color: red;
+}
+.is_valid{
+  border: 1px solid green;
+  border-radius: 15px;
+  color: green;
+}
+@media only screen and (max-width: 1200px){
+  .modalCard{
+    top: 20%;
+    left: 20%;
+    right: 20%;
+  }
+}

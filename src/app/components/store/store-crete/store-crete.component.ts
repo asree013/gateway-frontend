@@ -57,7 +57,6 @@ export class StoreCreteComponent implements OnInit {
 
       const sub = this.authen.getProvince(value.sector_id).subscribe(
         (result) => {
-          console.log(result);
           this.isProvince = result;
         },
         (err) => {
@@ -76,7 +75,6 @@ export class StoreCreteComponent implements OnInit {
       console.log(value.province_id);
       const sub = this.authen.getDistrict(value.province_id).subscribe(
         (result) => {
-          console.log('subDis', result);
           this.isDistrict = result;
         },
         () => {
@@ -92,7 +90,6 @@ export class StoreCreteComponent implements OnInit {
       console.log(value.district_id);
       const sub = this.authen.getSubDistrict(value.district_id).subscribe(
         (result) => {
-          console.log(result);
           this.isSubDistrict = result;
         },
         () => {
@@ -104,7 +101,6 @@ export class StoreCreteComponent implements OnInit {
 
   selectCity(value: { city_id: number }) {
     if (value) {
-      console.log(value.city_id);
       this.subDis = value.city_id;
     }
   }
@@ -137,15 +133,16 @@ export class StoreCreteComponent implements OnInit {
           const createBranch = new BranchCreateForUser()
           createBranch.branch_id = result.id
           createBranch.user_id = Number(idUser)
+          createBranch.role = 1
           const sub = this.userService.createBranchForUser(createBranch).subscribe(
             async result => {
               this.isLoading = false;
               await this.swal.alert('success', 'Create store Success!!!', 2000)
-              window.location.reload()
               this.route.navigate(['/menu'])
+              window.location.reload()
             },
             err => {
-              console.log(err);
+              console.log('is error UserCreate', err);
 
             },
             () => {
@@ -154,7 +151,7 @@ export class StoreCreteComponent implements OnInit {
           )
         },
         (err) => {
-          console.log(err);
+          console.log('is error BranchCreate', err);
           this.isLoading = false;
         },
         () => {

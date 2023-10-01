@@ -5,8 +5,14 @@
         <h1>OrderID {{orderDetail.id}}</h1>
       </div>
       <div class="icon_header">
-          <img src="" alt="">asdf
-          <h1>{{orderDetail.status | status}}</h1>
+          <img src="" alt="">
+          <h1 class="btn btn-outline-success">{{orderDetail.status | status}}</h1>
+      </div>
+      <div class="icon_header">
+
+        <button type="button" class="btn btn-secondary" (click)="prushing()">ชำระแล้ว</button>
+        <button type="button" class="btn btn-warning" (click)="cancelOrder(orderDetail.id)">ยกเลิกคำสั่งซื้อ</button>
+        <button type="button" class="btn btn-danger" (click)="deleteOrder(orderDetail.id)">ลบคำสั่งซื้อ</button>
       </div>
     </div>
     <div class="body_card card">
@@ -42,3 +48,6 @@
     </div>
   </div>
 </div>
+
+<app-loadding *ngIf="isLoadding"></app-loadding>
+<app-input-modal *ngIf="data.openPuching" [data]="data" [product_id_arr]="product_id_arr"></app-input-modal>

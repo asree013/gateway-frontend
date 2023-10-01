@@ -7,8 +7,27 @@ import { OrderEditComponent } from 'src/app/admin/order/order-edit/order-edit.co
 import { StatusPipe } from 'src/app/pipe/status.pipe';
 import { FormsModule } from '@angular/forms';
 import { OrderHomeComponent } from 'src/app/components/orders/order-home/order-home.component';
+import { RouterModule, Routes } from '@angular/router';
+import { SubComponentsModule } from '../SubComponentsModule/SubComponentsModule.module';
 
-
+const route: Routes = [
+ {
+  path: 'admin',
+  component: OrderAdminComponent
+ },
+{
+  path: 'home',
+  component: OrderHomeComponent
+},
+{
+  path: 'edit/:id',
+  component: OrderEditComponent
+},
+{
+  path: 'detail/:id',
+  component: OrderDetailComponent
+}
+]
 
 @NgModule({
   declarations: [
@@ -21,7 +40,9 @@ import { OrderHomeComponent } from 'src/app/components/orders/order-home/order-h
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    RouterModule.forChild(route),
+    SubComponentsModule
   ]
 })
 export class OrdersModule {}

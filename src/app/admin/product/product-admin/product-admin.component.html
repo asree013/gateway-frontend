@@ -9,59 +9,65 @@
         Create Product
       </button>
     </div>
-    <table class="table table-striped fl-table mt-4">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">image</th>
-          <th scope="col">name</th>
-          <th scope="col">sku</th>
-          <th scope="col">price</th>
-          <th scope="col">quantity</th>
-          <th scope="col">sale_price</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody *ngFor="let item of product; let i = index">
-        <tr>
-          <th scope="row">{{ i + 1 }}</th>
-          <td>
-            <img
-              width="120px"
-              [src]="item.images[0] ? item.images[0].src : noImage"
-              alt=""
-            />
-          </td>
-          <td>{{ item.name }}</td>
-          <td>{{ item.sku }}</td>
-          <td>{{ item.price | number: '1.2-2' }}</td>
-          <td>{{ item.stock_quantity }}</td>
-          <td>{{ item.sale_price }}</td>
-          <td>
-            <img
-              class="iconEditer"
-              width="40px"
-              src="assets/icon/edit.png"
-              alt="" (click)="showItemProduct(item)"
-            />
-            <img
-              (click)="createStockById(item.id)"
-              class="iconEditer"
-              width="47px"
-              src="assets/icon/stock.png"
-              alt=""
-            />
-            <img
-              (click)="onDelete(item)"
-              class="iconEditer"
-              width="47px"
-              src="assets/icon/delete.png"
-              alt=""
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div>
+      <div>
+        <select #selectBranch name="select" id="" (change)="selectBracnh(selectBranch.value)">
+          <option value="" selected>ทั้งหมด</option>
+          <option *ngFor="let item of isBranch" value="{{item.title}}">{{item.title}}</option>
+        </select>
+      </div>
+      <table class="table table-striped fl-table mt-4">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">image</th>
+            <th scope="col">name</th>
+            <th scope="col">sku</th>
+            <th scope="col">price</th>
+            <th scope="col">quantity</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let item of product; let i = index">
+          <tr>
+            <th scope="row">{{ i + 1 }}</th>
+            <td>
+              <img
+                width="120px"
+                [src]="item.images[0] ? item.images[0].src : noImage"
+                alt=""
+              />
+            </td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.sku }}</td>
+            <td>{{ item.price | number: '1.2-2' }}</td>
+            <td>{{ item.stock_quantity }}</td>
+            <td>
+              <img
+                class="iconEditer"
+                width="40px"
+                src="assets/icon/edit.png"
+                alt="" (click)="showItemProduct(item)"
+              />
+              <img
+                (click)="createStockById(item.id)"
+                class="iconEditer"
+                width="47px"
+                src="assets/icon/stock.png"
+                alt=""
+              />
+              <img
+                (click)="onDelete(item)"
+                class="iconEditer"
+                width="47px"
+                src="assets/icon/delete.png"
+                alt=""
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
@@ -95,17 +101,7 @@
   </div>
 </div>
 
-<div class="modal_bag" *ngIf="isLoadding">
-  <div class="spinner-grow text-primary m-3" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-  <div class="spinner-grow text-primary m-3" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-  <div class="spinner-grow text-primary m-3" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-</div>
+<app-loadding *ngIf="isLoadding"></app-loadding>
 
 
 

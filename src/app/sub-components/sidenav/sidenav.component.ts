@@ -20,7 +20,7 @@ export class SidenavComponent implements OnInit {
     localStorage.removeItem('branch_id')
     localStorage.removeItem('branch_title')
 
-    this.route.navigate(['/login'])
+    this.route.navigate(['/authen/login'])
   }
 
 }

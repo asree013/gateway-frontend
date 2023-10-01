@@ -32,7 +32,7 @@ export class AlertService {
     return swAlert;
   }
 
-  comfirm(item: any) {
+  comfirm(item: any, value?: any) {
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",

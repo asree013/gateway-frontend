@@ -59,14 +59,12 @@
         </div>
       </div>
       <div id="statement{{item.id}}_slip" class="toggle">
-        <img *ngFor="let image of imageAccout" class="toggle_image" src="http://localhost:3000/images/{{image.image}}" alt="">
+          <div *ngFor="let pic of item.pic_accout" class="sleeps">
+            <img class="toggle_image" src="{{pic.image? 'http://localhost:3000/images/'+pic.image: noImage}}" alt="">
+          </div>
         <button class="btn btn-danger" (click)="deleteAccoutItem(item.id)">delete</button>
       </div>
   </div>
 </div>
 
-<div class="modal_bag" *ngIf="isLoading">
-  <div class="spinner-border text-primary" style="width: 80px; height: 80px;" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-</div>
+<app-loadding *ngIf="isLoading"></app-loadding>

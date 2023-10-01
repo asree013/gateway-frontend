@@ -6,7 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { StockAdminComponent } from 'src/app/components/stock/stock-admin/stock-admin.component';
 import { StockEditComponent } from 'src/app/components/stock/stock-edit/stock-edit.component';
 import { StockHomeComponent } from 'src/app/components/stock/stock-home/stock-home.component';
-import { LoaddingModule } from '../loadding/loadding.module';
+import { SubComponentsModule } from '../SubComponentsModule/SubComponentsModule.module';
+
 
 
 
@@ -21,7 +22,7 @@ import { LoaddingModule } from '../loadding/loadding.module';
   imports: [
     CommonModule,
     FormsModule,
-    LoaddingModule
+    SubComponentsModule,
   ]
 })
-export class StockModule { }
+export class StockModule {}

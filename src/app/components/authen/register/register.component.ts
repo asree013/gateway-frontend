@@ -175,7 +175,7 @@ export class RegisterComponent implements OnInit {
           console.log(result);
           await this.swal.alert('success', 'สมัครสมาชิกสำเร็จ')
           this.isLoadding = false
-          this.route.navigate(['/login'])
+          this.route.navigate(['/authen/login'])
         },
         err => {
           this.isLoadding = false

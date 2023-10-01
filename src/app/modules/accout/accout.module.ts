@@ -6,9 +6,31 @@ import { AccoutEditComponent } from 'src/app/admin/accouts/accout-edit/accout-ed
 import { AccoutHistoryComponent } from 'src/app/admin/accouts/accout-history/accout-history.component';
 import { AccoutHomeComponent } from 'src/app/admin/accouts/accout-home/accout-home.component';
 import { FormsModule } from '@angular/forms';
-import { LoaddingModule } from '../loadding/loadding.module';
+import { SubComponentsModule } from '../SubComponentsModule/SubComponentsModule.module';
+import { RouterModule, Routes } from '@angular/router';
 
-
+const routes: Routes = [
+  {
+    path: 'home',
+    component: AccoutHomeComponent,
+  },
+  {
+    path: 'admin',
+    component: AccoutAdminComponent,
+  },
+  {
+    path: 'create',
+    component: AccoutCreateComponent,
+  },
+  {
+    path: 'edit/:id',
+    component: AccoutEditComponent,
+  },
+  {
+    path: 'history',
+    component: AccoutHistoryComponent,
+  },
+];
 
 @NgModule({
   declarations: [
@@ -16,11 +38,13 @@ import { LoaddingModule } from '../loadding/loadding.module';
     AccoutCreateComponent,
     AccoutEditComponent,
     AccoutHistoryComponent,
-    AccoutAdminComponent,],
+    AccoutAdminComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
-    LoaddingModule,
-  ]
+    SubComponentsModule,
+    RouterModule.forChild(routes),
+  ],
 })
-export class AccoutModule { }
+export class AccoutModule {}

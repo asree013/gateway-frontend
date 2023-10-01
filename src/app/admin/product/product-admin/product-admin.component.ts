@@ -5,6 +5,9 @@ import { Products } from 'src/app/models/interface/woocommerce.model';
 import { AlertService } from 'src/app/services/alert.service';
 import Swal from 'sweetalert2';
 import { Search } from 'src/app/models/class/searh.model';
+import { BranchService } from 'src/app/services/branch.service';
+import { Branch } from 'src/app/models/class/branch.model';
+import * as $ from 'jquery'
 
 @Component({
   selector: 'app-product-admin',
@@ -15,41 +18,73 @@ export class ProductAdminComponent implements OnInit {
   @Output() openModal = new EventEmitter<string>();
   datasearch = new Search<Partial<any> >()
   product: Products[] = [];
+  productGlobal: Products[] = [];
   searchProduct: any = [];
   noImage: string =
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF0JkN3XIguQOKFCv_nwx0D_3jLUUja45nYaJaQbY&s';
   displayStyle = 'none';
   returnZeroSearch: string = ''
   isLoadding: boolean
+  isBranch: Branch[] = []
   constructor(
     private route: Router,
     private swal: AlertService,
-    private service: ProductService
+    private service: ProductService,
+    private readonly bs: BranchService,
   ) {}
 
   ngOnInit(): void {
-    this.getProduct();
+    let uses_status = Number(localStorage.getItem('user_status'))
+    if(uses_status === 1){
+      this.getProductForAddmin()
+      this.getBranch()
+    }
+    else{
+      this.getProduct();
+    }
   }
-  // clickSearch(event: string) {
-  //   this.product = this.product.filter((result) => {
-  //     const productName = result.name.toLowerCase();
-  //     const searchName = event.toLowerCase();
-  //     return productName.indexOf(searchName) !== -1;
-  //   });
-  // }
   onCreateProduct() {
     this.route.navigate(['/product/create']);
   }
-  getProduct() {
+  getProductForAddmin() {
     this.isLoadding = true
-    return this.service.getProductAll().subscribe(
+    this.service.getProductAll().subscribe(
       (result) => {
         if (result.length == 0) {
           this.isLoadding = false
           this.swal.alert('warning', 'is no Product in Database', 2500);
         }
         this.isLoadding = false
-        this.product = result;
+        this.productGlobal = result
+        this.product = result
+
+      },
+      (err) => {
+        this.isLoadding = false
+        this.swal.alert(
+          'warning',
+          JSON.stringify(`Server Carshed!!!  Error Message: ${err.message}`),
+          50000
+        );
+      }
+    );
+  }
+  getProduct() {
+    this.isLoadding = true
+    const page = 1
+    this.service.getProductAll().subscribe(
+      (result) => {
+        if (result.length == 0) {
+          this.isLoadding = false
+          this.swal.alert('warning', 'is no Product in Database', 2500);
+        }
+        this.isLoadding = false
+        let branch_title = localStorage.getItem('branch_title')
+        const find = result.filter((b) => {
+          return b.name.includes(String(branch_title))
+        })
+        this.product = find;
+
       },
       (err) => {
         this.isLoadding = false
@@ -78,7 +113,13 @@ export class ProductAdminComponent implements OnInit {
       confirmButtonText: 'Yes, ลบมัน!',
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'deleted '+ item.name,
+          showConfirmButton: false,
+          timer: 1500
+        })
         this.isLoadding = true
         this.service.deleteProduct(id).subscribe((result) => {
           this.isLoadding = false
@@ -107,5 +148,26 @@ export class ProductAdminComponent implements OnInit {
       this.product = result
       this.displayStyle = 'none';
     })
+  }
+  async getBranch() {
+    const result = await this.bs.getBranch().toPromise()
+    if(result){
+      this.isBranch = result
+    }
+  }
+  selectBracnh(value: string) {
+    if(value === ''){
+      this.product = this.productGlobal
+    }
+    else {
+      let title = this.isBranch.find((r: any) => {
+        if(r.title === value){
+          return r.title
+        }
+      })
+      this.product = this.productGlobal.filter(r => {
+        return r.name.includes(String(title.title))
+      })
+    }
   }
 }

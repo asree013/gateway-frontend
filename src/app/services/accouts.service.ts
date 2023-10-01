@@ -18,8 +18,8 @@ import { Observable } from 'rxjs';
 export class AccoutsService {
   constructor(private http: HttpClient) {}
 
-  getAccouts(): Observable<Accout[]> {
-    return this.http.get<Accout[]>(`${environment.baseUrl}/accouts`);
+  getAccouts(): Observable<AccoutAll[]> {
+    return this.http.get<AccoutAll[]>(`${environment.baseUrl}/accouts`);
   }
   getAccoutByBranchIdAll(branch_id: number): Observable<AccoutAll[]> {
     return this.http.get<AccoutAll[]>(`${environment.baseUrl}/accouts/all/${branch_id}`);

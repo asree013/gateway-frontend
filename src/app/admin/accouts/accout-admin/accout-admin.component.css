@@ -138,6 +138,12 @@
   background: rgba(0, 0, 0, 0.3);
   opacity: 1;
 }
+.sleeps{
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ flex-direction: column;
+}
 @media only screen and (max-width: 600px) {
   .containers {
     padding: 20px 10%;

@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Pipe } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { BranchForUser, BranchCreateForUser } from '../models/class/branch.model';
+import { BranchForUser, BranchCreateForUser, WarehouseUser } from '../models/class/branch.model';
 import { Observable } from 'rxjs';
 import { Customers, CustomersFormCreate } from '../models/interface/woocommerce.model';
+import { Username } from '../models/class/users.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +24,14 @@ export class UsersService {
   }
   createCustomer(item: CustomersFormCreate):Observable<Customers> {
     return this.http.post<Customers>(`${environment.baseUrl}/customers`, item)
+  }
+  findBranchByBranchId(branch_id: number): Observable<WarehouseUser[]> {
+    return this.http.get<WarehouseUser[]>(`${environment.baseUrl}/users/branch/for/${branch_id}`)
+  }
+  findUserById(id: number):Observable<Username> {
+    return this.http.get<Username>(`${environment.baseUrl}/users/username/${id}`)
+  }
+  findBillingByUser_id(id: number):Observable<Customers> {
+    return this.http.get<Customers>(`${environment.baseUrl}/customers/${id}`)
   }
 }

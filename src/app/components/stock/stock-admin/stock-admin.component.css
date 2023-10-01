@@ -158,6 +158,31 @@ table {
   background: rgba(0, 0, 0, 0.35);
   pointer-events: all;
 }
+.pagination{
+  justify-content: center;
+  align-items: center;
+}
+.btn_pagination{
+  width: 25px;
+  height: 25px;
+  border-radius: 50px;
+  background: black;
+  color: #ddd;
+  cursor: pointer;
+}
+.number_pagination{
+  width: 25px;
+  height: 25px;
+  border-radius: 50px;
+  background: #f2f2f2;
+  color:black;
+  cursor: pointer;
+  margin: 0 8px;
+}
+.active{
+  background: #ff2b52;
+  color: #ddd;
+}
 
 /* @media only screen and (max-width: 600px) {
 

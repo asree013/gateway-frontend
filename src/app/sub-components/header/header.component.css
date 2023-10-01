@@ -1,4 +1,4 @@
-nav{
+nav {
   width: 100%;
   position: fixed;
   top: 0;
@@ -6,23 +6,144 @@ nav{
   background: linear-gradient(125deg, rgb(10, 52, 187), #041641);
   height: 70px;
 }
-.font{
+.font {
   font-size: 24px;
   color: aliceblue;
   margin: 15px 15px;
 }
-.navbar-brand{
+.navbar-brand {
   display: flex;
 }
-.menu{
+.menu {
   width: 35px;
   background: whitesmoke;
   border-radius: 5px;
   cursor: pointer;
   transition: 0.4s;
 }
-.menu:hover{
+#menu {
+  display: none;
+}
+.navMenu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 20px;
+}
+.navMenu p {
+  font-size: 1rem;
+  color: aliceblue;
+}
+.menu:hover {
   transform: scale(1.1);
   background: rgb(210, 205, 205);
 }
-
+.menubar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 35%;
+}
+.dropdown-toggle {
+  border-radius: 15px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dropdown-toggle p {
+  color: #041641;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.profile {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 250px;
+}
+.profile img {
+  width: 35px;
+}
+.dropdown_profile {
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  background: rgb(235, 231, 231);
+  color: black;
+  width: 150px;
+  height: 100px;
+  position: fixed;
+  top: 60px;
+  right: 60px;
+  display: flex;
+  flex-direction: column;
+  transition: 0.4s;
+}
+.openDropdown{
+  display: block;
+}
+.statusCall{
+  position: fixed;
+  top: 12px;
+  padding: 0 5px;
+  background: red;
+  height: 20px;
+  width: 20px;
+  border-radius: 10px;
+}
+.itemNav{
+  display: flex;
+  width: 100%;
+  padding: 0 20px;
+  justify-content: space-between;
+}
+/* @media only screen and (max-width: 1000px){
+  navbar{
+    width: 100px;
+  }
+} */
+@media only screen and (max-width: 800px) {
+  #menu {
+    display: block;
+  }
+  .menubar {
+    display: none;
+  }
+  .navMenu{
+    position: fixed;
+    top: 60px;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  nav{
+    height: 100px;
+  }
+  .itemNav{
+    padding: 0 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 5px;
+  }
+  .profile{
+    display: none;
+  }
+  .profile p {
+    font-size: 16px;
+  }
+  .logo{
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+  #menu{
+    position: fixed;
+    top: 35px;
+    right: 20px;
+  }
+}

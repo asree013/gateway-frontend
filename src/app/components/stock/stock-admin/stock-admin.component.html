@@ -15,8 +15,9 @@
           <th scope="col">#</th>
           <th scope="col">picture</th>
           <th scope="col">sku</th>
-          <th scope="col">stock_internal</th>
-          <th scope="col">stock_external</th>
+          <th scope="col">name</th>
+          <th scope="col">หน้าร้าน</th>
+          <th scope="col">หลังร้าน</th>
           <th scope="col">price</th>
           <th scope="col">p1</th>
           <th scope="col">p2</th>
@@ -28,15 +29,16 @@
       <tbody *ngFor="let item of stocks; let i = index">
         <tr>
           <th scope="row">{{ i + 1 }}</th>
-          <td><img width="120px" src="{{item.picture}}" alt="" /></td>
-          <td>{{ item.sku }}</td>
-          <td>{{ item.stock_internal }}</td>
-          <td>{{ item.stock_external }}</td>
-          <td>{{ item.price | number : "1.2-2" }}</td>
-          <td>{{ item.p1 | number : "1.2-2" }}</td>
-          <td>{{ item.p2 | number : "1.2-2" }}</td>
-          <td>{{ item.p3 | number : "1.2-2" }}</td>
-          <td>{{ item.p4 | number : "1.2-2" }}</td>
+          <td><img width="120px" src="{{item.stocks[0].picture}}" alt="" /></td>
+          <td>{{ item.stocks[0].sku }}</td>
+          <td>{{ item.stocks[0].name_product }}</td>
+          <td>{{ item.front }}</td>
+          <td>{{ item.back }}</td>
+          <td>{{ item.stocks[0].price | number : "1.2-2" }}</td>
+          <td>{{ item.stocks[0].p1 | number : "1.2-2" }}</td>
+          <td>{{ item.stocks[0].p2 | number : "1.2-2" }}</td>
+          <td>{{ item.stocks[0].p3 | number : "1.2-2" }}</td>
+          <td>{{ item.stocks[0].p4 | number : "1.2-2" }}</td>
           <td>
             <!-- <img
               class="iconEditer"
@@ -52,7 +54,6 @@
               alt=""
             /> -->
             <img
-              (click)="onDelete(item)"
               class="iconEditer"
               width="47px"
               src="assets/icon/delete.png"
@@ -62,6 +63,18 @@
         </tr>
       </tbody>
     </table>
+    <div class="pagination" #pageSize (change)="selectPageSize($event)">
+      <select ngModel name="page" id="" style="margin: 0 5px; width: 50px;">
+        <option value="" selected disabled>10</option>
+        <option value="10" >10</option>
+        <option value="15" >15</option>
+        <option value="20" >20</option>
+      </select>
+      <div class="btn_pagination"> < </div>
+      <div *ngFor="let item of generateForloop(this.totalStock - 1)" id="page{{item + 1}}" class="number_pagination ">{{item + 1}}</div>
+      <div class="btn_pagination" (click)="nextPage()"> > </div>
+
+    </div>
   </div>
 </div>
 
@@ -95,14 +108,4 @@
   </div>
 </div> -->
 
-<div class="modal_bag" *ngIf="isLoadding">
-  <div class="spinner-grow text-primary m-3" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-  <div class="spinner-grow text-primary m-3" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-  <div class="spinner-grow text-primary m-3" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-</div>
+<app-loadding *ngIf="isLoadding"></app-loadding>

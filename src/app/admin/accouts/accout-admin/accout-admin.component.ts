@@ -11,6 +11,7 @@ import * as $ from 'jquery';
 import { BranchService } from 'src/app/services/branch.service';
 import { Branch } from 'src/app/models/class/branch.model';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-accout-admin',
@@ -23,6 +24,8 @@ export class AccoutAdminComponent implements OnInit {
   isAccoutDateNull: string;
   branchItem: Branch[] = [];
   isLoading: boolean;
+  showAccouta: boolean
+  noImage: string = environment.noImgae
   constructor(
     private readonly service: AccoutsService,
     private readonly swal: AlertService,
@@ -36,13 +39,16 @@ export class AccoutAdminComponent implements OnInit {
   }
   fetchAccout() {
     this.isLoading = true;
-    this.service.getAccouts().subscribe(
+    this.service.searchAccoutAdmin().subscribe(
       (result: any) => {
+        console.log(result);
         this.isLoading = false;
         if (result.status === 202) {
           this.isAccoutDateNull = result.message;
         } else {
           this.accoutItem = result;
+          console.log(result.pic_accout);
+
         }
       },
       (err) => {
@@ -64,16 +70,7 @@ export class AccoutAdminComponent implements OnInit {
   }
   showAccout(accout_id: number) {
     $(`#statement${accout_id}_slip`).slideToggle();
-    this.service.getImageByAccoutId(accout_id).subscribe(
-      (result) => {
-        this.imageAccout = result;
-        console.log(result);
-      },
-      (err) => {
-        alert(err);
-        console.log(err);
-      }
-    );
+    this.showAccouta = true
   }
 
   async selectAccout(type: string) {
@@ -109,6 +106,8 @@ export class AccoutAdminComponent implements OnInit {
     this.isLoading = true;
     const sub = this.service.searchAccoutAdmin(item).subscribe(
       (result: any) => {
+        console.log(result);
+
         if (result.status === 202) {
           this.isLoading = false;
           this.isAccoutDateNull = result.message;

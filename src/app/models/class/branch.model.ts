@@ -28,11 +28,13 @@ export class BranchCreate {
 export class BranchCreateForUser {
   branch_id: number;
   user_id: number;
+  role?: number;
 }
 export class BranchForUser {
   title: string
   id: number;
   branch_id: number;
+  role: number;
   user_id: number;
   create_at: Date;
   update_at: Date;
@@ -50,5 +52,16 @@ export class Branch {
   phone: string;
   create_at: Date;
   update_at: Date;
+}
 
+export class WarehouseUser {
+  id: number;
+  user_id: number;
+  branch_id: number;
+  role: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  create_at: Date;
+  update_at: Date;
 }

@@ -12,13 +12,8 @@ import { HeaderComponent } from './sub-components/header/header.component';
 import { SidenavComponent } from './sub-components/sidenav/sidenav.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MenuComponent } from './admin/menu/menu.component';
-import { ProductsModule } from './modules/products/products.module';
-import { OrdersModule } from './modules/orders/orders.module';
 import { StockModule } from './modules/stock/stock.module';
-import { AccoutModule } from './modules/accout/accout.module';
-import { LoaddingModule } from './modules/loadding/loadding.module';
-import { AuthenModule } from './modules/authen/authen.module';
-import { StoreCreteComponent } from './components/store/store-crete/store-crete.component';
+import { SubComponentsModule } from './modules/SubComponentsModule/SubComponentsModule.module';
 
 @NgModule({
   declarations: [
@@ -26,21 +21,16 @@ import { StoreCreteComponent } from './components/store/store-crete/store-crete.
     HeaderComponent,
     SidenavComponent,
     MenuComponent,
-    StoreCreteComponent,
   ],
   imports: [
-    AccoutModule,
     BrowserModule,
     AppRoutingModule,
     MatInputModule,
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
-    ProductsModule,
-    OrdersModule,
     StockModule,
-    LoaddingModule,
-    AuthenModule
+    SubComponentsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

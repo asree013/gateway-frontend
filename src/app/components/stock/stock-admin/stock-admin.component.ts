@@ -1,11 +1,12 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Search } from 'src/app/models/class/searh.model';
-import { Stocks } from 'src/app/models/class/stock.model';
+import { StockQuantityRelate, Stocks } from 'src/app/models/class/stock.model';
 import { Products } from 'src/app/models/interface/woocommerce.model';
 import { AlertService } from 'src/app/services/alert.service';
 import { StockService } from 'src/app/services/stock.service';
 import Swal from 'sweetalert2';
+import * as $ from 'jquery'
 
 @Component({
   selector: 'app-stock-admin',
@@ -15,13 +16,16 @@ import Swal from 'sweetalert2';
 export class StockAdminComponent implements OnInit {
   @Output() openModal = new EventEmitter<string>();
   datasearch = new Search<Partial<any> >()
-  stocks: Stocks[] = [];
+  stocks: StockQuantityRelate[] = [];
   searchProduct: any = [];
   noImage: string =
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF0JkN3XIguQOKFCv_nwx0D_3jLUUja45nYaJaQbY&s';
   displayStyle = 'none';
   returnZeroSearch: string = ''
   isLoadding: boolean
+  totalStock: number
+  pageSize: number = 10
+  page: number = 1
   constructor(
     private route: Router,
     private swal: AlertService,
@@ -30,7 +34,9 @@ export class StockAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.getStocks();
+    $("#page1").addClass("active")
   }
+
   // clickSearch(event: string) {
   //   this.product = this.product.filter((result) => {
   //     const productName = result.name.toLowerCase();
@@ -41,28 +47,47 @@ export class StockAdminComponent implements OnInit {
   onCreateProduct() {
     this.route.navigate(['/product/create']);
   }
-  getStocks() {
-    this.isLoadding = true
-    return this.service.getStockAll().subscribe(
-      (result) => {
-        if (result.length == 0) {
-          this.isLoadding = false
-          this.swal.alert('warning', 'is no Product in Database', 2500);
-        }
-        console.log(result);
+  async getStocks() {
+    // this.isLoadding = true
+    const stockLength = await this.service.getStockQuantityAll().toPromise()
+    if(stockLength){
+      // this.totalStock = Math.ceil(stockLength.length / this.pageSize)
+      // const result = await this.service.getStockPagination(this.page, this.pageSize).toPromise()
+      // result.filter(r => r.br_name === String(localStorage.getItem('branch_title')))
 
-        this.isLoadding = false
-        this.stocks = result;
-      },
-      (err) => {
-        this.isLoadding = false
-        this.swal.alert(
-          'warning',
-          JSON.stringify(`Server Carshed!!!  Error Message: ${err.message}`),
-          50000
-        );
-      }
-    );
+      console.log('stockLength: ', stockLength);
+      this.stocks = stockLength
+      let branch_title = localStorage.getItem('branch_title')
+      const data = stockLength.filter(r => r.stocks[0].name_product.includes(String(branch_title)))
+      this.stocks = data
+    }
+    // return this.service.getStockAll().subscribe(
+    //   (result) => {
+    //     if (result.length == 0) {
+    //       this.isLoadding = false
+    //       this.swal.alert('warning', 'is no Product in Database', 2500);
+    //     }
+    //     console.log(result);
+
+    //     this.isLoadding = false
+    //     this.stocks = result;
+    //   },
+    //   (err) => {
+    //     this.isLoadding = false
+    //     this.swal.alert(
+    //       'warning',
+    //       JSON.stringify(`Server Carshed!!!  Error Message: ${err.message}`),
+    //       50000
+    //     );
+    //   }
+    // );
+  }
+  generateForloop(length: number) {
+    const item: number[] = []
+    for (let i = 0; i <= length; i++) {
+      item.push(i)
+    }
+    return item
   }
   createStockById(id: number) {
     console.log(id);
@@ -105,10 +130,20 @@ export class StockAdminComponent implements OnInit {
     const element = (event.target as HTMLInputElement)
     this.datasearch.data[element.id] = element.value
   }
-  // searchAction(){
-  //   this.service.search(this.datasearch).subscribe((result)=>{
-  //     this.stocks = result
-  //     this.displayStyle = 'none';
-  //   })
-  // }
+  selectPageSize(event: Event) {
+    if(event){
+      const size = (event.target as HTMLInputElement).value
+      this.pageSize = Number(size)
+      this.getStocks()
+    }
+  }
+  nextPage() {
+    if(this.page !== this.totalStock) {
+      $('.number_pagination').removeClass('active')
+      this.page ++
+      console.log(this.page);
+
+      this.getStocks()
+    }
+  }
 }

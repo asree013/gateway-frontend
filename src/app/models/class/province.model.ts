@@ -26,3 +26,10 @@ export class SubDistricts {
   zip_code: number
   amphure_id: number
 }
+
+export class province_id {
+  sector_id: string;
+  province_id: string;
+  district_id: string;
+  subdis_id: string;
+}

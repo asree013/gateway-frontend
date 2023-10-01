@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class OrderAdminComponent implements OnInit {
   orders: Orders[] = [];
-
+  isLoadding: boolean
   constructor(
     private service: OrderService,
     private route: Router,
@@ -23,15 +23,19 @@ export class OrderAdminComponent implements OnInit {
     this.getOrder();
   }
   getOrder() {
+    this.isLoadding = false
     return this.service.getOrderAll().subscribe(
       (result) => {
         if (result.length == 0) {
+          this.isLoadding = false
           this.swal.alert('warning', 'is no Product in Database', 2500);
         }
         console.log(result)
         this.orders = result;
+        this.isLoadding = false
       },
       (err) => {
+        this.isLoadding = false
         this.swal.alert(
           'warning',
           JSON.stringify(`Server Carshed!!!  Error Message: ${err.message}`),

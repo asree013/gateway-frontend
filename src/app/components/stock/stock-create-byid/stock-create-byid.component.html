@@ -1,5 +1,5 @@
 <body>
-  <form class="card p-2" action="" #stockFrom="ngForm">
+  <form class="card p-2" action="" >
     <div class="headers card p-2">
       <h2>CreateStock</h2>
       <h2>เพิ่มสตอก</h2>
@@ -19,77 +19,70 @@
       <div style="margin: 10px 0">
         <p>จำนวนบนสินค้าบนชั่นวางของ</p>
         <input
-          ngModel
+          [(ngModel)]="item.stock_external"
           name="stock_external"
           class="from_control"
           type="number"
-          value="{{this.valueStockInIdProduct[0]? this.valueStockInIdProduct[0].stock_internal: ''}}"
           placeholder="จำนวนบนสินค้าบนชั่นวางของ"
         />
       </div>
       <div style="margin: 10px 0">
         <p>จำนวนบนสินค้าหลังร้าน</p>
         <input
-          ngModel
+          [(ngModel)]="item.stock_internal"
           name="stock_internal"
           class="from_control"
           type="number"
-          value="{{this.valueStockInIdProduct[0]? this.valueStockInIdProduct[0].stock_external: ''}}"
           placeholder="จำนวนบนสินค้าหลังร้าน"
         />
       </div>
       <div style="margin: 10px 0">
         <p>ราคาขาย</p>
         <input
-          ngModel
+          [(ngModel)]="item.price"
           name="price"
           class="from_control"
           type="number"
-          value="{{this.valueStockInIdProduct[0]? this.valueStockInIdProduct[0].price: ''}}"
           placeholder="ราคาขาย"
         />
       </div>
       <div style="margin: 10px 0">
         <p>ราคา p1</p>
         <input
-          ngModel
+          [(ngModel)]="item.p1"
           name="p1"
           class="from_control"
           type="number"
-          value="{{this.valueStockInIdProduct[0]? this.valueStockInIdProduct[0].p1: ''}}"
           placeholder="ราคาขาย"
         />
       </div>
       <div style="margin: 10px 0">
         <p>ราคา p2</p>
         <input
-          ngModel
+          [(ngModel)]="item.p2"
           name="p2"
           class="from_control"
           type="number"
-          value="{{this.valueStockInIdProduct[0]? this.valueStockInIdProduct[0].p2: ''}}"
           placeholder="ราคาขาย"
         />
       </div>
       <div style="margin: 10px 0">
         <p>ราคา p3</p>
         <input
-          ngModel
+          [(ngModel)]="item.p3"
           name="p3"
           class="from_control"
           type="number"
-          value="{{this.valueStockInIdProduct[0]? this.valueStockInIdProduct[0].p3: ''}}"
           placeholder="ราคาขาย"
         />
       </div>
       <div style="margin: 10px 0">
         <p>ราคา p4</p>
         <input
-          ngModel
+          [(ngModel)]="item.p4"
           name="p4"
           class="from_control"
           type="number"
-          value="{{this.valueStockInIdProduct[0]? this.valueStockInIdProduct[0].p4: ''}}"
           placeholder="ราคาขาย"
         />
       </div>
@@ -98,7 +91,7 @@
       <button
         class="btn btn-success p-2"
         type="button"
-        (click)="createStock(stockFrom.value)"
+        (click)="createStock()"
       >
         เพิ่มสต๊อก
       </button>

@@ -17,12 +17,12 @@
         <div class="spinner-border spinner-border-sm ms-auto text-primary" role="status" aria-hidden="true"></div>
       </div>
       <div *ngIf="this.imagePrevetn !== ''" class="card p-2 img_tag">
-        <img width="80px" src="{{this.imagePrevetn}}" alt="">
+        <img width="80px" src="{{imagePrevetn}}" alt="">
       </div>
       <div class="input-group mb-3 mt-2">
         <span class="input-group-text" id="basic-addon1">name</span>
         <input
-          ngModel
+          [(ngModel)]="formProduct.name"
           name="name"
           type="text"
           class="form-control input"
@@ -30,10 +30,21 @@
           required [disabled]="this.cannotClick"
         />
       </div>
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">slu</span>
+      <div class="input-group mb-3 mt-2">
+        <span class="input-group-text" id="basic-addon1">description</span>
         <input
-          ngModel
+          [(ngModel)]="formProduct.description"
+          name="description"
+          type="text"
+          class="form-control input"
+          placeholder="name"
+          required [disabled]="this.cannotClick"
+        />
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">sku</span>
+        <input
+          [(ngModel)]="formProduct.sku"
           name="sku"
           type="text"
           class="form-control input"
@@ -42,49 +53,91 @@
         />
       </div>
       <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">Quantity</span>
+        <span class="input-group-text" id="basic-addon1">จำนวนบนชั่นวางของ</span>
         <input
-          ngModel
-          name="stock_quantity"
+          [(ngModel)]="formProduct.stock_external"
+          name="stock_external"
+          type="text"
           class="form-control input"
-          placeholder="Quantity"
-          type="number"
+          placeholder="sku"
           required [disabled]="this.cannotClick"
         />
       </div>
       <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">regular_price</span>
+        <span class="input-group-text" id="basic-addon1">จำนวนสินค้าหลังร้าน</span>
         <input
-          ngModel
-          name="regular_price"
+          [(ngModel)]="formProduct.stock_internal"
+          name="stock_internal"
           type="text"
           class="form-control input"
-          placeholder="regular_price"
-          type="number"
+          placeholder="sku"
           required [disabled]="this.cannotClick"
         />
       </div>
       <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">sale_price</span>
+        <span class="input-group-text" id="basic-addon1">ราคาขาย</span>
         <input
-          ngModel
-          name="sale_price"
-          type="text"
-          class="form-control input"
-          placeholder="sale_price"
+          [(ngModel)]="formProduct.price"
+          name="price"
           type="number"
+          class="form-control input"
+          placeholder="sku"
+          required [disabled]="this.cannotClick"
+        />
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">ราคา p1</span>
+        <input
+          [(ngModel)]="formProduct.p1"
+          name="p1"
+          type="number"
+          class="form-control input"
+          placeholder="sku"
+          required [disabled]="this.cannotClick"
+        />
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">ราคา p2</span>
+        <input
+          [(ngModel)]="formProduct.p2"
+          name="p2"
+          type="number"
+          class="form-control input"
+          placeholder="sku"
+          required [disabled]="this.cannotClick"
+        />
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">ราคา p3</span>
+        <input
+          [(ngModel)]="formProduct.p3"
+          name="p3"
+          type="number"
+          class="form-control input"
+          placeholder="sku"
+          required [disabled]="this.cannotClick"
+        />
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">ราคา p4</span>
+        <input
+          [(ngModel)]="formProduct.p4"
+          name="p4"
+          type="number"
+          class="form-control input"
+          placeholder="sku"
           required [disabled]="this.cannotClick"
         />
       </div>
       <div class="buttons">
-        <button class="btn btn-success" type="button" [disabled]="this.cannotClick" (click)="addCartFornt(productForm.value)">
+        <button class="btn btn-success" type="button" [disabled]="this.cannotClick" (click)="addCartFornt()">
           Add Front Stock
         </button>
         <button class="btn btn-danger" type="button" [disabled]="this.cannotClick" >Add Back Stock</button>
       </div>
     </form>
   </div>
-  <div class="listItem card p-3">
+  <!-- <div class="listItem card p-3">
     <h2>Cart Stock</h2>
     <div class="frontStock">
       <div class="cardHeader card">
@@ -115,5 +168,7 @@
         <button class="btn btnCreate" >Create</button>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>
+
+<app-loadding *ngIf="isLoadding"></app-loadding>

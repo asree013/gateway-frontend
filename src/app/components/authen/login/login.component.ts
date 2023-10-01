@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
 
   postLogin(value: { username: string; password: string; remember: boolean }) {
     this.disableButton = true;
-    this.service.login(value)
+    const sub = this.service.login(value)
     .subscribe(
       (result: any) => {
         console.log(result);
@@ -71,8 +71,9 @@ export class LoginComponent implements OnInit {
             isLogin: 'ok',
             remember: value.remember,
           };
-          this.service.getStatusUser(result.user_email).subscribe(
+          const sub = this.service.getStatusUser(result.user_email).subscribe(
             (result: any) => {
+              console.log('is check Status Users');
               localStorage.setItem('user_id', result.ID)
               localStorage.setItem('user_status', result.user_status)
               this.disableButton = false;
@@ -82,6 +83,9 @@ export class LoginComponent implements OnInit {
             },
             err => {
               console.log(err)
+            },
+            () => {
+              sub.unsubscribe()
             }
           )
         } else {
@@ -96,6 +100,9 @@ export class LoginComponent implements OnInit {
         if (err.status === 403) {
           this.swal.alert('error', 'Username or Password Wrong!!!', 3000);
         }
+      },
+      () => {
+        sub.unsubscribe()
       }
     );
   }

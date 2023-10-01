@@ -1,0 +1,23 @@
+<div class="modal_input">
+  <div class="card modal_body">
+    <div class="body_header">
+      <p>header</p>
+      <button type="button" class="btn btn-outline-danger" (click)="close()">close</button>
+    </div>
+    <div class="body_body">
+      <div class="card item_card" *ngFor="let item of stockItem">
+        <div class='item_title'>
+          <img src="{{item.picture}}" alt="">
+          <p>{{item.name_product}}</p>
+          <div style="display: flex; flex-direction: column;">
+            <p>{{item.stock_external}}</p>
+            <p>{{item.stock_internal}}</p>
+          </div>
+        </div>
+        <div class="action">
+          <button type="button" class="btn btn-success">cut stock</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

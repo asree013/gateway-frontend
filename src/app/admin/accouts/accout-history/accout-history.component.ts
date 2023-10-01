@@ -38,7 +38,8 @@ export class AccoutHistoryComponent implements OnInit {
               user_id: r.user_id,
               branch_id: r.branch_id,
               create_at: r.create_at,
-              update_at: r.update_at
+              update_at: r.update_at,
+              pic_accout: r.pic_accout,
             })
           })
           console.log('test ', this.accoutAll);
@@ -120,7 +121,7 @@ export class AccoutHistoryComponent implements OnInit {
     new Chart(payment, {
       type: 'bar',
       data: {
-        labels: this.accoutAll.map((r) => r.create_at),
+        labels: new Array(this.accoutAll.length),
         datasets: [{
           label: '# of Votes',
           data: filterPayment.map(p => p.total),

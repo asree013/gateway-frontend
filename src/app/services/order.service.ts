@@ -19,9 +19,11 @@ export class OrderService {
     return this.http.get<Orders>(`${environment.baseUrl}/orders/${id}`)
   }
   addOrder(item: Orders): Observable<Orders> {
+    console.log(item);
+
     return this.http.post<Orders>(`${environment.baseUrl}/orders`, item)
   }
   deleteOrder(id: number): Observable<any> {
-    return this.http.delete<any>(`${environment.baseUrl}/order/${id}`)
+    return this.http.delete<any>(`${environment.baseUrl}/orders/${id}`)
   }
 }

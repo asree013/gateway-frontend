@@ -1,24 +1,56 @@
 <nav class="navbar">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">
+  <div class="navMenu">
+    <a class="navbar-brand logo" href="#">
       <img src="assets/logo/logo_pinsouq.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-top">
-      <p class="font">Pinsouq Store</p>
+      <h1 class="font">Pinsouq Store</h1>
     </a>
-    <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        เลือกร้านค้า/สาขา
-      </button>
-      <ul class="dropdown-menu dropdown-menu-white">
-        <li [routerLink]="['/store/create']" ><a class="dropdown-item">สร้างสโตร์ใหม่</a></li>
-        <li><hr class="dropdown-divider"></li>
-        <div *ngFor="let item of isBranch">
-          <li (click)="selectBranch(item)"><a class="dropdown-item" >{{item.title}}</a></li>
+    <div class="itemNav">
+      <div class="menubar">
+        <a routerLink="/menu">
+          <p>Menu</p>
+        </a>
+        <a routerLink="/product">
+          <p>POS</p>
+        </a>
+        <a routerLink="/stock/admin">
+          <p>Stock</p>
+        </a>
+        <a routerLink="/product/admin">
+          <p>Product</p>
+        </a>
+        <a routerLink="/accout/admin">
+          <p>Accout</p>
+        </a>
+        <a routerLink="/store/menu">
+          <p>Store</p>
+          <p *ngIf="hasCalled" class="statusCall">1</p>
+        </a>
+      </div>
+      <div class="dropdown">
+        <button class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <p>เลือก Warehouse || </p><p style="color: red;" *ngIf="branchTitle === 'ยังไม่ได้เลือก'" > {{branchTitle}}</p><p style="color: green;" *ngIf="branchTitle !== 'ยังไม่ได้เลือก'" > {{branchTitle}}</p>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-white">
+          <li [routerLink]="['/store/create']" ><a class="dropdown-item">สร้างสโตร์ใหม่</a></li>
           <li><hr class="dropdown-divider"></li>
-        </div>
-      </ul>
-      <p class="btn btn-success">{{branchTitle}}</p>
+          <div *ngFor="let item of isBranch">
+            <li (click)="selectBranch(item)"><a class="dropdown-item" >{{item.title}}</a></li>
+            <li><hr class="dropdown-divider"></li>
+          </div>
+        </ul>
+      </div>
+      <div id="profile" class="profile" (click)="menuProfile()" style="cursor: pointer;">
+        <p>{{name.firstname}} {{name.lastname}}</p>
+        <img src="assets/icon/no_user.png" alt="">
+      </div>
+      <a id="menu"><img class="menu " src="assets/icon/menu.png" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"></a>
     </div>
-    <a><img class="menu " src="assets/icon/menu.png" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"></a>
+  </div>
+  <div id="prodfile_dropdown" style="display: none;">
+    <div class="dropdown_profile">
+      <a href="">profile</a>
+      <a (click)="logout()">logout</a>
+    </div>
   </div>
 </nav>
 <app-sidenav></app-sidenav>

@@ -16,44 +16,129 @@
             clear
           </button>
         </div>
-        <div class="list_products">
-          <div class="item_list m-2" *ngFor="let item of listCart">
-            <img class="img_list" src="{{ item.images[0] ? item.images[0].src : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2048px-No_image_available.svg.png'}}" alt="" />
-            <p style="width: 40%">{{ item.name }}</p>
-            <div class="item_list">
-              <h3>x{{ item.quantity }}</h3>
-              <h2>{{ item.price * item.quantity | number : '1.2-2'}}</h2>
+        <div class="list_products" >
+          <div class="item_list border"*ngFor="let item of listCart; let i = index" >
+            <div style="display: flex; flex-direction: row; margin: 10px; " id="listCardItem{{i}}" >
+              <img class="img_list" src="{{ item.picture ? item.picture : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2048px-No_image_available.svg.png'}}" alt="" />
+              <p style="width: 60%">{{ item.name_product }}</p>
+              <div class="item_list" style="display: flex; flex-direction: column;">
+                <p id="front{{i}}">หน้า| {{item.stock_external}}</p>
+                <div>
+                  <p>หลัง| {{item.stock_internal}}</p>
+                  <button type="button" (click)="editStockQuantity(item.sku)">></button>
+                </div>
+              </div>
+              <div class="item_list">
+                <form action="" #select="ngForm" (change)="selectPriceForBuy(item.id ,select.value)">
+                  <select name="p" id="select_price" ngModel >
+                    <option value=""  selected>ราคาปกติ</option>
+                    <option value="p1">p1</option>
+                    <option value="p2">p2</option>
+                    <option value="p3">p3</option>
+                    <option value="p4">p4</option>
+                  </select>
+                </form>
+              </div>
+              <div class="item_list">
+                <div style="border-radius: 15px; background: rgb(177, 175, 175); color: aliceblue; padding: 5px; width: 50px; height: 35px; cursor: pointer;">
+                  <h3 style="display: flex;"> x<input (change)="changQuantity(item.quantity, item.id, i)" style="width: 55px;" [(ngModel)]="item.quantity" type="number">  </h3>
+                </div>
+                <div *ngIf="p">
+                  <p style="color: green; font-size: 1.5rem;">{{ item.price | number : '1.2-2'}}</p>
+                </div>
+              </div>
+              <div class="item_list">
+                <div>
+                  <button (click)="deleteListCart(item.id)" type="button" class="btn btn-danger">-</button>
+                  <button (click)="addProduct(item.id)" type="button" class="btn btn-success">+</button>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
+        <div *ngIf="disableButton" class="alert alert-danger mt-2" role="alert">
+          กรุณาเช็คว่าตระกร้าสินค้าว่าง หรือ เลือกประเภทการชำระหรือยัง!!!!
         </div>
         <div class="allPrice">
           <h3>All Price</h3>
-          <h1 style="color: red" >฿{{ sumProduct() | number : '1.2-2'}}</h1>
-        </div>
-        <div class="buyProducts">
-          <button class="btn_buy" (click)="buyProducts()">Buy</button>
-        </div>
-      </div>
-    </div>
-    <div class="products card p-3">
-      <div class="item_product" *ngFor="let item of product">
-        <div class="card card_products">
-          <img class="card-img-top"src="{{ item.images[0] ? item.images[0].src : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2048px-No_image_available.svg.png'}}" alt="" />
-          <div class="card-body">
-            <div class="namePrice">
-              <h3 class="card-title">{{ item.name }}</h3>
-              <h2 style="color: green">{{ item.price | currency : "฿" }}</h2>
-            </div>
-            <div class="des_add">
-              <p class="card-text">{{ item.description | slice : 0 : 50 }}</p>
-              <img
-                class="icon_add"
-                src="assets/icon/add.png"
-                alt=""
-                (click)="addProduct(item)"
-              />
+          <div style="display: flex; flex-direction: column; align-items: end;">
+            <p style="color: red; font-size: 2.2rem; font-weight: 600;" >฿{{ totalPrice| number : '1.2-2'}}</p>
+            <div style="display: flex; flex-direction: column;">
+              <label for="discount">เพิ่มส่วนลด / ใส่จำนวนเงินที่ต้องการจะลด/บาท</label>
+              <div style="display: flex; justify-content: flex-end; align-items: center;">
+                <input #discounts style="width: 70px;" type="number" id="discount" placeholder="0 บาท">
+                <button class="btn btn-primary" type="button" (click)="discount(discounts.value)">ลด</button>
+              </div>
             </div>
           </div>
+        </div>
+        <div class="buyProducts">
+          <div style="display: flex; align-items: start; justify-content: center; flex-direction: column;">
+            <label for="buyingType">เลืกประเถทการชำระ</label>
+            <div (change)="selectBuying($event)" class="form-check" style="display: flex; justify-content: space-between; flex-direction: row; align-items: start;">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="moneny">
+                <label class="form-check-label" for="flexRadioDefault1">
+                  จ่ายเงินสด
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="scan">
+                <label class="form-check-label" for="flexRadioDefault2">
+                  สแกน/โอน
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="credit">
+                <label class="form-check-label" for="flexRadioDefault2">
+                  เซ็น/credit
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="toggleSp" class="card billing displayNone">
+          <p>ที่อยู่ ผู้เซ็น/credit</p>
+          <form action="" class="p-3">
+            <div class="input-container" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+              <input [(ngModel)]="itemDeatil.first_name" name="first_name" type="text" class="input-field" placeholder="Firstname">
+              <input [(ngModel)]="itemDeatil.last_name" name="last_name" type="text" class="input-field" placeholder="Lastname">
+            </div>
+            <div class="input-container" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+              <input [(ngModel)]="itemDeatil.address_1" name="address_1" type="text" class="input-field" placeholder="Address1">
+              <input [(ngModel)]="itemDeatil.address_2" name="address_2" type="text" class="input-field" placeholder="Address2">
+            </div>
+            <div class="input-container" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+              <input [(ngModel)]="itemBilling.company" name="company" type="text" class="input-field" placeholder="Company">
+              <input [(ngModel)]="itemBilling.phone" name="phone" type="number" class="input-field" placeholder="phone">
+            </div>
+            <div class="input-container" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+              <input [(ngModel)]="itemDeatil.email" name="email" type="email" class="input-field" placeholder="Email">
+            </div>
+            <label style="font-size: 0.9rem;" for="sector">เลือกภูมิภาค</label>
+            <select name="selctor" id="sector" class="form-select m-2">
+              <option value="" selected disabled>เลือก</option>
+              <option *ngFor="let item of isSector" value="{{item.id}}">{{item.name}}</option>
+            </select>
+            <label style="font-size: 0.9rem;" for="province">เลือกจังหวัด</label>
+            <select name="province" id="province" class="form-select m-2">
+              <option value="" selected disabled>เลือกจังหวัด</option>
+              <option *ngFor="let item of isProvince" value="{{item.id}}">{{item.name_th}}</option>
+            </select>
+            <label style="font-size: 0.9rem;" for="district">เลือกอำเภอ</label>
+            <select name="district" id="district" class="form-select m-2">
+              <option value="" selected disabled>เลือกอำเภอ</option>
+              <option *ngFor="let item of isDistrict" value="{{item.id}}">{{item.name_th}}</option>
+            </select>
+            <label style="font-size: 0.9rem;" for="city">เลือกตำบล</label>
+            <select name="city" id="city" class="form-select m-2">
+              <option value="" selected disabled>เลือกตำบล</option>
+              <option *ngFor="let item of isCity" value="{{item.id}}">{{item.name_th}}</option>
+            </select>
+          </form>
+        </div>
+        <div style="margin: 10px 0;">
+          <button class="btn_buy" style="width: 100%;" (click)="buyProducts()">Buy</button>
         </div>
       </div>
     </div>
@@ -86,23 +171,18 @@
     </div>
   </div>
 </div>
+<app-loadding *ngIf="isLoadding"></app-loadding>
+<app-modal-edit-stock *ngIf="el_back_stock.modalStock" [el_back_stock]="el_back_stock"></app-modal-edit-stock>
 
-<section class="modalBack" id="modal">
-  <div class="card p-3 loading" >
-    <div class="spinner-border text-danger" style="width: 100px; height: 100px;" role="status">
-      <span class="visually-hidden">Loading...</span>
+<!-- <div class="modal">
+  <div class="card dailogEditQuantity">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <p>เพิ่มจำนวนสินค้า</p>
+      <p style="font-size: 2rem;">x</p>
     </div>
-    <div class="fornt">
-      <p>loading</p>
-      <div class="spinner-grow text-dark ml-2" style="width: 10px; height: 10px;" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-      <div class="spinner-grow text-dark ml-2" style="width: 10px; height: 10px;" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-      <div class="spinner-grow text-dark ml-2" style="width: 10px; height: 10px;" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
+    <div style="margin-top: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <input style="width: 50%;" type="number" placeholder="ใส่จำรวนเงินที่ต้องการลด">
+      <button style="width: 100%; margin-top: 10px;" type="button" (click)="editQuantity()">ลดราคา</button>
     </div>
   </div>
-</section>
+</div> -->

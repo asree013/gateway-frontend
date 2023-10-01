@@ -367,6 +367,8 @@ export interface CustomersFormCreate {
   phone_sp: string;
 }
 export interface Orders {
+  [x: string]: {};
+  order: {};
   id: number;
   parent_id: number;
   number: string;
