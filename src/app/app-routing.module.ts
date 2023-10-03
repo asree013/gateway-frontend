@@ -8,6 +8,7 @@ import { StockHomeComponent } from './components/stock/stock-home/stock-home.com
 import { StockAdminComponent } from './components/stock/stock-admin/stock-admin.component';
 import { StockEditComponent } from './components/stock/stock-edit/stock-edit.component';
 import { StoreCreteComponent } from './components/store/store-crete/store-crete.component';
+import { HeaderComponent } from './sub-components/header/header.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'authen/login', pathMatch: 'full' },

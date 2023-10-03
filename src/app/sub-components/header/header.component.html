@@ -28,7 +28,7 @@
       </div>
       <div class="dropdown">
         <button class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <p>เลือก Warehouse || </p><p style="color: red;" *ngIf="branchTitle === 'ยังไม่ได้เลือก'" > {{branchTitle}}</p><p style="color: green;" *ngIf="branchTitle !== 'ยังไม่ได้เลือก'" > {{branchTitle}}</p>
+          <p>เลือก || </p><p style="color: red;" *ngIf="branchTitle === 'ยังไม่ได้เลือก'" > {{branchTitle}}</p><p style="color: green;" *ngIf="branchTitle !== 'ยังไม่ได้เลือก'" > {{branchTitle}}</p>
         </button>
         <ul class="dropdown-menu dropdown-menu-white">
           <li [routerLink]="['/store/create']" ><a class="dropdown-item">สร้างสโตร์ใหม่</a></li>

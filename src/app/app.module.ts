@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 
 import { MatInputModule } from '@angular/material/input';
 
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './sub-components/header/header.component';
