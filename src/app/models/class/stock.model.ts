@@ -91,3 +91,8 @@ export class StockQuantityRelate {
   back: number;
   stocks: Stocks[]
 }
+
+export class ModalStockQuantity {
+  modalStock: boolean
+  element: StockQuantity
+}

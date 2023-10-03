@@ -18,17 +18,14 @@
         </div>
         <div class="list_products" >
           <div class="item_list border"*ngFor="let item of listCart; let i = index" >
-            <div style="display: flex; flex-direction: row; margin: 10px; " id="listCardItem{{i}}" >
+            <div style="display: flex; flex-direction: row; margin: 10px; height: 5rem;" id="listCardItem{{i}}" >
               <img class="img_list" src="{{ item.picture ? item.picture : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2048px-No_image_available.svg.png'}}" alt="" />
-              <p style="width: 60%">{{ item.name_product }}</p>
-              <div class="item_list" style="display: flex; flex-direction: column;">
-                <p id="front{{i}}">หน้า| {{item.stock_external}}</p>
-                <div>
+              <p style="width: 40%; margin: 5px;">{{ item.name_product | slice: 0: 40}}</p>
+              <div style="display: flex; flex-direction: column; width: 20%; align-items: center; justify-content: center;">
+                  <p id="front{{i}}">หน้า| {{item.stock_external}}</p>
                   <p>หลัง| {{item.stock_internal}}</p>
-                  <button type="button" (click)="editStockQuantity(item.sku)">></button>
-                </div>
               </div>
-              <div class="item_list">
+              <div style="width: 20%; margin: 5px;">
                 <form action="" #select="ngForm" (change)="selectPriceForBuy(item.id ,select.value)">
                   <select name="p" id="select_price" ngModel >
                     <option value=""  selected>ราคาปกติ</option>
@@ -39,19 +36,17 @@
                   </select>
                 </form>
               </div>
-              <div class="item_list">
-                <div style="border-radius: 15px; background: rgb(177, 175, 175); color: aliceblue; padding: 5px; width: 50px; height: 35px; cursor: pointer;">
-                  <h3 style="display: flex;"> x<input (change)="changQuantity(item.quantity, item.id, i)" style="width: 55px;" [(ngModel)]="item.quantity" type="number">  </h3>
+              <div style="width: 15%; margin: 5px;">
+                <div style="border-radius: 15px; background: rgb(177, 175, 175); color: aliceblue; padding: 5px; width: 70px; height: 35px; cursor: pointer;">
+                  <h3 style="display: flex;"> x<input (change)="changQuantity(item.quantity, item.id, i)" style="width: 45px;" [(ngModel)]="item.quantity" type="number">  </h3>
                 </div>
                 <div *ngIf="p">
                   <p style="color: green; font-size: 1.5rem;">{{ item.price | number : '1.2-2'}}</p>
                 </div>
               </div>
-              <div class="item_list">
-                <div>
-                  <button (click)="deleteListCart(item.id)" type="button" class="btn btn-danger">-</button>
-                  <button (click)="addProduct(item.id)" type="button" class="btn btn-success">+</button>
-                </div>
+              <div style="width: 15%; display: flex; flex-direction: column; margin: 5px;">
+                <button (click)="deleteListCart(item.id)" type="button" class="btn btn-danger">ลบ</button>
+                <button type="button" class="btn btn-success" (click)="editStockQuantity(item.sku)">เพิ่ม</button>
               </div>
             </div>
           </div>
@@ -172,7 +167,7 @@
   </div>
 </div>
 <app-loadding *ngIf="isLoadding"></app-loadding>
-<app-modal-edit-stock *ngIf="el_back_stock.modalStock" [el_back_stock]="el_back_stock"></app-modal-edit-stock>
+<app-modal-edit-stock *ngIf="el_back_stock.modalStock" [el_back_stock]="el_back_stock" (exportUpdate)="returnItem($event)"></app-modal-edit-stock>
 
 <!-- <div class="modal">
   <div class="card dailogEditQuantity">

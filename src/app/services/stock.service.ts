@@ -73,4 +73,9 @@ export class StockService {
   getStockQuantityAll(): Observable<StockQuantityRelate[]> {
     return this.http.get<StockQuantityRelate[]>(`${environment.baseUrl}/stock-quantity/all`)
   }
+  inventoryUpdate(sku: string, item: StockQuantity) {
+    console.log('service: ', sku, item);
+
+    return this.http.post<StockQuantity>(`${environment.baseUrl}/stock-quantity/inventory/${sku}`, item)
+  }
 }

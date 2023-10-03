@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Search } from 'src/app/models/class/searh.model';
-import { StockList, Stocks } from 'src/app/models/class/stock.model';
+import { StockList, StockQuantity, Stocks } from 'src/app/models/class/stock.model';
 import {
   Billing,
   Line_Items,
@@ -75,7 +75,6 @@ export class ProductHomeComponent implements OnInit {
     this.loadBilling()
     this.getBranch()
     this.feedProvince()
-
   }
   feedProducts() {
     const sub = this.stockService.getStockAll().subscribe(
@@ -85,9 +84,6 @@ export class ProductHomeComponent implements OnInit {
         }
         this.stockItem = result;
         this.sku = result;
-        console.log(result.sku);
-
-        console.log('sku: ', this.sku);
       },
       (err) => {
         console.log(err);
@@ -113,104 +109,115 @@ export class ProductHomeComponent implements OnInit {
     //   }
     // );
   }
-  addProduct(id: number) {
-    let findId = this.listCart.find((r) => {
-      return r.id === id;
-    });
-    if (findId) {
-      findId.quantity++;
-      this.totalPrice = this.sumProduct();
-    }
-  }
   clearItem() {
     this.listCart = [];
     this.totalPrice = 0;
   }
-  async buyProducts() {
+  buyProducts() {
     if (this.selectedType === '' || this.listCart.length === 0) {
       this.disableButton = true;
     } else {
-      try {
-        this.disableButton = false;
-        this.isLoadding = true
-        let arr = this.listCart.map(r => {
-          return {
-            quantity: r.quantity,
-            product_id: r.product_id,
-            name: r.name_product,
-            price: r.price,
-            total: String(r.price * r.quantity)
+      Swal.fire({
+        title: 'ยืนยันการชำระ?',
+        text: "เมื่อกดยืนยันระบบจะทำการตัดสต็อก โปรดเช็คให้แน่ใจว่าต้องการยืนยัน",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            this.disableButton = false;
+            this.isLoadding = true
+            let arr = this.listCart.map(r => {
+              return {
+                quantity: r.quantity,
+                product_id: r.product_id,
+                name: r.name_product,
+                price: r.price,
+                total: String(r.price * r.quantity)
+              }
+            })
+            const order = {} as Orders
+            const billing = {} as Billing
+            order.set_paid = false
+            if(this.selectedType === 'money'){
+              order.payment_method = "cod"
+              order.payment_method_title = 'Cash on delivery'
+              billing.first_name = 'ซื่อหน้าร้าน'
+              billing.last_name = 'ซื่อหน้าร้าน',
+              billing.address_1 = this.itemDeatil.address_1
+              billing.address_2 = this.itemDeatil.address_2
+              billing.city = this.itemBilling.city
+              billing.company = this.itemBilling.company
+              billing.email = this.itemDeatil.email
+              billing.country = this.itemBilling.country
+              billing.phone = this.itemBilling.phone
+              billing.postcode = this.itemBilling.postcode
+              billing.state = this.itemBilling.state
+              order.billing = billing
+            }
+            if(this.selectedType === 'scan') {
+              order.payment_method = 'bacs'
+              order.payment_method_title = 'Direct bank transfer'
+              billing.first_name = 'ซื่อหน้าร้าน'
+              billing.last_name = 'ซื่อหน้าร้าน',
+              billing.address_1 = this.itemDeatil.address_1
+              billing.address_2 = this.itemDeatil.address_2
+              billing.city = this.itemBilling.city
+              billing.company = this.itemBilling.company
+              billing.email = this.itemDeatil.email
+              billing.country = this.itemBilling.country
+              billing.phone = this.itemBilling.phone
+              billing.postcode = this.itemBilling.postcode
+              billing.state = this.itemBilling.state
+              order.billing = billing
+            }
+            if( this.selectedType === 'credit'){
+              order.payment_method = 'cheque'
+              order.payment_method_title = 'Check payments'
+              order.billing = {
+                first_name: this.itemDeatil.first_name,
+                last_name: this.itemDeatil.last_name,
+                address_1: this.itemDeatil.address_1,
+                address_2: this.itemDeatil.address_2,
+                city: this.itemBilling.city,
+                company: this.itemBilling.company,
+                country: this.itemBilling.country,
+                email: this.itemDeatil.email,
+                postcode: this.itemBilling.postcode,
+                state: this.itemBilling.state
+              }
+            }
+            order.shipping = this.itemShipping
+            order.customer_id = Number(localStorage.getItem('user_id'))
+            order.line_items = arr
+            order.shipping_lines = [
+              {
+                method_id: "flat_rate",
+                method_title: "Flat Rate",
+              }
+            ]
+            const item = {} as StockQuantity
+            const action = this.listCart.map(async r => {
+              item.sku = r.sku,
+              item.all_front_quantity = r.quantity
+              const updateInventory = await this.stockService.inventoryUpdate(item.sku ,item).toPromise()
+              return console.log(updateInventory);
+            })
+            if(action) {
+              const createOrder = await this.orderService.addOrder(order).toPromise()
+              this.router.navigate([`/order/detail/${createOrder.id}`]);
+              this.isLoadding = false
+            }
+          } catch (err) {
+            this.swal.alert('error', `Order Error message:${err}`);
+            this.isLoadding = false
           }
-        })
-        const order = {} as Orders
-        const billing = {} as Billing
-        order.set_paid = false
-        if(this.selectedType === 'money'){
-          order.payment_method = "cod"
-          order.payment_method_title = 'Cash on delivery'
-          billing.first_name = 'ซื่อหน้าร้าน'
-          billing.last_name = 'ซื่อหน้าร้าน',
-          billing.address_1 = this.itemDeatil.address_1
-          billing.address_2 = this.itemDeatil.address_2
-          billing.city = this.itemBilling.city
-          billing.company = this.itemBilling.company
-          billing.email = this.itemDeatil.email
-          billing.country = this.itemBilling.country
-          billing.phone = this.itemBilling.phone
-          billing.postcode = this.itemBilling.postcode
-          billing.state = this.itemBilling.state
-          order.billing = billing
         }
-        if(this.selectedType === 'scan') {
-          order.payment_method = 'bacs'
-          order.payment_method_title = 'Direct bank transfer'
-          billing.first_name = 'ซื่อหน้าร้าน'
-          billing.last_name = 'ซื่อหน้าร้าน',
-          billing.address_1 = this.itemDeatil.address_1
-          billing.address_2 = this.itemDeatil.address_2
-          billing.city = this.itemBilling.city
-          billing.company = this.itemBilling.company
-          billing.email = this.itemDeatil.email
-          billing.country = this.itemBilling.country
-          billing.phone = this.itemBilling.phone
-          billing.postcode = this.itemBilling.postcode
-          billing.state = this.itemBilling.state
-          order.billing = billing
-        }
-        if( this.selectedType === 'credit'){
-          order.payment_method = 'cheque'
-          order.payment_method_title = 'Check payments'
-          order.billing = {
-            first_name: this.itemDeatil.first_name,
-            last_name: this.itemDeatil.last_name,
-            address_1: this.itemDeatil.address_1,
-            address_2: this.itemDeatil.address_2,
-            city: this.itemBilling.city,
-            company: this.itemBilling.company,
-            country: this.itemBilling.country,
-            email: this.itemDeatil.email,
-            postcode: this.itemBilling.postcode,
-            state: this.itemBilling.state
-          }
-        }
-        order.shipping = this.itemShipping
-        order.customer_id = Number(localStorage.getItem('user_id'))
-        order.line_items = arr
-        order.shipping_lines = [
-          {
-            method_id: "flat_rate",
-            method_title: "Flat Rate",
-          }
-        ]
-        console.log(order);
+      })
 
-        const createOrder = await this.orderService.addOrder(order).toPromise()
-        this.router.navigate([`/order/detail/${createOrder.id}`]);
-        this.isLoadding = false
-      } catch (err) {
-        this.swal.alert('error', `Order Error message:${err}`);
-        this.isLoadding = false
-      }
     }
 
   }
@@ -408,7 +415,6 @@ export class ProductHomeComponent implements OnInit {
     if(user_id){
       const sub = this.us.findBillingByUser_id(Number(user_id)).subscribe(
         result => {
-          console.log(result);
           this.itemShipping = result.shipping
           this.isLoadding = false
         },
@@ -487,10 +493,20 @@ export class ProductHomeComponent implements OnInit {
   }
   async editStockQuantity(sku: string) {
     const element = this.listCart.find(r => r.sku === sku)
-
     this.el_back_stock.element = element
     this.el_back_stock.modalStock = true
 
+  }
+  returnItem(value: StockQuantity) {
+    if(value) {
+      const findListcCard = this.listCart.find(r => r.id)
+      if(findListcCard){
+        findListcCard.stock_internal = value.all_back_quantity
+        findListcCard.stock_external = value.all_front_quantity
+        console.log("findListCard: " ,findListcCard);
+
+      }
+    }
   }
 
 }
