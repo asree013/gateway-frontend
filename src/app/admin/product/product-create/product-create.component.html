@@ -46,12 +46,14 @@
         <input
           [(ngModel)]="formProduct.sku"
           name="sku"
+          id="sku"
           type="text"
           class="form-control input"
           placeholder="sku"
-          required [disabled]="this.cannotClick"
+          required [disabled]="this.cannotClick" (input)="checkSKU()"
         />
       </div>
+      <p style="color: red;">{{txtSKU}}</p>
       <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon1">จำนวนบนชั่นวางของ</span>
         <input
@@ -80,9 +82,10 @@
           [(ngModel)]="formProduct.price"
           name="price"
           type="number"
+          id="price"
           class="form-control input"
           placeholder="sku"
-          required [disabled]="this.cannotClick"
+          required [disabled]="this.cannotClick" (input)="piceP1()"
         />
       </div>
       <div class="input-group mb-3">
@@ -93,7 +96,7 @@
           type="number"
           class="form-control input"
           placeholder="sku"
-          required [disabled]="this.cannotClick"
+          required [disabled]="this.cannotClick" 
         />
       </div>
       <div class="input-group mb-3">
@@ -130,7 +133,7 @@
         />
       </div>
       <div class="buttons">
-        <button class="btn btn-success" type="button" [disabled]="this.cannotClick" (click)="addCartFornt()">
+        <button class="btn btn-success" type="button" [disabled]="this.cannotClick" (click)="addProduct()">
           Add Front Stock
         </button>
         <button class="btn btn-danger" type="button" [disabled]="this.cannotClick" >Add Back Stock</button>

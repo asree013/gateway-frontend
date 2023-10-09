@@ -59,9 +59,13 @@ export class WarehouseUser {
   user_id: number;
   branch_id: number;
   role: number;
-  first_name: string;
-  last_name: string;
-  email: string;
+  user_nicename: string;
+  user_email: string;
   create_at: Date;
   update_at: Date;
+}
+
+export class SearchBranch {
+  search: boolean;
+  branch_id: number;
 }

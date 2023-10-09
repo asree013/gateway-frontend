@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { LoaddingComponent } from 'src/app/components/loadding/loadding.component';
 import { InputModalComponent } from 'src/app/components/input-modal/input-modal.component';
 import { ModalEditStockComponent } from 'src/app/components/modal-edit-stock/modal-edit-stock.component';
+import { SearchComponent } from 'src/app/components/search/search.component';
 
 @NgModule({
   declarations: [
     LoaddingComponent,
     InputModalComponent,
-    ModalEditStockComponent
+    ModalEditStockComponent,
+    SearchComponent,
   ],
   imports: [
     CommonModule
@@ -16,7 +18,8 @@ import { ModalEditStockComponent } from 'src/app/components/modal-edit-stock/mod
   exports: [
     LoaddingComponent,
     InputModalComponent,
-    ModalEditStockComponent
+    ModalEditStockComponent,
+    SearchComponent
   ]
 })
 export class SubComponentsModule { }

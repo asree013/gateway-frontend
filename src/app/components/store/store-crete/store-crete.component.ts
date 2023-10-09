@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BranchCreateForUser, CreateWareHouse } from 'src/app/models/class/branch.model';
 import { BranchService } from 'src/app/services/branch.service';
 import * as $ from 'jquery';
@@ -18,7 +18,7 @@ import { UsersService } from 'src/app/services/users.service';
   templateUrl: './store-crete.component.html',
   styleUrls: ['./store-crete.component.css'],
 })
-export class StoreCreteComponent implements OnInit {
+export class StoreCreteComponent implements OnInit, OnDestroy {
   wareHouse: CreateWareHouse;
   isLoading: boolean;
   isSector: Sectors[] = [];
@@ -29,6 +29,7 @@ export class StoreCreteComponent implements OnInit {
   district_id: number;
   subDis: number;
   isSubDistrict: SubDistricts[] = [];
+  interval: any
   constructor(
     private readonly branchService: BranchService,
     private readonly authen: AuthenService,
@@ -37,6 +38,9 @@ export class StoreCreteComponent implements OnInit {
     private readonly userService: UsersService,
   ) {}
 
+  ngOnDestroy() {
+    clearInterval(this.interval)
+  }
   ngOnInit(): void {
     const sub = this.authen.getSector().subscribe(
       (result) => {
@@ -110,54 +114,42 @@ export class StoreCreteComponent implements OnInit {
     const idUser = localStorage.getItem('user_id');
     const getProvince: any = await this.authen.getProvinceById(this.province_id).toPromise();
     const subDistrict: any = await this.authen.getSubDistrictById(this.subDis).toPromise();
-    console.log(subDistrict);
 
     if (getProvince || subDistrict) {
 
-      const create = new CreateWareHouse();
-      create.title = value.title;
-      create.address = value.address;
-      create.city = subDistrict.name_th;
-      create.province = getProvince.name_th;
-      create.postcode = subDistrict.zip_code;
-      create.email = value.email;
-      create.phone = value.phone;
-      create.country = 'TH'
-      create.user_id = Number(idUser);
-      console.log(create);
+      try {
+        const create = new CreateWareHouse();
+        create.title = value.title;
+        create.address = value.address;
+        create.city = subDistrict.name_th;
+        create.province = getProvince.name_th;
+        create.postcode = subDistrict.zip_code;
+        create.email = value.email;
+        create.phone = value.phone;
+        create.country = 'TH'
+        create.user_id = Number(idUser);
+        console.log(create);
 
+        const createWarehouse = await this.branchService.createBranch(create).toPromise()
 
-      const sub = this.branchService.createBranch(create).subscribe(
-        (result: any) => {
-          console.log(result.id);
-          const createBranch = new BranchCreateForUser()
-          createBranch.branch_id = result.id
-          createBranch.user_id = Number(idUser)
-          createBranch.role = 1
-          const sub = this.userService.createBranchForUser(createBranch).subscribe(
-            async result => {
-              this.isLoading = false;
-              await this.swal.alert('success', 'Create store Success!!!', 2000)
-              this.route.navigate(['/menu'])
-              window.location.reload()
-            },
-            err => {
-              console.log('is error UserCreate', err);
+        const createBranch = new BranchCreateForUser()
+        createBranch.branch_id = createWarehouse.id
+        createBranch.user_id = Number(idUser)
+        createBranch.role = 1
 
-            },
-            () => {
-              sub.unsubscribe()
-            }
-          )
-        },
-        (err) => {
-          console.log('is error BranchCreate', err);
+        const createWhForUser = await this.userService.createBranchForUser(createBranch).toPromise()
+        
+        if(createWhForUser) {
           this.isLoading = false;
-        },
-        () => {
-          sub.unsubscribe();
+          this.swal.alert('success', 'Create store Success!!!', 2000)
+          await window.location.reload()
+          this.interval = setInterval(() => {
+            this.route.navigate(['/menu'])
+          }, 2000)
         }
-      );
+      } catch (error) {
+        this.swal.alert('error', JSON.stringify(error), 4500)
+      }
     }
     else {
       this.isLoading = false

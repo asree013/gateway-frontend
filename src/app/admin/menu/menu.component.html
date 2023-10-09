@@ -2,22 +2,30 @@
   <div class="body">
     <h1>MENU</h1>
     <div class="card">
-      <div class="card-body">
+      <div class="card-bodys">
         <div class="img-body" (click)="this.router.navigate(['/product/admin'])">
-          <img src="/assets/icon/product.png" alt="" />
+          <img src="/assets/icon/products.png" alt="" />
           <p>Product</p>
         </div>
         <div class="img-body" (click)="this.router.navigate(['/order/admin'])">
-          <img src="/assets/icon/order.png" alt="" />
+          <img src="/assets/icon/orders.png" alt="" />
           <p>Order</p>
         </div>
         <div class="img-body">
-          <img src="/assets/icon/order.png" alt="" (click)="this.router.navigate(['/product'])"/>
+          <img src="/assets/icon/pos.png" alt="" (click)="this.router.navigate(['/product'])"/>
           <p>Shop</p>
         </div>
         <div class="img-body" [routerLink]="['/store/menu']">
-          <img src="/assets/icon/order.png" alt="" />
+          <img src="/assets/icon/store.png" alt="" />
           <p> Warehouse</p>
+        </div>
+        <div class="img-body" [routerLink]="['/accout/admin']">
+          <img src="/assets/icon/accout.png" alt="" />
+          <p> Account</p>
+        </div>
+        <div class="img-body" [routerLink]="['/stock/admin']">
+          <img src="/assets/icon/stock.png" alt="" />
+          <p> Stock</p>
         </div>
       </div>
     </div>

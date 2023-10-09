@@ -7,9 +7,14 @@ import { StockAdminComponent } from 'src/app/components/stock/stock-admin/stock-
 import { StockEditComponent } from 'src/app/components/stock/stock-edit/stock-edit.component';
 import { StockHomeComponent } from 'src/app/components/stock/stock-home/stock-home.component';
 import { SubComponentsModule } from '../SubComponentsModule/SubComponentsModule.module';
+import { RouterModule, Routes } from '@angular/router';
 
-
-
+const routes:Routes = [
+  {
+    path: "admin",
+    component: StockAdminComponent,
+  },
+]
 
 @NgModule({
   declarations: [
@@ -23,6 +28,7 @@ import { SubComponentsModule } from '../SubComponentsModule/SubComponentsModule.
     CommonModule,
     FormsModule,
     SubComponentsModule,
+    RouterModule.forChild(routes)
   ]
 })
 export class StockModule {}

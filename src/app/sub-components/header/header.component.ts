@@ -16,10 +16,7 @@ export class HeaderComponent implements OnInit {
   login: boolean = false;
   isBranch: BranchForUser[] = [];
   branchTitle: string = 'ยังไม่ได้เลือก';
-  name = {
-    firstname: '',
-    lastname: '',
-  };
+  nikname: string 
   hasCalled: boolean
   branchUserStatus: any[] = [];
   constructor(
@@ -44,13 +41,14 @@ export class HeaderComponent implements OnInit {
         const sub = this.userService.findBrandUser(Number(id)).subscribe(
           async (result) => {
             if (result.length === 0) {
+              console.log(result);
+              
               const name = await this.userService
               .findUserById(Number(id))
               .toPromise();
 
               this.isBranch = result;
-              this.name.firstname = name.first_name;
-              this.name.lastname = name.last_name;
+              this.nikname = name.user_nicename
               this.whereCallist();
 
               if(Number(status) === 1){
@@ -78,11 +76,11 @@ export class HeaderComponent implements OnInit {
               const name = await this.userService
               .findUserById(Number(id))
               .toPromise();
-
+              console.log(name);
+              
               this.isBranch = result;
 
-              this.name.firstname = name.first_name;
-              this.name.lastname = name.last_name;
+              this.nikname = name.user_nicename
               this.whereCallist();
             }
 

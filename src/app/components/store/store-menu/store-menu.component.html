@@ -1,14 +1,7 @@
 <div class="bs p-3">
   <div class="headers card">
-    <select name="" id="select" (change)="selectTitle()" class="selectTitle">
-      <option value="title" selected>ชื่อสาขา</option>
-      <option value="email">email warehouse</option>
-      <option value="phone">phone warehouse</option>
-    </select>
     <div class="search">
-      <input *ngIf="isTitle" id="title" type="text" placeholder="Search Warehouse Title" (change)="searchWarehouse($event)">
-      <input *ngIf="isEmail" id="email" type="text" placeholder="Search Warehouse Email" (change)="searchWarehouse($event)">
-      <input *ngIf="isPhone" id="phone" type="text" placeholder="Search Warehouse Phone" (change)="searchWarehouse($event)">
+      <input id="title" type="text" placeholder="Search Warehouse Email" (change)="serachData($event)">
       <img src="assets/icon/search.png" alt="" >
     </div>
   </div>
@@ -24,51 +17,38 @@
       </div>
     </div>
     <div class="tables card p-2" style="overflow: scroll;">
-      <table class="table" *ngIf="isCLick" >
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>firstname</th>
-            <th>lastname</th>
-            <th>email</th>
-            <th>address</th>
-            <th>action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of users;let i = index">
-            <td>{{i + 1}}</td>
-            <td>{{item.first_name}}</td>
-            <td>{{item.last_name}}</td>
-            <td>{{item.email}}</td>
-            <td>{{item.role | roleWarehouse}}</td>
-            <th><a (click)="openDeatail(item.role)">click</a></th>
-          </tr>
-        </tbody>
-      </table>
-      <div *ngIf="isSearch">
-        <div class="card searchData" *ngFor="let item of dataSearched">
-          <img class="imgSearchData" src="{{noImage}}" alt="">
-          <div class="card-body" >
-            <p style="font-size: 2.2rem; font-weight: 700;" >{{item.title}}</p>
-            <p style="font-size: 1.1rem; font-weight: 500;" >emial: {{item.email}}</p>
-            <p style="font-size: 1.1rem; font-weight: 500;" >phone: {{item.phone}}</p>
-            <p style="font-size: 0.8rem;">address: {{item.address}}</p>
-            <p style="font-size: 0.8rem;">ตำบล: {{item.city}}</p>
-            <p style="font-size: 0.8rem;">จังหวัด: {{item.province}}</p>
-            <p style="font-size: 0.8rem;">postCode: {{item.postcode}}</p>
-            <p style="font-size: 0.8rem;">country: {{item.country}}</p>
-          </div>
-          <div>
-            <a (click)="addBranch(item.id)" class="card-link">ส่งคำขอเข้าร่วม</a>
-          </div>
+      <div *ngIf="isCLick" >
+        <div class="card p-3">
+          <button type="button" class="btn btn-success" (click)="inviteUser(users[0].branch_id)">เพิ่มพนักงาน</button>
         </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>email</th>
+              <th>nicename</th>
+              <th>role</th>
+              <th>action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of users;let i = index">
+              <td>{{i + 1}}</td>
+              <td>{{item.user_email}}</td>
+              <td>{{item.user_nicename}}</td>
+              <td>{{item.role | roleWarehouse}}</td>
+              <th>
+                <a (click)="openDeatail(item)">click</a>
+              </th>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div class="action" *ngIf="isDetail">
         <div class="action_header card p-3" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
           <div class="name" style="display: flex; justify-content: space-between; width: 30%;">
-            <p>firstName</p>
-            <p>lastName</p>
+            <p>name: {{itemDetail.user_nicename}}</p>
+            <p>name: {{itemDetail.user_email}}</p>
           </div>
           <img style="width: 60px;" src="assets/images/noImage.png" alt="">
         </div>
@@ -84,47 +64,27 @@
               </tr>
             </thead>
             <tbody >
-              <tr>
-                <td>สามารถอ่านหรือดูข้อมูลได้</td>
-                <td><img width="40px" src="assets/icon/check_green.png" alt=""></td>
-                <td><img width="40px" src="assets/icon/cross.png" alt=""></td>
-                <td><img width="40px" src="assets/icon/cross.png" alt=""></td>
+              <tr *ngFor="let item of status">
+                <td>{{item.title}}</td>
+                <td><img width="40px" src="{{item.icon1}}" alt=""></td>
+                <td><img width="40px" src="{{item.icon2}}" alt=""></td>
+                <td><img width="40px" src="{{item.icon3}}" alt=""></td>
                 <td>
                   <div class="form-check form-switch">
                     <input #reader class="form-check-input" type="checkbox" role="switch" (click)="selectRole('reader', reader.value)" id="reader">
                   </div>
                 </td>
               </tr>
-              <tr>
-                <td>สามารถอ่าน,เพิ่ม,ลบ,แก้ไขข้อมูลได้บางส่วน</td>
-                <td><img width="40px" src="assets/icon/cross.png" alt=""></td>
-                <td><img width="40px" src="assets/icon/check_green.png" alt=""></td>
-                <td><img width="40px" src="assets/icon/cross.png" alt=""></td>
-                <td>
-                  <div class="form-check form-switch">
-                    <input #editer class="form-check-input" type="checkbox" role="switch" (click)="selectRole('editer', editer.value)" id="editer">
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>สามารถอ่าน,เพิ่ม,ลบ,แก้ไขข้อมูลได้ทั้งหมด</td>
-                <td><img width="40px" src="assets/icon/cross.png" alt=""></td>
-                <td><img width="40px" src="assets/icon/cross.png" alt=""></td>
-                <td><img width="40px" src="assets/icon/check_green.png" alt=""></td>
-                <td>
-                  <div class="form-check form-switch">
-                    <input #adminer class="form-check-input" type="radio" role="switch" (click)="selectRole('adminer', adminer.value)" id="adminer">
-                  </div>
-                </td>
-              </tr>
             </tbody>
           </table>
         </div>
-        <div class="action_footer">
-          footer
+        <div class="action_footer card">
+          <p>delete On Warehouse</p>
+          <button type="button" class="btn btn-danger" (click)="deleteUserInWarehouse(itemDetail.id)">delete</button>
         </div>
       </div>
     </div>
   </div>
 </div>
+<app-search *ngIf="objSearch.search" (close)="objSearch.search = false" [data]="objSearch"></app-search>
 <app-loadding *ngIf="isLoadding"></app-loadding>

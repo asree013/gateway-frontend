@@ -3,14 +3,16 @@ import {
   Branch,
   BranchCreateForUser,
   BranchForUser,
+  SearchBranch,
   WarehouseUser,
 } from 'src/app/models/class/branch.model';
 import { UsersService } from 'src/app/services/users.service';
 import * as $ from 'jquery';
 import { Search } from 'src/app/models/class/searh.model';
-import { BranchService } from 'src/app/services/branch.service';
 import { environment } from 'src/environments/environment';
 import { AlertService } from 'src/app/services/alert.service';
+import { Users } from 'src/app/models/class/users.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-store-menu',
@@ -22,7 +24,6 @@ export class StoreMenuComponent implements OnInit {
   myBranch: BranchForUser[] = [];
   users: WarehouseUser[] = [];
   title: string;
-  isTitle: boolean;
   isEmail: boolean;
   isPhone: boolean;
   isCLick: boolean
@@ -32,18 +33,20 @@ export class StoreMenuComponent implements OnInit {
   isReader: boolean
   isEditer: boolean
   isAdminer: boolean
-  dataSearched: Branch[] = []
+  dataSearched: Users[] = []
   dataSearch = new Search<Partial<any>>();
   noImage: string = environment.noImgae
+  objSearch: SearchBranch = {} as SearchBranch
+  itemDetail: WarehouseUser = {} as WarehouseUser
+  status: any[] = []
   constructor(
     private readonly userService: UsersService,
-    private readonly branchService: BranchService,
     private readonly swal: AlertService,
     ) {}
 
   ngOnInit(): void {
     this.getBranch();
-    this.selectTitle();
+    this.feedStatus()
   }
   getBranch() {
     let id = localStorage.getItem('user_id');
@@ -70,8 +73,10 @@ export class StoreMenuComponent implements OnInit {
     this.isDetail = false
     const sub = this.userService.findBranchByBranchId(bracnh_id).subscribe(
       (result) => {
-        console.log(result);
+        console.log("where branch ID: ", result);
         this.isCLick = true
+        console.log(result);
+        
         this.users = result;
       },
       () => {
@@ -80,57 +85,15 @@ export class StoreMenuComponent implements OnInit {
     );
   }
 
-  searchWarehouse(event: Event) {
-    this.isCLick = false
-    let txt = (event.target as HTMLInputElement);
-    if(txt.id === 'title'){
-      this.dataSearch.data = {}
-      this.dataSearch.data[txt.id = 'title'] = txt.value
-      this.serachData()
-
-    }
-    if(txt.id === 'email'){
-      this.dataSearch.data = {}
-      this.dataSearch.data[txt.id = 'email'] = txt.value
-      this.serachData()
-    }
-    if(txt.id === 'phone'){
-      this.dataSearch.data = {}
-      this.dataSearch.data[txt.id = 'phone'] = txt.value
-      this.serachData()
-    }
-
-  }
-
-  selectTitle() {
-    let value = $('select').val();
-    this.isTitle = true;
-    this.isEmail = false;
-    this.isPhone = false
-    if (value === 'email') {
-      this.isEmail = true;
-      this.isTitle = false
-      this.isPhone = false
-    }
-    if(value === 'phone'){
-      this.isEmail = false;
-      this.isTitle = false
-      this.isPhone = true
-    }
-  }
-
-  serachData() {
-    console.log('search');
-    const sub = this.branchService.search(this.dataSearch).subscribe(
+  serachData(event: Event) {
+    const email = (event.target as HTMLInputElement).value
+    const sub = this.userService.findUserByEmial(email).subscribe(
       result => {
-        console.log(result);
-        this.isCLick = false
+        this.dataSearched = result    
         this.isSearch = true
-        this.dataSearched = result
       },
       err => {
-        console.log(err);
-
+        console.log(err);   
       },
       () => {
         sub.unsubscribe()
@@ -138,7 +101,7 @@ export class StoreMenuComponent implements OnInit {
     )
   }
 
-  addBranch(id: number) {
+  inviteForBranch(id: number) {
     let user_id = localStorage.getItem('user_id')
     if(user_id){
       const add = new BranchCreateForUser()
@@ -164,20 +127,19 @@ export class StoreMenuComponent implements OnInit {
   isNotComfirm() {
     this.swal.alert('warning', 'กรุณารอการยืนยันจากผู้ดูแล Warehouse', 5000)
   }
-  openDeatail(role: number) {
-    console.log(role);
-
+  openDeatail(item: WarehouseUser) {
+    this.itemDetail = item
     this.isDetail = true
     this.isSearch = false
     this.isCLick = false
 
-    if(role === 0){
+    if(item.role === 0){
 
     }
-    else if(role === 1){
+    else if(item.role === 1){
       this.isAdminer = true
     }
-    else if(role === 2){
+    else if(item.role === 2){
       this.isEditer = true
     }
     else{
@@ -188,5 +150,81 @@ export class StoreMenuComponent implements OnInit {
     console.log(event);
     console.log('value: ', value);
 
+  }
+  inviteUser(branch_id: number){
+    this.objSearch.search = true
+    this.objSearch.branch_id = branch_id
+  }
+  deleteUserInWarehouse(warehouse: number) {
+    Swal.fire({
+      title: 'คุณต้องการลบออกจาก Warehous หรือไม่?',
+      text: "โปรดยืนยันที่จะลบ ออกจาก Warehous",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.isLoadding = true
+        const sub = this.userService.deleteUserBranch(warehouse).subscribe(
+          result => {
+            this.myBranch = this.myBranch.filter(r => r.id !== warehouse)
+            this.users = this.users.filter(r => r.id !== warehouse)
+            this.isLoadding = false
+            this.isDetail = false
+            this.isCLick = true             
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'ลบจาก Warehouse',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          },
+          err => {
+            this.swal.alert('error', JSON.stringify(err))
+            console.log(err);
+            this.isLoadding = false
+          },
+          () => {
+            sub.unsubscribe()
+          }
+        )
+      }
+    })
+  }
+  feedStatus() {
+    const statusDetail = [
+      {
+        id: 0,
+        title: "รอยืยยัน",
+        icon1: "assets/icon/cross.png",
+        icon2: "assets/icon/cross.png",
+        icom3: "assets/icon/cross.png"
+      },
+      {
+        id: 1,
+        title: "ผู้ดูแล",
+        icon1: "assets/icon/check_green.png",
+        icon2: "assets/icon/cross.png",
+        icom3: "assets/icon/cross.png"
+      },
+      {
+        id: 2,
+        title: "แก้ไขข้อมูล",
+        icon1: "assets/icon/cross.png",
+        icon2: "assets/icon/check_green.png",
+        icom3: "assets/icon/cross.png"
+      },
+      {
+        id: 3,
+        title: "อ่านข้อมูล",
+        icon1: "assets/icon/cross.png",
+        icon2: "assets/icon/cross.png",
+        icon3: "assets/icon/check_green.png"
+      },
+    ]
+    this.status = statusDetail
   }
 }

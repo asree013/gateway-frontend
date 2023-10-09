@@ -8,13 +8,13 @@ export class RoleWarehousePipe implements PipeTransform {
   transform(value: number ): any {
     switch(value) {
       case 0:
-        return 'waiting for status confirmation'
+        return 'รอตอบรับ'
       case 1:
-        return 'Admin';
+        return 'ผู้จัดการ';
       case 2:
-        return 'editer';
+        return 'หัวหน้า';
       case 3:
-        return 'reader'
+        return 'พลักงาน'
       case 4:
         return ''
     }

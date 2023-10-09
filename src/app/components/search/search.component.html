@@ -1,0 +1,26 @@
+<div class="modal">
+    <div class="card cardBody">
+        <div class="close">
+            <p>Invite By Search</p>
+            <p style="font-size: 2.5rem; cursor: pointer;" (click)="this.close.emit()">x</p>
+        </div>
+        <div class="input-group flex-nowrap">
+            <input (change)="serachData($event)" type="text" class="form-control" placeholder="Search Users For Email" aria-label="Username" aria-describedby="addon-wrapping">
+            <span (click)="serachData($event)" class="input-group-text" id="addon-wrapping">@</span>
+          </div>
+    
+        <div class="card resultSearch">
+            <div class="bodyCard card" *ngFor="let item of searched">
+                <img src="{{noImage}}" alt="">
+                <div>
+                    <p>email: {{item.user_email}}</p>
+                    <p>nicename: {{item.user_nicename}}</p>
+                </div>
+                <button type="button" (click)="addBranch(item.ID)">add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-loadding *ngIf="isLoading"></app-loadding>
+

@@ -35,6 +35,7 @@ export class ProductCreateComponent implements OnInit {
   upload: boolean;
   createItem: boolean;
   isLoadding: boolean;
+  txtSKU: string 
   ngOnInit() {}
 
   uploadImage(event: Event) {
@@ -91,7 +92,7 @@ export class ProductCreateComponent implements OnInit {
     //   );
     // }
   }
-  async addCartFornt() {
+  async addProduct() {
     this.isLoadding = true
     let branch_id = localStorage.getItem('branch_id');
     if (branch_id) {
@@ -102,14 +103,9 @@ export class ProductCreateComponent implements OnInit {
         this.swal.alert('warning', 'is not branch in database');
         this.isLoadding = false
       }
-      const findSku = await this.ss.getStockQuantityBySku(String(this.formProduct.sku)).toPromise()
-      if(findSku){
-        this.swal.alert('error', 'Cannot Use a SKU: ' + this.formProduct.sku, 5000)
-        this.isLoadding = false
-      }
       else{
         try {
-          const image: any[] = [];
+          const image: Partial<Images>[] = [];
           const product = {} as Products;
           product.name = `${this.formProduct.name} (${result.title})`;
           product.sku = this.formProduct.sku;
@@ -117,8 +113,8 @@ export class ProductCreateComponent implements OnInit {
           product.manage_stock = true
           product.stock_quantity = 0
           if(this.imagePrevetn.length > 0){
-            image.push({ src: this.imagePrevetn });
-            product.images = image;
+            image.push({ src: this.imagePrevetn});
+            product.images = [{ src: this.imagePrevetn }];
           }
           console.log('product', product);
 
@@ -197,6 +193,21 @@ export class ProductCreateComponent implements OnInit {
           );
         }
       );
+    }
+  }
+  piceP1(){
+    let price = (document.getElementById("price") as HTMLInputElement).value
+    this.formProduct.p1 = Number(price)
+  }
+
+  async checkSKU() {
+    let sku = (document.getElementById("sku") as HTMLInputElement)
+    sku.classList.remove('is-invalid')
+    this.txtSKU = ''
+    const findSku = await this.ss.getStockQuantityBySku(String(sku.value)).toPromise()
+    if(findSku){
+      sku.classList.add('is-invalid')
+      this.txtSKU = '*ไม่สามารถใช้ SKU นี้ได้'
     }
   }
 }

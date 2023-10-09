@@ -16,8 +16,8 @@ export class BranchService {
     return this.http.get<Branch[]>(`${environment.baseUrl}/branch`);
   }
 
-  createBranch(item: CreateWareHouse) {
-    return this.http.post(`${environment.baseUrl}/branch`, item)
+  createBranch(item: CreateWareHouse):Observable<Branch> {
+    return this.http.post<Branch>(`${environment.baseUrl}/branch`, item)
   }
 
   search(item: Search<any>): Observable<Branch[]> {
