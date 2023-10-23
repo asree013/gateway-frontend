@@ -4,12 +4,13 @@
       <div>
         <input class="text-search" type="text" placeholder="Searching Data" />
       </div>
+      <input #dateTime (change)="filterOrders(dateTime.value)" type="date">
       <button class="btn-create" (click)="onCreateProduct()">
         Create Order
       </button>
     </div>
     <div class="card p-3 mt-2">
-      <div class="card m-2" *ngFor="let item of orders; let i = index">
+      <div class="card m-2" *ngFor="let item of ordersFilter; let i = index">
         <div class="card-body" (click)="detailOrder(item.id)">
           <div class="card-number">
             <div class="numbers">
@@ -29,6 +30,12 @@
               <h1
                 class="status-processing"
                 *ngIf="item.status === 'pending'"
+              >
+                {{ item.status | status }}
+              </h1>
+              <h1 style="background: green;"
+                class="status-processing"
+                *ngIf="item.status === 'completed'"
               >
                 {{ item.status | status }}
               </h1>

@@ -69,3 +69,12 @@ export class SearchBranch {
   search: boolean;
   branch_id: number;
 }
+
+export interface Warehouse{
+  id: number;
+  user_id: number;
+  branch_id: number;
+  role: number;
+  create_at: Date;
+  update_at: Date;
+}

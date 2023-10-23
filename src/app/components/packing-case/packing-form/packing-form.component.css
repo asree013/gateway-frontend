@@ -1,0 +1,66 @@
+.caseBody{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 10rem;
+    padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.searchProduct{
+    width: 90%;
+}
+.resultSearch{
+    padding: 10px;
+    overflow: scroll;
+    height: 8rem;
+}
+.products{
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+}
+.packingCaseCart{
+    width: 90%;
+    margin: 10px 0;
+}
+.images{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 5px 0;
+    padding: 10px;
+    width: 100%;
+}
+.productDetail{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-between;
+}
+.packingCaseDetail{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 15%;
+}
+.packingCaseDetail input {
+    width: 90%;
+}
+.cart{
+    
+    margin: 10px 0;
+    height: auto;
+}
+.red{
+    border: 1px solid red;
+}
+.green{
+    border: 1px solid green;
+}
+

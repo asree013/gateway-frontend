@@ -1,0 +1,41 @@
+<div class="caseBody card">
+    <p>Create Packing Case</p>
+    <div class="searchProduct card p-3">
+        <div> 
+            <input style="width: 80%; height: 40px;" type="text" placeholder="search SKU Product" id="searchProduct" (change)="searchProduct()">
+            <button style="width: 20%;" type="button" class="btn btn-success">Search</button>
+        </div>
+        <div class="resultSearch card">
+            <div class="card products p-4" *ngFor="let item of product">
+                <img width="50px" src="{{item.images[0].src}}" alt="">
+                <p>SKU: {{item.sku}}</p>
+                <p>{{item.name}}</p>
+                <button type="button" class="btn btn-success" (click)="addItemPackingCase(item)">add</button>
+            </div>
+        </div>
+    </div>
+    <div class="packingCaseCart card p-3">
+        <p>สินค้าภายในลัง</p>
+        <div class="cart card p-3">
+            <div class="productDetail">
+                <div class="images card" *ngFor="let item of packingDetail;let i = index">
+                    <img width="60px" src="{{item.images[0].src}}"  alt="">
+                    <div style="display: flex;">
+                        <p>{{item.name}}</p>
+                        <p>{{item.sku}}</p>
+                    </div>
+                    <div class="packingCaseDetail">
+                        <input id="pack{{i}}" type="text" class="is-invalid" placeholder="กี่แพค" type="number" required>
+                        <input id="pack_count{{i}}" type="text" placeholder="แพคล่ะกี่ชิ้น" type="number">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <input [(ngModel)]="packing.names" name="names" type="text" placeholder="names">
+        <input [(ngModel)]="packing.pc_sku" name="pc_sku" type="text" placeholder="sku">
+        <input [(ngModel)]="packing.counts" name="counts" type="text" placeholder="counts">
+        <input [(ngModel)]="packing.images" name="images" type="file" >
+        <button  type="button" class="btn btn-primary" (click)="createPackin()">Create Packing Case</button>
+    </div>
+</div>

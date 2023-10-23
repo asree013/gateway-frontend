@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class OrderAdminComponent implements OnInit {
   orders: Orders[] = [];
+  ordersFilter: Orders[] = []
   isLoadding: boolean
   constructor(
     private service: OrderService,
@@ -23,7 +24,8 @@ export class OrderAdminComponent implements OnInit {
     this.getOrder();
   }
   getOrder() {
-    this.isLoadding = false
+    
+    this.isLoadding = true
     return this.service.getOrderAll().subscribe(
       (result) => {
         if (result.length == 0) {
@@ -31,7 +33,11 @@ export class OrderAdminComponent implements OnInit {
           this.swal.alert('warning', 'is no Product in Database', 2500);
         }
         console.log(result)
-        this.orders = result;
+        const find = result.filter(r => {
+          return r.line_items.filter(r=> r.name.includes(`(${localStorage.getItem('branch_title')})`))
+        })
+        this.orders = find;
+        this.ordersFilter = this.orders
         this.isLoadding = false
       },
       (err) => {
@@ -68,5 +74,13 @@ export class OrderAdminComponent implements OnInit {
   }
   onCreateProduct() {
     this.route.navigate(['/products'])
+  }
+  filterOrders(value: string){
+    console.log('search');
+    console.log(this.orders);
+    
+    this.ordersFilter = this.orders.filter(r=> {
+      return r.date_created === new Date(value)
+    })
   }
 }

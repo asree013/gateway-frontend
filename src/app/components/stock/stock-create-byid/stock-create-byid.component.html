@@ -39,8 +39,10 @@
       <div style="margin: 10px 0">
         <p>ราคาขาย</p>
         <input
+          (input)="this.item.p1 = this.item.price"
           [(ngModel)]="item.price"
           name="price"
+          id="price"
           class="from_control"
           type="number"
           placeholder="ราคาขาย"
@@ -53,7 +55,8 @@
           name="p1"
           class="from_control"
           type="number"
-          placeholder="ราคาขาย"
+          placeholder="ราคาขายP1"
+          disabled
         />
       </div>
       <div style="margin: 10px 0">

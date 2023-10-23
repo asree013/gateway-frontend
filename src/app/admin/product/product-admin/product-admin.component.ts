@@ -142,6 +142,7 @@ export class ProductAdminComponent implements OnInit {
   searchData(event: Event) {
     const element = (event.target as HTMLInputElement)
     this.datasearch.data[element.id] = element.value
+    
   }
   searchAction(){
     this.service.search(this.datasearch).subscribe((result)=>{

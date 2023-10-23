@@ -20,24 +20,24 @@
         <img width="80px" src="{{imagePrevetn}}" alt="">
       </div>
       <div class="input-group mb-3 mt-2">
-        <span class="input-group-text" id="basic-addon1">name</span>
+        <span class="input-group-text" id="basic-addon1">ชื่อสินค้า</span>
         <input
           [(ngModel)]="formProduct.name"
           name="name"
           type="text"
           class="form-control input"
-          placeholder="name"
+          placeholder="ชื่อสินค้า"
           required [disabled]="this.cannotClick"
         />
       </div>
       <div class="input-group mb-3 mt-2">
-        <span class="input-group-text" id="basic-addon1">description</span>
+        <span class="input-group-text" id="basic-addon1">รายละเอียด</span>
         <input
           [(ngModel)]="formProduct.description"
           name="description"
           type="text"
           class="form-control input"
-          placeholder="name"
+          placeholder="รายละเอียด"
           required [disabled]="this.cannotClick"
         />
       </div>
@@ -49,7 +49,7 @@
           id="sku"
           type="text"
           class="form-control input"
-          placeholder="sku"
+          placeholder="รหัสสินค้า"
           required [disabled]="this.cannotClick" (input)="checkSKU()"
         />
       </div>
@@ -61,7 +61,7 @@
           name="stock_external"
           type="text"
           class="form-control input"
-          placeholder="sku"
+          placeholder="จำนวนบนชั่นวางของ"
           required [disabled]="this.cannotClick"
         />
       </div>
@@ -72,7 +72,7 @@
           name="stock_internal"
           type="text"
           class="form-control input"
-          placeholder="sku"
+          placeholder="จำนวนสินค้าหลังร้าน"
           required [disabled]="this.cannotClick"
         />
       </div>
@@ -82,7 +82,7 @@
           [(ngModel)]="formProduct.price"
           name="price"
           type="number"
-          id="price"
+          id="ราคาขาย"
           class="form-control input"
           placeholder="sku"
           required [disabled]="this.cannotClick" (input)="piceP1()"
@@ -95,7 +95,7 @@
           name="p1"
           type="number"
           class="form-control input"
-          placeholder="sku"
+          placeholder="ราคา p1"
           required [disabled]="this.cannotClick" 
         />
       </div>
@@ -106,7 +106,7 @@
           name="p2"
           type="number"
           class="form-control input"
-          placeholder="sku"
+          placeholder="ราคา p2"
           required [disabled]="this.cannotClick"
         />
       </div>
@@ -117,7 +117,7 @@
           name="p3"
           type="number"
           class="form-control input"
-          placeholder="sku"
+          placeholder="ราคา p3"
           required [disabled]="this.cannotClick"
         />
       </div>
@@ -128,7 +128,7 @@
           name="p4"
           type="number"
           class="form-control input"
-          placeholder="sku"
+          placeholder="ราคา p4"
           required [disabled]="this.cannotClick"
         />
       </div>

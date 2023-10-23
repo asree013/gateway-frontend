@@ -4,6 +4,7 @@ import {
   BranchCreateForUser,
   BranchForUser,
   SearchBranch,
+  Warehouse,
   WarehouseUser,
 } from 'src/app/models/class/branch.model';
 import { UsersService } from 'src/app/services/users.service';
@@ -13,6 +14,7 @@ import { environment } from 'src/environments/environment';
 import { AlertService } from 'src/app/services/alert.service';
 import { Users } from 'src/app/models/class/users.model';
 import Swal from 'sweetalert2';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-store-menu',
@@ -38,7 +40,9 @@ export class StoreMenuComponent implements OnInit {
   noImage: string = environment.noImgae
   objSearch: SearchBranch = {} as SearchBranch
   itemDetail: WarehouseUser = {} as WarehouseUser
+  role: number
   status: any[] = []
+  isAdmin: boolean
   constructor(
     private readonly userService: UsersService,
     private readonly swal: AlertService,
@@ -68,21 +72,17 @@ export class StoreMenuComponent implements OnInit {
     );
   }
 
-  whereBranchById(bracnh_id: number) {
+  async whereBranchById(bracnh_id: number) {
     this.isSearch = false
     this.isDetail = false
-    const sub = this.userService.findBranchByBranchId(bracnh_id).subscribe(
-      (result) => {
-        console.log("where branch ID: ", result);
-        this.isCLick = true
-        console.log(result);
-        
-        this.users = result;
-      },
-      () => {
-        sub.unsubscribe();
-      }
-    );
+    const result = await firstValueFrom(this.userService.findBranchByBranchId(bracnh_id))
+    if(result){
+      console.log("where branch ID: ", result);
+      this.isCLick = true
+      console.log(result);     
+      this.users = result;
+      this.desablePremision(bracnh_id)
+    }
   }
 
   serachData(event: Event) {
@@ -124,11 +124,38 @@ export class StoreMenuComponent implements OnInit {
       )
     }
   }
-  isNotComfirm() {
-    this.swal.alert('warning', 'กรุณารอการยืนยันจากผู้ดูแล Warehouse', 5000)
+  responseInvite(branch_id: number) {
+    Swal.fire({
+      title: 'ตอบรับคำเชิญ',
+      text: "คุณต้องการตอบรับคำเชิญนี้หรือไหม โปรดตรวจสอบให้ล่ะเอียด",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'เข้ามร่วม',
+      cancelButtonText: "ยกเลิก"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const join = {} as BranchCreateForUser
+          join.branch_id = branch_id
+          join.user_id = Number(localStorage.getItem('user_id'))
+          join.role = 3
+          const responseJoin = await firstValueFrom(this.userService.updateRoleWarehouse(join))
+          if(responseJoin){
+            const update = await firstValueFrom(this.userService.findBrandUser(join.user_id))
+            this.myBranch = update
+            this.swal.alert('success', "คุณได้เข้าร่วมแล้ว", 3000)
+          }
+        } catch (error) {
+          this.swal.alert('error', 'เกิดข้อผิดพลาด', 5000)
+        }
+      }
+    })
   }
   openDeatail(item: WarehouseUser) {
     this.itemDetail = item
+    this.role = item.role
     this.isDetail = true
     this.isSearch = false
     this.isCLick = false
@@ -145,11 +172,6 @@ export class StoreMenuComponent implements OnInit {
     else{
       this.isReader = true
     }
-  }
-  selectRole(value: string, event: any) {
-    console.log(event);
-    console.log('value: ', value);
-
   }
   inviteUser(branch_id: number){
     this.objSearch.search = true
@@ -201,7 +223,7 @@ export class StoreMenuComponent implements OnInit {
         title: "รอยืยยัน",
         icon1: "assets/icon/cross.png",
         icon2: "assets/icon/cross.png",
-        icom3: "assets/icon/cross.png"
+        icom3: "assets/icon/cross.png",
       },
       {
         id: 1,
@@ -226,5 +248,59 @@ export class StoreMenuComponent implements OnInit {
       },
     ]
     this.status = statusDetail
+  }
+  updateRole() {
+    const updateRole = {} as Warehouse
+    updateRole.branch_id = this.itemDetail.branch_id
+    updateRole.user_id = this.itemDetail.user_id
+    updateRole.role = this.role
+    Swal.fire({
+      title: 'โปรดเช็คให้แน่ใจ',
+      text: "คุณต้องการกำหนดสิทธินี้หรือไหม?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'มอบสิทธินี้',
+      cancelButtonText: "ยกเลิก"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const sub = this.userService.updateRoleWarehouse(updateRole).subscribe(
+          async result => {
+            console.log(result);
+            this.swal.alert('success', 'มอบสิทธิเรียบร้อย ', 2000)
+            try {
+              const updata = await this.userService.findBranchByBranchId(this.itemDetail.branch_id).toPromise()
+              this.users = updata
+              this.isDetail = false
+              this.isCLick = true
+            } catch (error) {
+              this.swal.alert('error', JSON.stringify(error), 3500)
+            }
+          },
+          err => {
+            console.log(err);
+            
+          },
+          () => {
+            sub.unsubscribe()
+          }
+        )
+        
+        
+      }
+    })
+  }
+  async desablePremision(bracnh_id: number) {
+    const warehouse = {} as BranchCreateForUser
+    warehouse.branch_id = bracnh_id
+    warehouse.user_id = Number(localStorage.getItem('user_id'))
+    const findPremision = await firstValueFrom(this.userService.findWarehouseByUser_idAndBranch_id(warehouse))
+    if(findPremision.role === 1){
+      this.isAdmin = false
+    }
+    else{
+      this.isAdmin = true
+    }
   }
 }

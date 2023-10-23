@@ -1,0 +1,33 @@
+<div class="monitorBody card">
+    <p style="font-size: 40px; font-weight: 700;">Menu Monitor</p>
+    <div class="items">
+        <div class="card itemI b">
+            <p style="font-size: 30px;" *ngIf="branch">{{product.length}}</p>
+            <p style="font-size: 20px; color: whitesmoke;" *ngIf="!branch">กรุณาเลือกWarehouse</p>
+            <p>สินค้าทั้งหมด</p>
+        </div>
+        <div class="card itemI g">
+            <p style="font-size: 30px;" *ngIf="branch">{{stocks.length}}</p>
+            <p style="font-size: 20px; color: whitesmoke;" *ngIf="!branch">กรุณาเลือกWarehouse</p>
+            <p>stock</p>
+        </div>
+        <div class="card itemI r">
+            <p style="font-size: 30px;" *ngIf="branch" >2</p>
+            <p style="font-size: 20px; color: whitesmoke;" *ngIf="!branch">กรุณาเลือกWarehouse</p>
+            <p>packing case</p>
+        </div>
+        <div class="card itemI bl">
+            <div *ngIf="branch" style="display: flex; align-items: center; justify-content: center; width: 100%;">
+                <p style="font-size: 20px;" >{{totalBalance | number}}</p>
+                <p style="margin: 0 5px;"> บาท</p>
+            </div>
+            <p style="font-size: 20px; color: whitesmoke;" *ngIf="!branch">กรุณาเลือกWarehouse</p>
+            <p>ยอดเงินคงเหลือ</p>
+        </div>
+        <div class="card itemI y">
+            <p style="font-size: 30px;" *ngIf="branch" >{{orders.length}}</p>
+            <p style="font-size: 20px; color: whitesmoke;" *ngIf="!branch">กรุณาเลือกWarehouse</p>
+            <p>order</p>
+        </div>
+    </div>
+</div>

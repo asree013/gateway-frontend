@@ -6,6 +6,7 @@ import {
   Billing,
   Line_Items,
   Orders,
+  Products,
   Shipping,
 } from 'src/app/models/interface/woocommerce.model';
 import { AlertService } from 'src/app/services/alert.service';
@@ -16,6 +17,8 @@ import { UsersService } from 'src/app/services/users.service';
 import { Districts, Provinces, Sectors, SubDistricts, province_id } from 'src/app/models/class/province.model';
 import { AuthenService } from 'src/app/services/authen.service';
 import Swal from 'sweetalert2';
+import { firstValueFrom } from 'rxjs';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-product-home',
@@ -69,6 +72,7 @@ export class ProductHomeComponent implements OnInit {
     private readonly stockService: StockService,
     private readonly us: UsersService,
     private readonly as: AuthenService,
+    private readonly ps: ProductService,
   ) {}
 
   ngOnInit(): void {
@@ -203,8 +207,13 @@ export class ProductHomeComponent implements OnInit {
             const action = this.listCart.map(async r => {
               item.sku = r.sku,
               item.all_front_quantity = r.quantity
-              const updateInventory = await this.stockService.inventoryUpdate(item.sku ,item).toPromise()
-              return console.log(updateInventory);
+              const updateInventory = await firstValueFrom(this.stockService.inventoryUpdate(item.sku ,item))
+              const findStock = await firstValueFrom(this.stockService.getStokcBySKU(item.sku))
+              const productId = findStock[0].product_id
+              const product = {}as Products
+              product.stock_quantity = (updateInventory.all_back_quantity + updateInventory.all_front_quantity)
+              const updateProduct = await firstValueFrom(this.ps.editProduct(productId, product))
+              return console.log(updateProduct);
             })
             if(action) {
               const createOrder = await this.orderService.addOrder(order).toPromise()

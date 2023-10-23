@@ -29,7 +29,7 @@
       <tbody *ngFor="let item of stocks; let i = index">
         <tr>
           <th scope="row">{{ i + 1 }}</th>
-          <td><img width="120px" src="{{item.stocks[0].picture}}" alt="" /></td>
+          <td><img width="120px" src="{{item.stocks[0].picture? item.stocks[0].picture : noImage}}" alt="" /></td>
           <td>{{ item.stocks[0].sku }}</td>
           <td>{{ item.stocks[0].name_product }}</td>
           <td>{{ item.front }}</td>

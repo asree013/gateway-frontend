@@ -19,7 +19,7 @@ import { SearchComponent } from 'src/app/components/search/search.component';
     LoaddingComponent,
     InputModalComponent,
     ModalEditStockComponent,
-    SearchComponent
+    SearchComponent,
   ]
 })
 export class SubComponentsModule { }

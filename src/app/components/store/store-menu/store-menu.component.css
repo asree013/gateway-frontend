@@ -77,3 +77,15 @@
 .reds{
   border: 1px solid red;
 }
+.actionSwitch{
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.editButton{
+  background: linear-gradient(125deg, rgb(6, 36, 133), rgb(36, 73, 196));
+  color: whitesmoke;
+  border-radius: 10px;
+}

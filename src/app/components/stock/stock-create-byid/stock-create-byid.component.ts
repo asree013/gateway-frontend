@@ -10,6 +10,7 @@ import { ProductService } from 'src/app/services/product.service';
 import { StockService } from 'src/app/services/stock.service';
 import { environment } from 'src/environments/environment';
 import { Location } from '@angular/common';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-stock-create-byid',
@@ -52,7 +53,7 @@ export class StockCreateByidComponent implements OnInit {
   checkStockByIdProdcut() {
     this.stockSrevice.getStockByIdProduct(this.idProduct).subscribe(
       result => {
-        if(result){
+        if(result.length > 0){
           this.valueStockInIdProduct = result
           this.item.price = this.valueStockInIdProduct[0].price
           this.item.p1 = this.valueStockInIdProduct[0].p1
@@ -60,6 +61,9 @@ export class StockCreateByidComponent implements OnInit {
           this.item.p3 = this.valueStockInIdProduct[0].p3
           this.item.p4 = this.valueStockInIdProduct[0].p4
           // this.item = this.valueStockInIdProduct[0]
+        }
+        else{
+          return
         }
       },
       err => {
@@ -85,26 +89,46 @@ export class StockCreateByidComponent implements OnInit {
         create.p4 = this.item.p4
         create.product_id = Number(this.idProduct)
         create.branch_id = Number(branch_id)
-        const createStock = await this.stockSrevice.create(create).toPromise()
+        const createStock = await firstValueFrom(this.stockSrevice.create(create))
         console.log('created Stock');
-        const findStockQuntity = await this.stockSrevice.getStockQuantityBySku(this.productDetail.sku).toPromise()
-        console.log('findStockQuantity', findStockQuntity);
-        const update = {} as StockQuantity
-        update.all_back_quantity = Number(findStockQuntity.all_back_quantity + createStock.stock_external)
-        update.all_front_quantity = Number(findStockQuntity.all_front_quantity + createStock.stock_internal)
-        const updateStockQuantity = await this.stockSrevice.editStockQuantity(Number(findStockQuntity.id), update).toPromise()
-        console.log('updateStock', updateStockQuantity);
+        const findStockQuntity = await firstValueFrom(this.stockSrevice.getStockQuantityBySku(this.productDetail.sku))
+        if(findStockQuntity){
+          const update = {} as StockQuantity
+          update.all_back_quantity = Number(findStockQuntity.all_back_quantity + createStock.stock_external)
+          update.all_front_quantity = Number(findStockQuntity.all_front_quantity + createStock.stock_internal)
+          const updateStockQuantity = await firstValueFrom(this.stockSrevice.editStockQuantity(Number(findStockQuntity.id), update))
+          console.log('updateStock', updateStockQuantity);
 
           const product = {} as Products
           product.stock_quantity = (update.all_back_quantity + update.all_front_quantity)
-          const updateProduct = await this.productService.editProduct(Number(this.idProduct), product).toPromise()
+          const updateProduct = await firstValueFrom(this.productService.editProduct(Number(this.idProduct), product))
           if(updateProduct){
-            console.log('updateProduct', updateProduct);
+            console.log('product', product);
 
             this.isLodding = false
             this.swal.alert('success', 'เพิ่มสต๊อกสำเร็จ')
             this.locatoin.back()
           }
+        }
+        else{
+          const createQuantity = {} as StockQuantity
+          createQuantity.name = create.name_product
+          createQuantity.picture = create.picture
+          createQuantity.sku = create.sku
+          createQuantity.all_back_quantity = create.stock_internal
+          createQuantity.all_front_quantity = create.stock_external
+          const resultQuantity = await firstValueFrom(this.stockSrevice.addStockQuantity(createQuantity))
+          const product = {} as Products
+          product.regular_price = String(create.price)
+          product.stock_quantity = (resultQuantity.all_back_quantity + resultQuantity.all_front_quantity)
+          const updateProduct = await firstValueFrom(this.productService.editProduct(Number(this.idProduct), product))
+          if(updateProduct){
+            this.isLodding = false
+            this.swal.alert('success', 'เพิ่มสต๊อกสำเร็จ')
+            this.locatoin.back()
+          }
+        }
+        
       } catch (error) {
         console.log(error);
 

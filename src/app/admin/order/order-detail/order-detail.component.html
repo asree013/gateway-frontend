@@ -9,11 +9,15 @@
           <h1 class="btn btn-outline-success">{{orderDetail.status | status}}</h1>
       </div>
       <div class="icon_header">
-
+        <button type="button" class="btn btn-primary" (click)="prushing()">เปิด qrcode</button>
         <button type="button" class="btn btn-secondary" (click)="prushing()">ชำระแล้ว</button>
         <button type="button" class="btn btn-warning" (click)="cancelOrder(orderDetail.id)">ยกเลิกคำสั่งซื้อ</button>
         <button type="button" class="btn btn-danger" (click)="deleteOrder(orderDetail.id)">ลบคำสั่งซื้อ</button>
       </div>
+    </div>
+    <div class="qrcode"> 
+      <!-- <qrcode [qrdata]="'0628036381'" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>   -->
+      <img [src]="promptpayQRCode" alt="PromptPay QR Code">
     </div>
     <div class="body_card card">
       <table class="table">

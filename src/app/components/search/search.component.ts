@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { BranchCreateForUser, SearchBranch } from 'src/app/models/class/branch.model';
 import { Users } from 'src/app/models/class/users.model';
 import { AlertService } from 'src/app/services/alert.service';
@@ -43,17 +44,24 @@ export class SearchComponent implements OnInit {
     )
   }
 
-  addBranch(id: number) {
-    this.isLoading = true
-    if(id){
+  async addBranch(id: number) {
+    const data = {} as BranchCreateForUser
+    data.branch_id = this.obj.branch_id
+    data.user_id = id
+    const findEmail = await firstValueFrom(this.us.findWarehouseByUser_idAndBranch_id(data))
+    if(findEmail){
+      this.swal.alert('error', 'have a user in warehouse', 5500)
+    }
+    else{
+      this.isLoading = true
       const add = new BranchCreateForUser()
       add.branch_id = this.obj.branch_id
       add.user_id = id
       add.role = 0
       const sub = this.us.createBranchForUser(add).subscribe(
-        result => {
+        async result => {
           this.isLoading = false
-          this.us.findBranchByBranchId(this.obj.branch_id).toPromise()
+          await this.us.findBranchByBranchId(this.obj.branch_id).toPromise()
           this.swal.alert('success', 'Join Warehouse Complete')
         },
         err => {

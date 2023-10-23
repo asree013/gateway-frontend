@@ -11,7 +11,7 @@
       <div style="margin-left: 20px;">
         <p *ngIf="isNotBranchInDataBase" style="color: red; font-size: 2rem;">{{isNotBranchInDataBase}}</p>
         <div *ngFor="let item of myBranch">
-          <div *ngIf="item.role === 0" class="menu_bar" (click)='isNotComfirm()'><p>{{item.title}}</p> <p style="font-size: 0.8rem; color: red;">(รอยืนยัน)</p> </div>
+          <div *ngIf="item.role === 0" class="menu_bar" (click)='responseInvite(item.branch_id)'><p>{{item.title}}</p> <p style="font-size: 0.8rem; color: red;">(ตอบรับ)</p> </div>
           <p *ngIf="item.role > 0" class="menu_bar" (click)="whereBranchById(item.branch_id)">{{item.title}}</p>
         </div>
       </div>
@@ -36,9 +36,12 @@
               <td>{{i + 1}}</td>
               <td>{{item.user_email}}</td>
               <td>{{item.user_nicename}}</td>
-              <td>{{item.role | roleWarehouse}}</td>
+              <td *ngIf="item.role === 0" style="color: whitesmoke; background: rgb(144, 155, 30);">{{item.role | roleWarehouse}}</td>
+              <td *ngIf="item.role === 1" style="color: whitesmoke; background: rgb(255, 0, 0);">{{item.role | roleWarehouse}}</td>
+              <td *ngIf="item.role === 2" style="color: whitesmoke; background: rgb(16, 56, 137);">{{item.role | roleWarehouse}}</td>
+              <td *ngIf="item.role === 3" style="color: whitesmoke; background: rgb(15, 103, 38);">{{item.role | roleWarehouse}}</td>
               <th>
-                <a (click)="openDeatail(item)">click</a>
+                <button [disabled]="isAdmin" class="btn btn-primary" (click)="openDeatail(item)">แก้ไข</button>
               </th>
             </tr>
           </tbody>
@@ -48,39 +51,50 @@
         <div class="action_header card p-3" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
           <div class="name" style="display: flex; justify-content: space-between; width: 30%;">
             <p>name: {{itemDetail.user_nicename}}</p>
-            <p>name: {{itemDetail.user_email}}</p>
+            <p>email: {{itemDetail.user_email}}</p>
           </div>
           <img style="width: 60px;" src="assets/images/noImage.png" alt="">
         </div>
         <div class="action_body card">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>รายละเอียด</th>
-                <th>อ่านข้อมูล</th>
-                <th>แก้ไขข้อมูล</th>
-                <th>ผู้ดูแล</th>
-                <th>action</th>
-              </tr>
-            </thead>
-            <tbody >
-              <tr *ngFor="let item of status">
-                <td>{{item.title}}</td>
-                <td><img width="40px" src="{{item.icon1}}" alt=""></td>
-                <td><img width="40px" src="{{item.icon2}}" alt=""></td>
-                <td><img width="40px" src="{{item.icon3}}" alt=""></td>
-                <td>
-                  <div class="form-check form-switch">
-                    <input #reader class="form-check-input" type="checkbox" role="switch" (click)="selectRole('reader', reader.value)" id="reader">
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div style="display: flex;width: 100%;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>รายละเอียด</th>
+                  <th>อ่านข้อมูล</th>
+                  <th>แก้ไขข้อมูล</th>
+                  <th>ผู้ดูแล</th>
+                </tr>
+              </thead>
+              <tbody >
+                <tr *ngFor="let item of status">
+                  <td>{{item.title}}</td>
+                  <td><img width="40px" src="{{item.icon1}}" alt=""></td>
+                  <td><img width="40px" src="{{item.icon2}}" alt=""></td>
+                  <td><img width="40px" src="{{item.icon3}}" alt=""></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="form-check form-switch actionSwitch">
+              <p>Action</p>
+              <div class="form-check">
+                <input class="form-check-input" (click)="role = 0" type="checkbox" value="" id="role0" [checked]="role === 0">
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" (click)="role = 1" type="checkbox" value="" id="role1" [checked]="role === 1">
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" (click)="role = 2" type="checkbox" value="" id="role2" [checked]="role === 2">
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" (click)="role = 3" type="checkbox" value="" id="role3" [checked]="role === 3">
+              </div>
+            </div>
+          </div>
         </div>
         <div class="action_footer card">
-          <p>delete On Warehouse</p>
-          <button type="button" class="btn btn-danger" (click)="deleteUserInWarehouse(itemDetail.id)">delete</button>
+          <button type="button" class="btn btn-primary m-2" (click)="updateRole()">save</button>
+          <button type="button" class="btn btn-danger m-2" (click)="deleteUserInWarehouse(itemDetail.id)">delete</button>
         </div>
       </div>
     </div>

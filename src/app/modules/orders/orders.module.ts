@@ -42,7 +42,8 @@ const route: Routes = [
     CommonModule,
     FormsModule,
     RouterModule.forChild(route),
-    SubComponentsModule
+    SubComponentsModule,
+
   ]
 })
 export class OrdersModule {}

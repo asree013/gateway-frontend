@@ -38,7 +38,7 @@
               </div>
               <div style="width: 15%; margin: 5px;">
                 <div style="border-radius: 15px; background: rgb(177, 175, 175); color: aliceblue; padding: 5px; width: 70px; height: 35px; cursor: pointer;">
-                  <h3 style="display: flex;"> x<input (change)="changQuantity(item.quantity, item.id, i)" style="width: 45px;" [(ngModel)]="item.quantity" type="number">  </h3>
+                  <h3 style="display: flex;"> x<input (input)="changQuantity(item.quantity, item.id, i)" style="width: 45px;" [(ngModel)]="item.quantity" type="number">  </h3>
                 </div>
                 <div *ngIf="p">
                   <p style="color: green; font-size: 1.5rem;">{{ item.price | number : '1.2-2'}}</p>

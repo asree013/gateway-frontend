@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Pipe } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { BranchForUser, BranchCreateForUser, WarehouseUser } from '../models/class/branch.model';
+import { BranchForUser, BranchCreateForUser, WarehouseUser, Warehouse } from '../models/class/branch.model';
 import { Observable } from 'rxjs';
 import { Customers, CustomersFormCreate } from '../models/interface/woocommerce.model';
 import { Username, Users } from '../models/class/users.model';
@@ -39,5 +39,11 @@ export class UsersService {
   }
   deleteUserBranch(branch_id: number){
     return this.http.delete(`${environment.baseUrl}/users/warehouse/${branch_id}`)
+  }
+  updateRoleWarehouse(item: BranchCreateForUser) {
+    return this.http.put<Warehouse>(`${environment.baseUrl}/users/warehouse/${item.branch_id}/user/${item.user_id}`, item)
+  }
+  findWarehouseByUser_idAndBranch_id(item: BranchCreateForUser) {
+    return this.http.get<Warehouse>(`${environment.baseUrl}/users/warehouse/${item.branch_id}/user/${item.user_id}`,)
   }
 }

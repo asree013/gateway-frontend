@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MenuComponent } from './admin/menu/menu.component';
 import { StockModule } from './modules/stock/stock.module';
 import { SubComponentsModule } from './modules/SubComponentsModule/SubComponentsModule.module';
+import { MinitorComponent } from './components/minitor/minitor.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { SubComponentsModule } from './modules/SubComponentsModule/SubComponents
     HeaderComponent,
     SidenavComponent,
     MenuComponent,
+    MinitorComponent
   ],
   imports: [
     BrowserModule,

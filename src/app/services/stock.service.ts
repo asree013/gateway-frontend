@@ -20,6 +20,9 @@ export class StockService {
   getStockById(id: number): Observable<Stocks> {
     return this.http.get<Stocks>(`${environment.baseUrl}/stock/${id}`);
   }
+  getStokcBySKU(sku: string) {
+    return this.http.get<Stocks[]>(`${environment.baseUrl}/stock/sku/${sku}`)
+  }
   getStockAll(): Observable<Stocks[]> {
     return this.http.get<Stocks[]>(`${environment.baseUrl}/stock`);
   }
@@ -74,8 +77,6 @@ export class StockService {
     return this.http.get<StockQuantityRelate[]>(`${environment.baseUrl}/stock-quantity/all`)
   }
   inventoryUpdate(sku: string, item: StockQuantity) {
-    console.log('service: ', sku, item);
-
     return this.http.post<StockQuantity>(`${environment.baseUrl}/stock-quantity/inventory/${sku}`, item)
   }
 }

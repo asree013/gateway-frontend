@@ -1,0 +1,52 @@
+.monitorBody{
+    width: 58rem;
+    padding: 10px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.items{
+    margin: 10px 0;
+    display: grid;
+    grid-template-columns: repeat(5, 10rem);
+    grid-gap: 15px;
+}
+.itemI{
+    height: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.b{
+    border: 1px solid rgb(3, 27, 56);
+    background: rgb(59, 165, 194);
+    color: rgb(3, 27, 56);
+    border-radius: 10px;
+}
+.g{
+    border: 1px solid green;
+    background: rgb(160, 234, 160);
+    color: green;
+    border-radius: 10px;
+}
+.r{
+    border: 1px solid red;
+    background: rgb(228, 165, 160);
+    color: red;
+    border-radius: 10px;  
+}
+.y{
+    border: 1px solid rgb(174, 174, 12);
+    background: rgb(236, 236, 135);
+    color: rgb(174, 174, 12);
+    border-radius: 10px;
+}
+.bl{
+    border: 1px solid black;
+    background: rgb(176, 173, 173);
+    color: black;
+    border-radius: 10px;  
+}
