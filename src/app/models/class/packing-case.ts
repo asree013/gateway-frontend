@@ -25,3 +25,10 @@ export class DetailPacking {
     counts: number;
     images: string;   
 }
+
+export class PackingCaseCreate {
+    pa_sku: string;
+    names: string;
+    counts: number;
+    images: string;
+}

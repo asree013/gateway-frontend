@@ -9,6 +9,7 @@ import { UsersService } from 'src/app/services/users.service';
 import { Router } from '@angular/router';
 import { AuthenService } from 'src/app/services/authen.service';
 import { Districts, Provinces, Sectors, SubDistricts } from 'src/app/models/class/province.model';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -193,26 +194,7 @@ export class RegisterComponent implements OnInit {
     }
   }
   onSubmit(value: CustomersFormCreate) {
-    // if (!$('#username').hasClass('is-valid')) {
-    //   this.swal.alert('error', 'กรุณากรอกข้อมูลให้ครบ');
-    // }
-    // if (!$('#password').hasClass('is-valid')) {
-    //   this.swal.alert('error', 'กรุณากรอกข้อมูลให้ครบ');
-    // }
-    // if (!$('#email').hasClass('is-valid')) {
-    //   this.swal.alert('error', 'กรุณากรอกข้อมูลให้ครบ');
-    // }
-    // if (!$('#firstname').hasClass('is-valid')) {
-    //   this.swal.alert('error', 'กรุณากรอกข้อมูลให้ครบ');
-    // }
-    // if (!$('#lastname').hasClass('is-valid')) {
-    //   this.swal.alert('error', 'กรุณากรอกข้อมูลให้ครบ');
-    // }
-    // if (!value.branch_id) {
-    //   this.swal.alert('error', 'กรุณาเลือกสาขา');
-    // } else {
       this.createCustomers(value);
-    // }
   }
   validateForm(value: Customers) {
     $('#username').removeClass('is-invalid');
@@ -262,5 +244,111 @@ export class RegisterComponent implements OnInit {
   }
   slideToggle() {
     $('#slide_branch').slideToggle();
+  }
+  async validateUsername() {
+    let username = document.getElementById('username') as HTMLInputElement
+    try {
+      const result = await firstValueFrom(this.userSrevice.findUsername(username.value))
+      console.log(result);
+      const p = document.getElementById('validUsername')
+      const p2 = document.getElementById('invalidUsername')
+      
+      if(!result){
+        p2.innerHTML = ''
+        p.innerHTML = `
+          <p style="color: green;">* สามารถใช่ username นี่ได้</p>
+        `
+      }
+      else{
+        p.innerHTML = ''
+        p2.innerHTML = `
+          <p style="color: red; ">* 'ไม่'สามารถใช่ username นี่ได้</p>
+        `
+      }
+    } catch (error) {
+      console.log(error);       
+      this.swal.alert('error', error)
+    }
+  }
+  async validateEmail() {
+    let email = document.getElementById('email') as HTMLInputElement
+    try {
+      const result = await firstValueFrom(this.userSrevice.findEmail(email.value))
+      console.log({
+        result: result
+      });
+      const p = document.getElementById('validEmail')
+      const p2 = document.getElementById('invalidEmail')
+      
+      if(!result){
+        p2.innerHTML = ''
+        p.innerHTML = `
+          <p style="color: green;">* สามารถใช่ email นี่ได้</p>
+        `
+      }
+      else{
+        p.innerHTML = ''
+        p2.innerHTML = `
+          <p style="color: red; ">* 'ไม่'สามารถใช่ email นี่ได้</p>
+        `
+      }
+    } catch (error) {
+      console.log(error);       
+      this.swal.alert('error', error)
+    }
+  }
+  async validateEmailBl() {
+    let email = document.getElementById('email') as HTMLInputElement
+    try {
+      const result = await firstValueFrom(this.userSrevice.findEmail(email.value))
+      console.log({
+        result: result
+      });
+      const p = document.getElementById('validEmailBl')
+      const p2 = document.getElementById('invalidEmailBl')
+      
+      if(!result){
+        p2.innerHTML = ''
+        p.innerHTML = `
+          <p style="color: green;">* สามารถใช่ email นี่ได้</p>
+        `
+      }
+      else{
+        p.innerHTML = ''
+        p2.innerHTML = `
+          <p style="color: red; ">* 'ไม่'สามารถใช่ email นี่ได้</p>
+        `
+      }
+    } catch (error) {
+      console.log(error);       
+      this.swal.alert('error', error)
+    }
+  }
+  async validateEmailSp() {
+    let email = document.getElementById('email') as HTMLInputElement
+    try {
+      const result = await firstValueFrom(this.userSrevice.findEmail(email.value))
+      console.log({
+        result: result
+      });
+      const p = document.getElementById('validEmailSp')
+      const p2 = document.getElementById('invalidEmailSp')
+      
+      if(!result){
+        p2.innerHTML = ''
+        p.innerHTML = `
+          <p style="color: green;">* สามารถใช่ email นี่ได้</p>
+        `
+      }
+      else{
+        p.innerHTML = ''
+        p2.innerHTML = `
+          <p style="color: red; ">* 'ไม่'สามารถใช่ email นี่ได้</p>
+        `
+      }
+    } catch (error) {
+      console.log(error);       
+      this.swal.alert('error', error)
+    }
   }
 }

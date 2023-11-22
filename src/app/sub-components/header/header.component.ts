@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { AuthenService } from 'src/app/services/authen.service';
 import * as $ from 'jquery';
 import { BranchService } from 'src/app/services/branch.service';
+import { firstValueFrom } from 'rxjs';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -29,69 +30,95 @@ export class HeaderComponent implements OnInit {
     this.getDataLogin();
 
   }
-  getDataLogin() {
+  async getDataLogin() {
     let id = localStorage.getItem('user_id');
     let branch_id = localStorage.getItem('branch_id');
     let branch_title = localStorage.getItem('branch_title');
-    let status = localStorage.getItem('user_status')
     if (branch_id || branch_title) {
       this.branchTitle = branch_title;
     }
     if (id) {
-        const sub = this.userService.findBrandUser(Number(id)).subscribe(
-          async (result) => {
-            if (result.length === 0) {
-              console.log(result);
-              
-              const name = await this.userService
-              .findUserById(Number(id))
-              .toPromise();
-
-              this.isBranch = result;
-              this.nikname = name.user_nicename
-              this.whereCallist();
-
-              if(Number(status) === 1){
-                return
-              }
-              else{
-                Swal.fire({
-                  title: 'คุณยังไม่มี Warehoue',
-                  showDenyButton: true,
-                  showCancelButton: true,
-                  confirmButtonText: 'สร้าง Warehouse',
-                  denyButtonText: `เข้าร่วม Warehouse`,
-                }).then((result) => {
-                  /* Read more about isConfirmed, isDenied below */
-                  if (result.isConfirmed) {
-                    this.router.navigate(['/store/create']);
-                  } else if (result.isDenied) {
-                    this.router.navigate(['/store/menu']);
-                  }
-                });
-              }
+      try {
+        const findUserIBranch = await firstValueFrom(this.userService.findBrandUser(Number(id)))
+        const name = await firstValueFrom(this.userService.findUserById(Number(id)))
+        this.isBranch = findUserIBranch;
+        this.nikname = name.user_nicename
+        this.whereCallist();
+        if(findUserIBranch.length === 0){
+          Swal.fire({
+            title: 'คุณยังไม่มี Warehoue',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'สร้าง Warehouse',
+            denyButtonText: `เข้าร่วม Warehouse`,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.router.navigate(['/store/create']);
+            } else if (result.isDenied) {
+              this.router.navigate(['/store/menu']);
             }
-            else{
-
-              const name = await this.userService
-              .findUserById(Number(id))
-              .toPromise();
-              console.log(name);
+          });
+        }
+        else{
+          return
+        }
+      } catch (error) {
+        console.log(error);       
+      }
+        // const sub = this.userService.findBrandUser(Number(id)).subscribe(
+        //   async (result) => {
+        //     if (result.length === 0) {
+        //       console.log(result);
               
-              this.isBranch = result;
+        //       const name = await this.userService
+        //       .findUserById(Number(id))
+        //       .toPromise();
 
-              this.nikname = name.user_nicename
-              this.whereCallist();
-            }
+        //       this.isBranch = result;
+        //       this.nikname = name.user_nicename
+        //       this.whereCallist();
 
-          },
-          (err) => {
-            console.log('err Header: ', err);
-          },
-          () => {
-            sub.unsubscribe();
-          }
-        );
+        //       if(Number(status) === 1){
+        //         return
+        //       }
+        //       else{
+        //         Swal.fire({
+        //           title: 'คุณยังไม่มี Warehoue',
+        //           showDenyButton: true,
+        //           showCancelButton: true,
+        //           confirmButtonText: 'สร้าง Warehouse',
+        //           denyButtonText: `เข้าร่วม Warehouse`,
+        //         }).then((result) => {
+        //           /* Read more about isConfirmed, isDenied below */
+        //           if (result.isConfirmed) {
+        //             this.router.navigate(['/store/create']);
+        //           } else if (result.isDenied) {
+        //             this.router.navigate(['/store/menu']);
+        //           }
+        //         });
+        //       }
+        //     }
+        //     else{
+
+        //       const name = await this.userService
+        //       .findUserById(Number(id))
+        //       .toPromise();
+        //       console.log(name);
+              
+        //       this.isBranch = result;
+
+        //       this.nikname = name.user_nicename
+        //       this.whereCallist();
+        //     }
+
+        //   },
+        //   (err) => {
+        //     console.log('err Header: ', err);
+        //   },
+        //   () => {
+        //     sub.unsubscribe();
+        //   }
+        // );
     }
   }
   selectBranch(value: any) {
@@ -123,11 +150,10 @@ export class HeaderComponent implements OnInit {
   }
   whereCallist() {
     if(this.isBranch){
-      this.isBranch.map( (r) => {
-        const sub = this.userService.findBranchByBranchId(r.branch_id).subscribe(
-          result => {
-
-            this.branchUserStatus = result
+      this.isBranch.map( async (r) => {
+        const whereCallist = await firstValueFrom(this.userService.findBranchByBranchId(r.branch_id))
+            
+            this.branchUserStatus = whereCallist
             const role = this.branchUserStatus.map(r => {
               return r.role === 0
             })
@@ -137,12 +163,6 @@ export class HeaderComponent implements OnInit {
             else{
               this.hasCalled = false
             }
-
-          },
-          () => {
-            sub.unsubscribe()
-          }
-        )
       })
 
     }

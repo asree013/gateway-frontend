@@ -38,39 +38,48 @@ export class MinitorComponent implements OnInit {
   }
   async getProduct(){
     let result = await firstValueFrom(this.ps.getProductAll())
-    this.product = result.filter(r => {
+    const product = result.filter(r => {
       return r.name.includes(`(${this.branch})`)
     })
+    this.product = product
   }
   async getStocker() {
     let result = await firstValueFrom(this.ss.getStockAll())
-    this.stocks = result.filter( r => {
-      return r.name_product.includes(`(${this.branch})`)
-    })
+    if(result.length !== 0) {
+      const stock = result.filter( r => {
+        return r.name_product.includes(`(${this.branch})`)
+      })
+      this.stocks = stock
+    }
   }
   async getAccout() {
     let result = await firstValueFrom(this.as.getAccoutByBranchIdAll(Number(localStorage.getItem('branch_id'))))
-    const incom = result.filter(r => {
-      return r.type_accout.includes('รับเงิน')
-    }).reduce((i, c) => {
-      return i + c.total
-    }, 0)
-    
-    const payment = result.filter(r => r.type_accout.includes('จ่ายเงิน'))
-    .reduce((i, c) => {
-      return i + c.total
-    }, 0)
-    
-    this.totalBalance = incom - payment
+    if(result.length === 0){
+      this.totalBalance = 0
+    }
+    else{
+      const incom = result.filter(r => {
+        return r.type_accout.includes('รับเงิน')
+      }).reduce((i, c) => {
+        return i + c.total
+      }, 0)
+      
+      const payment = result.filter(r => r.type_accout.includes('จ่ายเงิน'))
+      .reduce((i, c) => {
+        return i + c.total
+      }, 0)
+      
+      this.totalBalance = incom - payment
+    }
     
     
   }
   async getOrder() {
     let result = await firstValueFrom(this.os.getOrderAll())
-    this.orders = result.filter(r => {
+    const orders = result.filter(r => {
       return r.line_items.filter(r=> r.name.includes(`(${this.branch})`))
     })
-    console.log(this.orders);
+    this.orders = orders
     
   }
 

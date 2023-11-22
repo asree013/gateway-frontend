@@ -63,4 +63,11 @@
 .green{
     border: 1px solid green;
 }
+.packingCaseCart input{
+    margin: 5px 0;
+    border-radius: 8px;
+    border: none;
+    padding: 4px 15px;
+    background: rgb(242, 239, 239);
+}
 

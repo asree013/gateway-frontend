@@ -4,6 +4,7 @@ import { PackingComponent } from 'src/app/components/packing-case/packing/packin
 import { PackingFormComponent } from 'src/app/components/packing-case/packing-form/packing-form.component';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { SubComponentsModule } from '../SubComponentsModule/SubComponentsModule.module';
 
 const routes:Routes = [
   {
@@ -19,12 +20,13 @@ const routes:Routes = [
 @NgModule({
   declarations: [
     PackingComponent,
-    PackingFormComponent
+    PackingFormComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    SubComponentsModule
   ]
 })
 export class PackingCaseModule { }

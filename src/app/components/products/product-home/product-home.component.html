@@ -2,9 +2,6 @@
   <div class="headers">
     <div class="card card-header">
       <input class="inputInModal" type="text" id="sku" placeholder="Search Slug" (change)="searchData($event)" autofocus>
-      <div class="input-bar" (click)="this.displayStlye = 'block'">
-        <p>search</p>
-      </div>
     </div>
   </div>
   <div class="p-body mt-4">
@@ -93,7 +90,14 @@
           </div>
         </div>
         <div id="toggleSp" class="card billing displayNone">
-          <p>ที่อยู่ ผู้เซ็น/credit</p>
+          <p style="font-size: 2rem;">ที่อยู่ ผู้เซ็น/credit</p>
+          <div style="display: flex; align-items: center; justify-content: center; width: 35%; flex-direction: column; ">
+            <p style="color: red;">* กรอกEmail โดยไม่ต้องใส่ "@hotmail.com"</p>
+            <div style="display: flex; align-items: center; justify-content: flex-start;">
+              <input id="find_emali" class="input-field" style="border-radius: 20px; background: rgb(227, 224, 224);" type="text" placeholder="test001">
+              <button (click)="findEmail()" type="button" class="btn btn-primary">ใช้ Email</button>
+            </div>
+          </div>
           <form action="" class="p-3">
             <div class="input-container" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
               <input [(ngModel)]="itemDeatil.first_name" name="first_name" type="text" class="input-field" placeholder="Firstname">
@@ -141,43 +145,6 @@
   </div>
 </div>
 
-<div
-  class="modal"
-  tabindex="-1"
-  role="dialog"
-  [ngStyle]="{'display':displayStlye}">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title">Searching Data</h2>
-      </div>
-      <div class="modal-body">
-        <!-- <input class="inputInModal" type="text" id="name" placeholder="Search Name" (change)="searchData($event)">
-        <input class="inputInModal" type="text" id="price" placeholder="Search Price" (change)="searchData($event)">
-        <input class="inputInModal" type="text" id="slug" placeholder="Search Slug" (change)="searchData($event)"> -->
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn-filter btns">filter</button>
-        <button type="button" class="btn btn-danger btns"
-                (click)="this.displayStlye = 'none'">
-          cancel
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
 <app-loadding *ngIf="isLoadding"></app-loadding>
 <app-modal-edit-stock *ngIf="el_back_stock.modalStock" [el_back_stock]="el_back_stock" (exportUpdate)="returnItem($event)"></app-modal-edit-stock>
 
-<!-- <div class="modal">
-  <div class="card dailogEditQuantity">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-      <p>เพิ่มจำนวนสินค้า</p>
-      <p style="font-size: 2rem;">x</p>
-    </div>
-    <div style="margin-top: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-      <input style="width: 50%;" type="number" placeholder="ใส่จำรวนเงินที่ต้องการลด">
-      <button style="width: 100%; margin-top: 10px;" type="button" (click)="editQuantity()">ลดราคา</button>
-    </div>
-  </div>
-</div> -->

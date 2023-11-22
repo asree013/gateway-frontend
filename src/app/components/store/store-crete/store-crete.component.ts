@@ -12,6 +12,7 @@ import {
 import { AlertService } from 'src/app/services/alert.service';
 import { Router } from '@angular/router';
 import { UsersService } from 'src/app/services/users.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-store-crete',
@@ -112,7 +113,7 @@ export class StoreCreteComponent implements OnInit, OnDestroy {
   async CreateWareHouse(value: CreateWareHouse) {
     this.isLoading = true;
     const idUser = localStorage.getItem('user_id');
-    const getProvince: any = await this.authen.getProvinceById(this.province_id).toPromise();
+    const getProvince: any = await firstValueFrom(this.authen.getProvinceById(this.province_id))
     const subDistrict: any = await this.authen.getSubDistrictById(this.subDis).toPromise();
 
     if (getProvince || subDistrict) {
@@ -128,24 +129,21 @@ export class StoreCreteComponent implements OnInit, OnDestroy {
         create.phone = value.phone;
         create.country = 'TH'
         create.user_id = Number(idUser);
-        console.log(create);
 
-        const createWarehouse = await this.branchService.createBranch(create).toPromise()
+        const createWarehouse = await firstValueFrom(this.branchService.createBranch(create))
 
         const createBranch = new BranchCreateForUser()
         createBranch.branch_id = createWarehouse.id
         createBranch.user_id = Number(idUser)
         createBranch.role = 1
 
-        const createWhForUser = await this.userService.createBranchForUser(createBranch).toPromise()
+        const createWhForUser = await firstValueFrom(this.userService.createBranchForUser(createBranch))
         
         if(createWhForUser) {
           this.isLoading = false;
           this.swal.alert('success', 'Create store Success!!!', 2000)
+          this.route.navigate(['/menu'])
           await window.location.reload()
-          this.interval = setInterval(() => {
-            this.route.navigate(['/menu'])
-          }, 2000)
         }
       } catch (error) {
         this.swal.alert('error', JSON.stringify(error), 4500)

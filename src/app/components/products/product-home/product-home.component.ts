@@ -19,6 +19,7 @@ import { AuthenService } from 'src/app/services/authen.service';
 import Swal from 'sweetalert2';
 import { firstValueFrom } from 'rxjs';
 import { ProductService } from 'src/app/services/product.service';
+import { Users } from 'src/app/models/class/users.model';
 
 @Component({
   selector: 'app-product-home',
@@ -33,7 +34,6 @@ export class ProductHomeComponent implements OnInit {
   listCart: any[] = [];
   displayStlye: string = 'none';
   dataSearch = new Search<Partial<any>>();
-  barcode = '9551009843811';
   totalPrice: number = 0;
   p: boolean;
   selectedType: string = '';
@@ -46,6 +46,7 @@ export class ProductHomeComponent implements OnInit {
   isProvince: Provinces[] = []
   isDistrict: Districts[] = []
   isCity: SubDistricts[] = []
+  findEmails: Users = {} as Users
   itemBilling = {
     city: '',
     state: '',
@@ -517,5 +518,17 @@ export class ProductHomeComponent implements OnInit {
       }
     }
   }
+  async findEmail() {
+    const findEmail = document.getElementById('find_emali') as HTMLInputElement
+    try {
+      const result = await firstValueFrom(this.us.findUserByEmial(findEmail.value))
+      console.log(result);
+      this.findEmails = result[0]
 
+      this.itemDeatil.first_name = this.findEmails.display_name
+    } catch (error) {
+      console.log(error);
+      this.swal.alert('error', 'ไม่มี email นี้อยู่ในระบบ', 5000)
+    }
+  }
 }

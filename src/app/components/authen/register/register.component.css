@@ -8,7 +8,7 @@ h1 {
 .bodys {
   padding: 10px;
   margin: 0 20%;
-  background-image: linear-gradient(125deg, rgb(10, 52, 187), #041641);
+  background: #304a89;
   border-radius: 20px;
 
 }

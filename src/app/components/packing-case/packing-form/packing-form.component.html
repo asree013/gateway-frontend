@@ -18,7 +18,7 @@
         <p>สินค้าภายในลัง</p>
         <div class="cart card p-3">
             <div class="productDetail">
-                <div class="images card" *ngFor="let item of packingDetail;let i = index">
+                <div id="image{{i}}" class="images card" *ngFor="let item of packingDetail;let i = index">
                     <img width="60px" src="{{item.images[0].src}}"  alt="">
                     <div style="display: flex;">
                         <p>{{item.name}}</p>

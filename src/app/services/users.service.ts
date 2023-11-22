@@ -46,4 +46,10 @@ export class UsersService {
   findWarehouseByUser_idAndBranch_id(item: BranchCreateForUser) {
     return this.http.get<Warehouse>(`${environment.baseUrl}/users/warehouse/${item.branch_id}/user/${item.user_id}`,)
   }
+  findUsername(username: string) {
+    return this.http.get(`${environment.baseUrl}/users/user-login/${username}`)
+  }
+  findEmail(email: string) {
+    return this.http.get(`${environment.baseUrl}/users/user-emali/${email}`)
+  }
 }

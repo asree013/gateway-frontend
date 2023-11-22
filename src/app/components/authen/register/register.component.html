@@ -1,32 +1,42 @@
 
 <div class="card p-3 bodys" style="display: flex; justify-content: center; align-items: center;">
-  <h1>Register</h1>
+  <h1 style="font-size: 40px; font-weight: 700;">Register</h1>
   <form action="" #fromRegister="ngForm" (keyup)="validateForm(fromRegister.value)">
-    <div class="input-group mb-3">
+    <div class="input-group mb-3 mt-3">
       <span class="input-group-text" for="username">Username</span>
-      <input ngModel name="username" [disabled]="isLoadding" id="username" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+      <input ngModel name="username" [disabled]="isLoadding" id="username" type="text" class="form-control" placeholder="aaaaa0001" aria-label="Username" aria-describedby="basic-addon1">
+      <button type="button" (click)="validateUsername()" class="btn btn-success">Check</button>
+    </div>
+    <div class="m-2" >
+      <p id="invalidUsername"></p>
+      <p id="validUsername"></p>
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text" for="password">Password</span>
-      <input ngModel name="password" [disabled]="isLoadding" id="password" type="text" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
+      <input ngModel name="password" [disabled]="isLoadding" id="password" type="text" class="form-control" placeholder="1234565az" aria-label="Password" aria-describedby="basic-addon1">
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text" for="email">Email</span>
-      <input ngModel name="email" [disabled]="isLoadding" id="email" type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
+      <input ngModel name="email" [disabled]="isLoadding" id="email" type="email" class="form-control" placeholder="sharif@test.com" >
+      <button type="button" (click)="validateEmail()" class="btn btn-success">Check</button>
+    </div>
+    <div class="m-2" >
+      <p id="invalidEmail"></p>
+      <p id="validEmail"></p>
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text" for="firstname">Firstname</span>
-      <input ngModel name="first_name" [disabled]="isLoadding" id="firstname" type="text" class="form-control" placeholder="Firstname" aria-label="Firstname" aria-describedby="basic-addon1">
+      <input ngModel name="first_name" [disabled]="isLoadding" id="firstname" type="text" class="form-control" placeholder="sharef" aria-label="Firstname" aria-describedby="basic-addon1">
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text"  for="lastname">Lastname</span>
-      <input ngModel name="last_name" [disabled]="isLoadding" id="lastname" type="text" class="form-control" placeholder="Lastname" aria-label="Lastname" aria-describedby="basic-addon1">
+      <input ngModel name="last_name" [disabled]="isLoadding" id="lastname" type="text" class="form-control" placeholder="densumit" aria-label="Lastname" aria-describedby="basic-addon1">
     </div>
     <br>
     <h1>Billign</h1>
     <div class="input-group mb-3">
       <span class="input-group-text" for="company">Company</span>
-      <input ngModel name="company_bl" [disabled]="isLoadding" id="company" type="text" class="form-control" placeholder="company" aria-label="Email" aria-describedby="basic-addon1">
+      <input ngModel name="company_bl" [disabled]="isLoadding" id="company" type="text" class="form-control" placeholder="company" >
     </div>
     <div class="form-floating mt-2">
       <textarea ngModel name="address_1_bl" class="form-control" placeholder="Leave a comment here" id="address_1" style="height: 100px"></textarea>
@@ -54,17 +64,22 @@
     </select>
     <div class="input-group mb-3">
       <span class="input-group-text"  for="lastname">phone</span>
-      <input ngModel name="phone_bl" [disabled]="isLoadding" id="phone" type="text" class="form-control" placeholder="phone" aria-label="Lastname" aria-describedby="basic-addon1">
+      <input ngModel name="phone_bl" [disabled]="isLoadding" id="phone" type="text" class="form-control" placeholder="0811111111" aria-label="Lastname" aria-describedby="basic-addon1">
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text" for="email_bl">Email</span>
-      <input ngModel name="email_bl" [disabled]="isLoadding" id="email_bl" type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
+      <input ngModel name="email_bl" [disabled]="isLoadding" id="email_bl" type="email" class="form-control" placeholder="sharif@test.com" aria-describedby="basic-addon1">
+      <button type="button" (click)="validateEmailBl()" class="btn btn-success">Check</button>
+    </div>
+    <div class="m-2" >
+      <p id="invalidEmailBl"></p>
+      <p id="validEmailBl"></p>
     </div>
     <br>
     <h1>Shipping</h1>
     <div class="input-group mb-3">
       <span class="input-group-text" for="company">Company</span>
-      <input ngModel name="company_sp" [disabled]="isLoadding" id="company" type="text" class="form-control" placeholder="company" aria-label="Email" aria-describedby="basic-addon1">
+      <input ngModel name="company_sp" [disabled]="isLoadding" id="company" type="text" class="form-control" placeholder="company"  aria-describedby="basic-addon1">
     </div>
     <div class="form-floating mt-2">
       <textarea ngModel name="address_1_sp" class="form-control" placeholder="Leave a comment here" id="address1_sp" style="height: 100px"></textarea>
@@ -92,13 +107,18 @@
     </select>
     <div class="input-group mb-3">
       <span class="input-group-text"  for="phone_sp">phone</span>
-      <input ngModel name="phone_sp" [disabled]="isLoadding" id="phone_sh" type="text" class="form-control" placeholder="phone" aria-label="Lastname" aria-describedby="basic-addon1">
+      <input ngModel name="phone_sp" [disabled]="isLoadding" id="phone_sh" type="text" class="form-control" placeholder="0811111111" >
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text" for="email_bl">Email</span>
-      <input ngModel name="email_sp" [disabled]="isLoadding" id="email_bl" type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
+      <input ngModel name="email_sp" [disabled]="isLoadding" id="email_sp" type="email" class="form-control" placeholder="sharif@test.com" >
+      <button type="button" (click)="validateEmailSp()" class="btn btn-success">Check</button>
     </div>
-
+    <div class="m-2" >
+      <p id="invalidEmailSp"></p>
+      <p id="validEmailSp"></p>
+    </div>
+    
     <button class="btn btn-primary" [disabled]="isLoadding" type="button" (click)="onSubmit(fromRegister.value)">create</button>
   </form>
 </div>
