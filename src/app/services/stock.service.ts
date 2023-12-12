@@ -79,4 +79,10 @@ export class StockService {
   inventoryUpdate(sku: string, item: StockQuantity) {
     return this.http.post<StockQuantity>(`${environment.baseUrl}/stock-quantity/inventory/${sku}`, item)
   }
+  pushingStockQuantity(sku: string, item: StockQuantity) {
+    return this.http.post<StockQuantity>(`${environment.baseUrl}/stock-quantity/pushing/${sku}`, item)
+  }
+  deleteQuantityBySku(sku: string) {
+    return this.http.delete<string>(`${environment.baseUrl}/stock-quantity/by/${sku}`)
+  }
 }

@@ -3,12 +3,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels } from '@techiediaries/ngx-qrcode';
 import { firstValueFrom } from 'rxjs';
 import { StockQuantity } from 'src/app/models/class/stock.model';
-import { Orders } from 'src/app/models/interface/woocommerce.model';
+import { Orders, Products } from 'src/app/models/interface/woocommerce.model';
 import { AlertService } from 'src/app/services/alert.service';
 import { OrderService } from 'src/app/services/order.service';
 import { StockService } from 'src/app/services/stock.service';
 import Swal from 'sweetalert2';
 import * as QRCode from "qrcode"
+import { ProductService } from 'src/app/services/product.service';
 
 interface productid_arr   {
   id_product: number
@@ -26,6 +27,7 @@ export class OrderDetailComponent implements OnInit {
     private readonly os: OrderService,
     private readonly swal: AlertService,
     private readonly ss: StockService,
+    private readonly ps: ProductService
   ) {}
   orderDetail = {} as Orders;
   isLoadding: boolean;
@@ -42,13 +44,13 @@ export class OrderDetailComponent implements OnInit {
       this.getOrderById(this.data.idOrder);
     });
     this.feedQrcode()
+    
   }
   getOrderById(id: number) {
     this.isLoadding = true;
     this.os.getOneOrder(id).subscribe(
       (result) => {
         this.orderDetail = result;
-        console.log(this.orderDetail);
         this.isLoadding = false;
       },
       (err) => {
@@ -69,14 +71,26 @@ export class OrderDetailComponent implements OnInit {
     }).then(async (result) => {
       if (result.isConfirmed) {
         this.isLoadding = true
-        const update = this.orderDetail.line_items.map(async r =>{
+        
+          const updateStockQuantity = this.orderDetail.line_items.map(async r =>{
           const findQuantity = await firstValueFrom(this.ss.getStockQuantityBySku(r.sku))
           const inventoryUpdate = {} as StockQuantity
-          inventoryUpdate.all_back_quantity = (findQuantity.all_back_quantity - r.quantity)
-          const result = await firstValueFrom(this.ss.inventoryUpdate(r.sku, inventoryUpdate))
-          return result
+          inventoryUpdate.all_front_quantity = (findQuantity.all_front_quantity - r.quantity)
+          console.log('inventoryUpdate', inventoryUpdate);
+          
+          const result = await firstValueFrom(this.ss.pushingStockQuantity(r.sku, inventoryUpdate))
+          console.log('update result ', result);
+          const products = {} as Products
+          products.stock_quantity = (result.all_back_quantity + result.all_front_quantity)
+          const updateProduct = await firstValueFrom(this.ps.editProduct(r.id, products))
+          if(!updateProduct) {
+            return alert(JSON.stringify({
+              message: 'has somting Error in update product'
+            }))
+          }
+          return updateProduct
         })
-        if(update) {
+        if(updateStockQuantity) {
           const updateOrders = {} as Orders
           updateOrders.status = "completed"
           updateOrders.id = this.orderDetail.id

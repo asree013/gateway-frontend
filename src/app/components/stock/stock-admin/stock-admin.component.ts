@@ -7,6 +7,7 @@ import { AlertService } from 'src/app/services/alert.service';
 import { StockService } from 'src/app/services/stock.service';
 import Swal from 'sweetalert2';
 import * as $ from 'jquery'
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-stock-admin',
@@ -29,7 +30,7 @@ export class StockAdminComponent implements OnInit {
   constructor(
     private route: Router,
     private swal: AlertService,
-    private service: StockService
+    private ss: StockService
   ) {}
 
   ngOnInit(): void {
@@ -37,19 +38,12 @@ export class StockAdminComponent implements OnInit {
     $("#page1").addClass("active")
   }
 
-  // clickSearch(event: string) {
-  //   this.product = this.product.filter((result) => {
-  //     const productName = result.name.toLowerCase();
-  //     const searchName = event.toLowerCase();
-  //     return productName.indexOf(searchName) !== -1;
-  //   });
-  // }
   onCreateProduct() {
     this.route.navigate(['/product/create']);
   }
   async getStocks() {
     // this.isLoadding = true
-    const stockLength = await this.service.getStockQuantityAll().toPromise()
+    const stockLength = await this.ss.getStockQuantityAll().toPromise()
     if(stockLength){
       // this.totalStock = Math.ceil(stockLength.length / this.pageSize)
       // const result = await this.service.getStockPagination(this.page, this.pageSize).toPromise()
@@ -94,8 +88,7 @@ export class StockAdminComponent implements OnInit {
     this.route.navigate([`stock/create/${id}`])
 
   }
-  onDelete(item: Stocks) {
-    let id = item.id;
+  onDelete(sku: string) {
     Swal.fire({
       title: `ต้องการลบ `,
       text: 'หากคุณลบข้อมูลจะหายออกจากฐานข้อมูล',
@@ -104,14 +97,30 @@ export class StockAdminComponent implements OnInit {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, ลบมัน!',
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
+      this.isLoadding = true
+       try {
         Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
-        this.isLoadding = true
-        this.service.deleteStock(id).subscribe((result) => {
+        const deleteQuantity = await firstValueFrom(this.ss.deleteQuantityBySku(sku))
+        if(deleteQuantity){
+          const findStocks = await firstValueFrom(this.ss.getStokcBySKU(sku))
+          const deleteStock = findStocks.map(async(r) => {
+            const results = await firstValueFrom(this.ss.deleteStock(r.id))
+            return results
+          })
+          if(deleteStock){
+            this.isLoadding = false
+            this.swal.alert('deleted successed', 'success')
+            this.getStocks()
+          }
+        }
+        
+       } catch (error: any) {
+          console.log(error);
           this.isLoadding = false
-          this.stocks = this.stocks.filter((f) => f.id !== id);
-        });
+          this.swal.alert(JSON.stringify(error.message), 'error', 10000)
+       }
       }
     });
   }

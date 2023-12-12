@@ -204,23 +204,27 @@ export class ProductHomeComponent implements OnInit {
                 method_title: "Flat Rate",
               }
             ]
-            const item = {} as StockQuantity
-            const action = this.listCart.map(async r => {
-              item.sku = r.sku,
-              item.all_front_quantity = r.quantity
-              const updateInventory = await firstValueFrom(this.stockService.inventoryUpdate(item.sku ,item))
-              const findStock = await firstValueFrom(this.stockService.getStokcBySKU(item.sku))
-              const productId = findStock[0].product_id
-              const product = {}as Products
-              product.stock_quantity = (updateInventory.all_back_quantity + updateInventory.all_front_quantity)
-              const updateProduct = await firstValueFrom(this.ps.editProduct(productId, product))
-              return console.log(updateProduct);
-            })
-            if(action) {
-              const createOrder = await this.orderService.addOrder(order).toPromise()
-              this.router.navigate([`/order/detail/${createOrder.id}`]);
-              this.isLoadding = false
-            }
+            // const item = {} as StockQuantity
+            // const action = this.listCart.map(async r => {
+            //   item.sku = r.sku,
+            //   item.all_front_quantity = r.quantity
+            //   const updateInventory = await firstValueFrom(this.stockService.inventoryUpdate(item.sku ,item))
+            //   const findStock = await firstValueFrom(this.stockService.getStokcBySKU(item.sku))
+            //   const productId = findStock[0].product_id
+            //   const product = {}as Products
+            //   product.stock_quantity = (updateInventory.all_back_quantity + updateInventory.all_front_quantity)
+            //   const updateProduct = await firstValueFrom(this.ps.editProduct(productId, product))
+            //   return console.log(updateProduct);
+            // })
+            // if(action) {
+            //   const createOrder = await firstValueFrom(this.orderService.addOrder(order))
+            //   this.router.navigate([`/order/detail/${createOrder.id}`]);
+            //   this.isLoadding = false
+            // }
+            const createOrder = await firstValueFrom(this.orderService.addOrder(order))
+            this.router.navigate([`/order/detail/${createOrder.id}`]);
+            this.isLoadding = false
+            
           } catch (err) {
             this.swal.alert('error', `Order Error message:${err}`);
             this.isLoadding = false
